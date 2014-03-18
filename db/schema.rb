@@ -11,15 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140318233422) do
+ActiveRecord::Schema.define(version: 20140318234831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "albums", force: true do |t|
-    t.string   "title"
+    t.text     "title",      default: "", null: false
     t.string   "image"
-    t.integer  "artist_id"
+    t.integer  "artist_id",  default: 0,  null: false
     t.string   "genre"
     t.string   "date"
     t.datetime "created_at"
