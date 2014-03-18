@@ -15,6 +15,6 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-group :test do
-  gem 'rspec'
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0.0.beta'
 end
