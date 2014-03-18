@@ -1,3 +1,3 @@
 class SongFile < ActiveRecord::Base
-  belongs_to(:song)
+  belongs_to :fileable, polymorphic: true
 end
