@@ -1,0 +1,18 @@
+postgres: &postgres
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  username: marsalis
+  password: w@+3Rf@77
+
+development:
+  <<: *postgres
+  database: stompfish_development
+
+test:
+  <<: *postgres
+  database: stompfish_test
+
+production:
+  <<: *postgres
+  database: stompfish_production
