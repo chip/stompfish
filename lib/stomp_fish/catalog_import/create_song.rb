@@ -1,24 +1,23 @@
 module StompFish
   module CatalogImport
     class CreateSong
-      attr_reader :tags, :artist_id, :album_id, :song_model
+      attr_reader :tags, :album, :song_model
 
-      def initialize(tags, artist_id, album_id, options = {})
+      def initialize(tags, album, options = {})
         @tags = tags
-        @artist_id = artist_id
-        @album_id = album_id
+        @album = album
         @song_model = options[:song_model] || Song
       end
 
       def add
         song = song_model.find_or_create_by(title: tags[:title],
-                                            artist_id: artist_id,
-                                            album_id: album_id)
+                                            artist_id: album.artist_id,
+                                            album_id: album.id)
         song.update(track: tags[:track].to_i)
       end
 
-      def self.add(tags, artist_id, album_id, options = {})
-        new(tags, artist_id, album_id, options).add
+      def self.add(tags, album, options = {})
+        new(tags, album, options).add
       end
     end
   end

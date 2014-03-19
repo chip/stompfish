@@ -6,6 +6,7 @@ module StompFish
       let(:tags) { {title: "Warszawa", track: "8"} }
       let(:song_model) { Class.new} 
       let(:song_instance) { double(:update) }
+      let(:album) { double(id: 1, artist_id: 1) }
 
       it "adds new Song" do
         stub_const("SongModel", song_model)
@@ -19,7 +20,7 @@ module StompFish
           to receive(:update).
           with(track: 8)
 
-        CreateSong.add(tags, 1, 1, song_model: song_model)
+        CreateSong.add(tags, album, song_model: song_model)
       end
     end
   end
