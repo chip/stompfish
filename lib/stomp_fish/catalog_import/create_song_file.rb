@@ -13,8 +13,8 @@ module StompFish
         file = song_file_model.find_or_create_by(filename: tags[:filename])
         file.update(bit_rate: tags[:bit_rate],
                   duration: tags[:duration],
-                  filesize: tags[:filesize],
-                  format: tags[:format],
+                  filesize: tags[:size],
+                  format: tags[:format_name],
                   fileable_id: song_id,
                   fileable_type: "Song")
         file

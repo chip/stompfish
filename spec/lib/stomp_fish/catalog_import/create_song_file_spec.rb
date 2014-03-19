@@ -5,8 +5,8 @@ module StompFish
     describe CreateSongFile do
       let(:tags) do 
         {filename: "filename", bit_rate: "bitrate",
-         duration: "duration", format: "format",
-         filesize: "filesize"}
+         duration: "duration", format_name: "format",
+         size: "filesize"}
       end
 
       let(:song_file_model) { Class.new }
