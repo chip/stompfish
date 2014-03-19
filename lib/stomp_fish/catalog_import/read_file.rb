@@ -13,6 +13,10 @@ module StompFish
       def tags
         SongTag.clean(Ffprobe.json(source_file))
       end
+
+      def self.tags(source_file)
+        new(source_file).tags
+      end
     end
   end
 end
