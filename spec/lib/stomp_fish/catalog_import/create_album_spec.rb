@@ -12,7 +12,7 @@ module StompFish
 
         expect(album_model).
           to receive(:find_or_create_by).
-          with(title: "Low", artist_id: 1).
+          with(title: "Low", artist: 1).
           and_return album_instance
 
         expect(album_instance).
