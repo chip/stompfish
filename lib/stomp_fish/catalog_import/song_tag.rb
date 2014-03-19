@@ -10,7 +10,7 @@ module StompFish
       end
 
       def clean
-        Hash[flat.map { |k,v| [k.downcase, v] }]
+        Hash[flat.map { |k,v| [sanitize(k), v] }]
       end
 
       def self.clean(json_string)
@@ -32,6 +32,10 @@ module StompFish
 
       def flat
         format.delete("tags").merge(format)
+      end
+
+      def sanitize(k)
+        k.downcase.to_sym
       end
     end
   end
