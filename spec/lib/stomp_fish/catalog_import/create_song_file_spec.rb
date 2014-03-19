@@ -4,7 +4,7 @@ module StompFish
   module CatalogImport
     describe CreateSongFile do
       let(:tags) do 
-        {filename: "filename", bitrate: "bitrate",
+        {filename: "filename", bit_rate: "bitrate",
          duration: "duration", format: "format",
          filesize: "filesize"}
       end
@@ -23,7 +23,7 @@ module StompFish
         expect(song_instance).
           to receive(:update).
           with(filesize: "filesize",
-               bitrate: "bitrate",
+               bit_rate: "bitrate",
                format: "format",
                duration: "duration",
                fileable_id: 1,

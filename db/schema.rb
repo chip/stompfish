@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140319000253) do
+ActiveRecord::Schema.define(version: 20140319030801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20140319000253) do
   create_table "song_files", force: true do |t|
     t.string   "filesize"
     t.text     "filename",      default: "", null: false
-    t.string   "bitrate"
+    t.string   "bit_rate"
     t.string   "format"
     t.string   "duration"
     t.datetime "created_at"

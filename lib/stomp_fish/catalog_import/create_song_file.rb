@@ -11,7 +11,7 @@ module StompFish
 
       def add
         sf = song_file_model.find_or_create_by(filename: tags[:filename])
-        sf.update(bitrate: tags[:bitrate],
+        sf.update(bit_rate: tags[:bit_rate],
                   duration: tags[:duration],
                   filesize: tags[:filesize],
                   format: tags[:format],
