@@ -11,9 +11,10 @@ module StompFish
 
       def add
         song = song_model.find_or_create_by(title: tags[:title],
-                                            artist_id: album.artist_id,
-                                            album_id: album.id)
+                                            artist: album.artist,
+                                            album: album)
         song.update(track: tags[:track].to_i)
+        song
       end
 
       def self.add(tags, album, options = {})
