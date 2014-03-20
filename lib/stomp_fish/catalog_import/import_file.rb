@@ -15,7 +15,7 @@ module StompFish
 
       def add
         updateable = Song.find(song.id)
-        updateable.song_files = [song_file]
+        updateable.song_file = song_file
         updateable.save
       end
 

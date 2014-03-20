@@ -62,8 +62,8 @@ module StompFish
           and_return(updateable)
 
         expect(updateable).
-          to receive(:song_files=).
-          with([song_file_instance]).
+          to receive(:song_file=).
+          with(song_file_instance).
           and_return(updateable)
 
         expect(updateable).to receive(:save)
