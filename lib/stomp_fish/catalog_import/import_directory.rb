@@ -14,9 +14,19 @@ module StompFish
         File.directory?(@directory) or raise InvalidDirectory
       end
 
-      def scan
+      def scan!
         files.each do |file|
           ImportFile.add(file)
+        end
+      end
+
+      def scan
+        files.each do |file|
+          begin
+            ImportFile.add(file)
+          rescue Exception => e
+            ImportLog.create!(stacktrace: "#{e}", filename: file)
+          end
         end
       end
 

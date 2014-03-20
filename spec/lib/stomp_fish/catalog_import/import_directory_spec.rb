@@ -8,7 +8,7 @@ module StompFish
           to receive(:add).
           with("spec/fixtures/17 More Than A Mouthful.mp3")
 
-        ImportDirectory.new("spec/fixtures").scan
+        ImportDirectory.new("spec/fixtures").scan!
       end
 
       it "raises error if not a directory" do
