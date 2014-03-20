@@ -10,7 +10,7 @@ module StompFish
       end
 
       def add
-        album = album_model.find_or_create_by(title: "Low", artist: artist)
+        album = album_model.find_or_create_by(title: tags[:album], artist: artist)
         album.update(date: tags[:date].to_i, genre: tags[:genre])
         album
       end
