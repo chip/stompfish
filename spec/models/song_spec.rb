@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Song do
   it { should belong_to(:album) }
   it { should belong_to(:artist) }
-  it { should have_many(:song_files) }
+  it { should have_one(:song_file) }
 
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:artist_id) }
