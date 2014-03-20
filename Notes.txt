@@ -1,0 +1,2 @@
+add error checking for file not found to ImportFile
+add test coverage to Create* classes that return a model (Song, Album, Artist, etc.)
