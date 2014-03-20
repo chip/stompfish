@@ -10,7 +10,7 @@ module StompFish
       end
 
       def clean
-        Hash[flat.map { |k,v| [sanitize(k), v] }]
+        Hash[flat.map { |k,v| [sanitize(k), replace_invalid_byte_sequence(v)] }]
       end
 
       def self.clean(json_string)
@@ -36,6 +36,12 @@ module StompFish
 
       def sanitize(k)
         k.downcase.to_sym
+      end
+
+      def replace_invalid_byte_sequence(value)
+        value.
+          to_s.
+          encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
       end
     end
   end
