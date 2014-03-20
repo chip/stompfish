@@ -1,4 +1,5 @@
 require 'stomp_fish/catalog_import/song_tag'
+require 'stomp_fish/catalog_import/ffprobe'
 
 module StompFish
   module CatalogImport
