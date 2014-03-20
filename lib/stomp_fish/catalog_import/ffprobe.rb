@@ -31,7 +31,7 @@ module StompFish
       attr_reader :run
 
       def ffprobe_command
-        %W{ffprobe -v error -pretty -print_format json -show_format} + %W{#{source_file}}
+        %W{ffprobe -v error -print_format json -show_format} + %W{#{source_file}}
       end
     end
   end
