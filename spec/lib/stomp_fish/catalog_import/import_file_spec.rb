@@ -1,8 +1,8 @@
-require 'stomp_fish/catalog_import/import'
+require 'stomp_fish/catalog_import/import_file'
 
 module StompFish
   module CatalogImport
-    describe Import do
+    describe ImportFile do
       let(:filepath) { double("filepath") }
       let(:read_file) { Class.new }
 
@@ -68,7 +68,7 @@ module StompFish
 
         expect(updateable).to receive(:save)
 
-        Import.new(filepath).add
+        ImportFile.new(filepath).add
       end
     end
   end

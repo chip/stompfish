@@ -6,7 +6,7 @@ require 'stomp_fish/catalog_import/create_song_file'
 
 module StompFish
   module CatalogImport
-    class Import
+    class ImportFile
       attr_reader :tags
 
       def initialize(filepath)
@@ -17,6 +17,10 @@ module StompFish
         updateable = Song.find(song.id)
         updateable.song_files = [song_file]
         updateable.save
+      end
+
+      def self.add(filepath)
+        new(filepath).add
       end
 
       private
