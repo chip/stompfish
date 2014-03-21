@@ -11,9 +11,9 @@ module StompFish
 
       def add
         file = song_file_model.find_or_create_by(filename: tags[:filename])
-        file.update(bit_rate: tags[:bit_rate],
-                  duration: tags[:duration],
-                  filesize: tags[:size],
+        file.update(bit_rate: tags[:bit_rate].to_i,
+                  duration: tags[:duration].to_f,
+                  filesize: tags[:size].to_i,
                   format: tags[:format_name],
                   fileable_id: song_id,
                   fileable_type: "Song")
@@ -23,6 +23,7 @@ module StompFish
       def self.add(tags, song_id, options = {})
         new(tags, song_id, options).add
       end
+
     end
   end
 end

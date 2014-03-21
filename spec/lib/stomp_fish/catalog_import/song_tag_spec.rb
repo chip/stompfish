@@ -9,15 +9,15 @@ module StompFish
         <<-EOF
 {
     "format": {
-        "Filename": "spec/fixtures/17 More Than A Mouthful.mp3",
+        "filename": "spec/fixtures/17 More Than A Mouthful.mp3",
         "nb_streams": 1,
         "nb_programs": 0,
         "format_name": "mp3",
         "format_long_name": "MP2/3 (MPEG audio layer 2/3)",
-        "start_time": "0:00:00.000000",
-        "duration": "0:00:46.419592",
-        "size": "1.770822 Mibyte",
-        "bit_rate": "320.009000 Kbit/s",
+        "start_time": "0.000000",
+        "duration": "46.419592",
+        "size": "1856841",
+        "bit_rate": "320009",
         "probe_score": 51,
         "tags": {
             "genre": "Vaporwave",
@@ -50,10 +50,10 @@ module StompFish
           nb_programs: "0",
           format_name: "mp3",
           format_long_name: "MP2/3 (MPEG audio layer 2/3)",
-          start_time: "0:00:00.000000",
-          duration: "0:00:46.419592",
-          size: "1.770822 Mibyte",
-          bit_rate: "320.009000 Kbit/s",
+          start_time: "0.000000",
+          duration: "46.419592",
+          size: "1856841",
+          bit_rate: "320009",
           probe_score: "51"
         })
       end

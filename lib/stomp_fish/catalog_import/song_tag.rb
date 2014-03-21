@@ -1,4 +1,5 @@
 require 'json'
+require 'stomp_fish/catalog_import/safe_encoding'
 
 module StompFish
   module CatalogImport
@@ -10,7 +11,7 @@ module StompFish
       end
 
       def clean
-        Hash[flat.map { |k,v| [sanitize(k), fix_bad_encoding(v.to_s)] }]
+        Hash[flat.map { |k,v| [sanitize(k), ensure_valid_encoding(v)] }]
       end
 
       def self.clean(json_string)
@@ -38,9 +39,8 @@ module StompFish
         k.downcase.to_sym
       end
 
-      def fix_bad_encoding(str)
-        return str if str.valid_encoding?
-        str.encode('UTF-8', undef: :replace, invalid: :replace, replace: '')
+      def ensure_valid_encoding(value)
+        SafeEncoding.ensure(value)
       end
     end
   end
