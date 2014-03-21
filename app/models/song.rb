@@ -1,4 +1,8 @@
 class Song < ActiveRecord::Base
+  delegate :bit_rate, :duration, :filename, :filesize,
+    :format, :mtime, :duration_to_human, :filesize_to_human,
+    to: :song_file
+
   belongs_to :album
   belongs_to :artist
   has_one :song_file, as: :fileable
