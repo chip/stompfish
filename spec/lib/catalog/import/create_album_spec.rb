@@ -1,7 +1,7 @@
-require 'stomp_fish/catalog_import/create_album'
+require 'catalog/import/create_album'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     describe CreateAlbum do
       let(:tags) { {album: "Low", date: "1997", genre: "Pop/Rock"} }
       let(:album_model) { Class.new} 

@@ -1,7 +1,7 @@
-require 'stomp_fish/catalog_import/safe_encoding'
+require 'catalog/import/safe_encoding'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     describe SafeEncoding do
       it "replaces bad encoding" do
         string = "bad\xE9encoding"

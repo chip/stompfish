@@ -1,11 +1,11 @@
-require 'stomp_fish/catalog_import/read_file'
-require 'stomp_fish/catalog_import/create_artist'
-require 'stomp_fish/catalog_import/create_album'
-require 'stomp_fish/catalog_import/create_song'
-require 'stomp_fish/catalog_import/create_song_file'
+require 'catalog/import/read_file'
+require 'catalog/import/create_artist'
+require 'catalog/import/create_album'
+require 'catalog/import/create_song'
+require 'catalog/import/create_song_file'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     class ImportFile
       attr_reader :tags
 

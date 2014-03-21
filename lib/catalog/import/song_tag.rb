@@ -1,8 +1,8 @@
 require 'json'
-require 'stomp_fish/catalog_import/safe_encoding'
+require 'catalog/import/safe_encoding'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     class SongTag
       attr_reader :json_string
 

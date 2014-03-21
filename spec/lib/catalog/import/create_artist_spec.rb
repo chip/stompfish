@@ -1,7 +1,7 @@
-require 'stomp_fish/catalog_import/create_artist'
+require 'catalog/import/create_artist'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     describe CreateArtist do
       let(:tags) { {artist: "David Bowie"} }
       let(:artist_model) { Class.new} 

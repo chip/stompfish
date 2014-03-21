@@ -1,5 +1,5 @@
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     class CreateSong
       attr_reader :tags, :album, :song_model
 

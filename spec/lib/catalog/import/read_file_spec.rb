@@ -1,7 +1,7 @@
-require 'stomp_fish/catalog_import/read_file'
+require 'catalog/import/read_file'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     describe ReadFile do
       it "has tags for a file" do
         json = double("json")

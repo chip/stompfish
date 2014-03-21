@@ -1,7 +1,7 @@
-require 'stomp_fish/catalog_import/import_directory'
+require 'catalog/import/import_directory'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     describe ImportDirectory do
       it "imports all files in a directory" do
         expect(ImportFile).

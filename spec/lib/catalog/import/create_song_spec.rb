@@ -1,7 +1,7 @@
-require 'stomp_fish/catalog_import/create_song'
+require 'catalog/import/create_song'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     describe CreateSong do
       let(:tags) { {title: "Warszawa", track: "8"} }
       let(:song_model) { Class.new} 

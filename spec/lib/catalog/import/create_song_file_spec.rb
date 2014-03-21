@@ -1,7 +1,7 @@
-require 'stomp_fish/catalog_import/create_song_file'
+require 'catalog/import/create_song_file'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     describe CreateSongFile do
       let(:tags) do 
         {filename: "filename", bit_rate: "12345",

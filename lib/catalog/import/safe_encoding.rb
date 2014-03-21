@@ -1,5 +1,5 @@
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     class SafeEncoding
       attr_reader :string
 

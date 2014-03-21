@@ -1,7 +1,7 @@
 require 'open3'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     class Ffprobe
       attr_reader :source_file
 

@@ -1,8 +1,8 @@
-require 'stomp_fish/catalog_import/song_tag'
-require 'stomp_fish/catalog_import/ffprobe'
+require 'catalog/import/song_tag'
+require 'catalog/import/ffprobe'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     describe SongTag do
 
       let(:json_object) do

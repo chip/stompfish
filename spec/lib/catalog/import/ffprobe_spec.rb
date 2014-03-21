@@ -1,7 +1,7 @@
-require 'stomp_fish/catalog_import/ffprobe'
+require 'catalog/import/ffprobe'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     describe Ffprobe do
       let(:json_object) do
         <<-EOF

@@ -1,8 +1,8 @@
-require 'stomp_fish/catalog_import/ffprobe'
-require 'stomp_fish/catalog_import/song_tag'
+require 'catalog/import/ffprobe'
+require 'catalog/import/song_tag'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     class ReadFile
       attr_reader :source_file
 

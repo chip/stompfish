@@ -1,8 +1,8 @@
 require 'find'
-require 'stomp_fish/catalog_import/import_file'
+require 'catalog/import/import_file'
 
-module StompFish
-  module CatalogImport
+module Catalog
+  module Import
     InvalidDirectory = Class.new(StandardError)
 
     class ImportDirectory
