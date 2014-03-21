@@ -25,7 +25,8 @@ module Catalog
           begin
             ImportFile.add(file)
           rescue Exception => e
-            ImportLog.create!(stacktrace: "#{e}", filename: file)
+            fixed = SafeEncoding.ensure(file)
+            ImportLog.create!(stacktrace: "#{e}", filename: fixed)
           end
         end
       end
