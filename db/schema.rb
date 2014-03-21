@@ -41,11 +41,11 @@ ActiveRecord::Schema.define(version: 20140321002314) do
   end
 
   create_table "song_files", force: true do |t|
-    t.string   "filesize"
+    t.integer  "filesize"
     t.text     "filename",      default: "", null: false
-    t.string   "bit_rate"
+    t.integer  "bit_rate"
     t.string   "format"
-    t.string   "duration"
+    t.float    "duration"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "fileable_id",   default: 0,  null: false

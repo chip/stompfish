@@ -2,11 +2,11 @@ class CreateSongFiles < ActiveRecord::Migration
   def change
     create_table :song_files do |t|
       t.integer :song_id
-      t.string :filesize
+      t.integer :filesize
       t.string :filename
-      t.string :bitrate
+      t.integer :bitrate
       t.string :format
-      t.string :duration
+      t.float :duration
 
       t.timestamps
     end
