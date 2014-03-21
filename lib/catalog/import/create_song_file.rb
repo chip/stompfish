@@ -15,6 +15,7 @@ module Catalog
                   duration: tags[:duration].to_f,
                   filesize: tags[:size].to_i,
                   format: tags[:format_name],
+                  mtime: mtime,
                   fileable_id: song_id,
                   fileable_type: "Song")
         file
@@ -24,6 +25,10 @@ module Catalog
         new(tags, song_id, options).add
       end
 
+      private
+      def mtime
+        File.stat(tags[:filename]).mtime
+      end
     end
   end
 end

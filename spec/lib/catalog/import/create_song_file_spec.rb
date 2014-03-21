@@ -11,6 +11,7 @@ module Catalog
 
       let(:song_file_model) { Class.new }
       let(:song_instance) { double(:update) }
+      let(:stat_file) { double(:mtime) }
 
       it "adds a SongFile" do
         stub_const("SongFileModel", song_file_model)
@@ -20,6 +21,15 @@ module Catalog
           with(filename: "filename").
           and_return(song_instance)
 
+        expect(File).
+          to receive(:stat).
+          with("filename").
+          and_return(stat_file)
+        
+        expect(stat_file).
+          to receive(:mtime).
+          and_return("fake datetime")
+
         expect(song_instance).
           to receive(:update).
           with(filesize: 12345,
@@ -27,6 +37,7 @@ module Catalog
                format: "format",
                duration: 123.456,
                fileable_id: 1,
+               mtime: "fake datetime",
                fileable_type: "Song")
 
           CreateSongFile.add(tags, 1, song_file_model: song_file_model)
