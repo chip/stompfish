@@ -7,4 +7,8 @@ class SongFile < ActiveRecord::Base
   def duration_to_human
     SongFileFormatters::DurationFormatter.as_strftime(duration)
   end
+
+  def filesize_to_human
+    SongFileFormatters::FilesizeFormatter.to_human_size(filesize)
+  end
 end
