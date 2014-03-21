@@ -13,8 +13,13 @@ module Catalog
 
       it "raises error if not a directory" do
         expect do
-          ImportDirectory.new("spec/fixtures/17 More Than A Mouthful.mp3")
+          ImportDirectory.new("spec/fixtures/17 More Than A Mouthful.mp3").directory
         end.to raise_error(InvalidDirectory)
+      end
+
+      it "returns the directory if exists" do
+        imp = ImportDirectory.new("spec/fixtures")
+        expect(imp.directory).to eq("spec/fixtures")
       end
 
       it "imports only audio files" do

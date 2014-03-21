@@ -7,11 +7,14 @@ module Catalog
 
     class ImportDirectory
       AUDIO_FILE_EXTENSIONS = %w(.flac .mp3 .m4a .ogg)
-      attr_reader :directory
 
       def initialize(directory)
         @directory = directory
+      end
+
+      def directory
         File.directory?(@directory) or raise InvalidDirectory
+        @directory
       end
 
       def scan!
