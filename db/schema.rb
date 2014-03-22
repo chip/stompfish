@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140321002314) do
+ActiveRecord::Schema.define(version: 20140322030632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,12 +26,17 @@ ActiveRecord::Schema.define(version: 20140321002314) do
     t.datetime "updated_at"
   end
 
+  add_index "albums", ["artist_id"], name: "index_albums_on_artist_id", using: :btree
+  add_index "albums", ["id"], name: "index_albums_on_id", using: :btree
+
   create_table "artists", force: true do |t|
     t.text     "name",       default: "", null: false
     t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "artists", ["id"], name: "index_artists_on_id", using: :btree
 
   create_table "import_logs", force: true do |t|
     t.text     "stacktrace"
@@ -53,6 +58,9 @@ ActiveRecord::Schema.define(version: 20140321002314) do
     t.datetime "mtime"
   end
 
+  add_index "song_files", ["fileable_id", "fileable_type"], name: "index_song_files_on_fileable_id_and_fileable_type", using: :btree
+  add_index "song_files", ["id"], name: "index_song_files_on_id", using: :btree
+
   create_table "songs", force: true do |t|
     t.text     "title",      default: "", null: false
     t.integer  "artist_id",  default: 0,  null: false
@@ -61,5 +69,9 @@ ActiveRecord::Schema.define(version: 20140321002314) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "songs", ["album_id"], name: "index_songs_on_album_id", using: :btree
+  add_index "songs", ["artist_id"], name: "index_songs_on_artist_id", using: :btree
+  add_index "songs", ["id"], name: "index_songs_on_id", using: :btree
 
 end
