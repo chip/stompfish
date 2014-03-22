@@ -1,26 +1,14 @@
-require 'find'
 require 'catalog/import/import_file'
+require 'catalog/import/find_files'
+require 'catalog/import/safe_encoding'
 
 module Catalog
   module Import
-    InvalidDirectory = Class.new(StandardError)
-
     class ImportDirectory
-      AUDIO_FILE_EXTENSIONS = %w(.flac .mp3 .m4a .ogg)
+      attr_reader :directory
 
       def initialize(directory)
         @directory = directory
-      end
-
-      def directory
-        File.directory?(@directory) or raise InvalidDirectory
-        @directory
-      end
-
-      def scan!
-        files.each do |file|
-          ImportFile.add(file)
-        end
       end
 
       def scan
@@ -38,13 +26,9 @@ module Catalog
         new(directory).scan
       end
 
-      def files
-        Find.find(directory).select { |f| f if audio_file?(f) }
-      end
-
       private
-      def audio_file?(file)
-        AUDIO_FILE_EXTENSIONS.include?(File.extname(file).downcase)
+      def files
+        FindFiles.files(directory)
       end
     end
   end

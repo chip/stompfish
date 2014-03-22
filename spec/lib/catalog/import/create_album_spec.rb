@@ -4,7 +4,7 @@ module Catalog
   module Import
     describe CreateAlbum do
       let(:tags) { {album: "Low", date: "1997", genre: "Pop/Rock"} }
-      let(:album_model) { Class.new} 
+      let(:album_model) { Class.new }
       let(:album_instance) { double(:update) }
 
       it "adds new Album" do

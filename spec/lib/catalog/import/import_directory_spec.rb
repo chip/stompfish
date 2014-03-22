@@ -8,23 +8,29 @@ module Catalog
           to receive(:add).
           with("spec/fixtures/17 More Than A Mouthful.mp3")
 
-        ImportDirectory.new("spec/fixtures").scan!
+        ImportDirectory.new("spec/fixtures").scan
       end
 
-      it "raises error if not a directory" do
-        expect do
-          ImportDirectory.new("spec/fixtures/17 More Than A Mouthful.mp3").directory
-        end.to raise_error(InvalidDirectory)
-      end
+      it "logs errors for exceptions" do
+        fixed = double("safe_encoded_filename")
+        import_log = Class.new
+        stub_const("ImportLog", import_log)
 
-      it "returns the directory if exists" do
-        imp = ImportDirectory.new("spec/fixtures")
-        expect(imp.directory).to eq("spec/fixtures")
-      end
+        expect(ImportFile).
+          to receive(:add).
+          and_raise(Exception)
 
-      it "imports only audio files" do
-        id = ImportDirectory.new("spec/fixtures")
-        expect(id.files).to eq ["spec/fixtures/17 More Than A Mouthful.mp3"]
+        expect(SafeEncoding).
+          to receive(:ensure).
+          with("spec/fixtures/17 More Than A Mouthful.mp3").
+          and_return(fixed)
+
+        expect(import_log).
+          to receive(:create!).
+          with(stacktrace: "Exception",
+               filename: fixed)
+
+        ImportDirectory.scan("spec/fixtures")
       end
     end
   end

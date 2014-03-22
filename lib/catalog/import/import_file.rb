@@ -7,16 +7,20 @@ require 'catalog/import/create_song_file'
 module Catalog
   module Import
     class ImportFile
-      attr_reader :tags
+      attr_reader :filepath
 
       def initialize(filepath)
-        @tags = ReadFile.tags(filepath)
+        @filepath = filepath
       end
 
       def add
         updateable = Song.find(song.id)
         updateable.song_file = song_file
         updateable.save
+      end
+
+      def tags
+        @read_tags ||= ReadFile.tags(filepath)
       end
 
       def self.add(filepath)
