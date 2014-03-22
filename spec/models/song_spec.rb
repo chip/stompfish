@@ -3,14 +3,19 @@ require 'spec_helper'
 describe Song do
   let(:song) { Song.new }
 
-  it { should belong_to(:album) }
-  it { should belong_to(:artist) }
-  it { should have_one(:song_file) }
+  context "relationships" do
+    it { should belong_to(:album) }
+    it { should belong_to(:artist) }
+    it { should have_one(:song_file) }
+    it { should have_and_belong_to_many(:playlists) }
+  end
 
-  it { should validate_presence_of(:title) }
-  it { should validate_presence_of(:artist_id) }
-  it { should validate_presence_of(:album_id) }
-  it { should validate_uniqueness_of(:title).scoped_to([:album_id, :track])}
+  context "validations" do
+    it { should validate_presence_of(:title) }
+    it { should validate_presence_of(:artist_id) }
+    it { should validate_presence_of(:album_id) }
+    it { should validate_uniqueness_of(:title).scoped_to([:album_id, :track])}
+  end
 
   context "delegated methods from SongFile" do
     it { expect(song).to respond_to(:bit_rate) }
