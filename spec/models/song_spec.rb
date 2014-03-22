@@ -23,4 +23,15 @@ describe Song do
     it { expect(song).to respond_to(:duration_to_human) }
     it { expect(song).to respond_to(:filesize_to_human) }
   end
+
+  context "delegated methods from Artist" do
+    it { expect(song).to respond_to(:artist_name) }
+  end
+
+  context "delegated methods from Album" do
+    it { expect(song).to respond_to(:album_image) }
+    it { expect(song).to respond_to(:album_title) }
+    it { expect(song).to respond_to(:date) }
+    it { expect(song).to respond_to(:genre) }
+  end
 end
