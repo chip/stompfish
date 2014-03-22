@@ -11,6 +11,9 @@ gem 'jbuilder', '~> 1.2'
 gem 'pg'
 gem 'puma'
 
+gem 'elasticsearch-rails'
+gem 'elasticsearch-model'
+
 group :doc do
   gem 'sdoc', require: false
 end
