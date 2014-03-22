@@ -1,14 +1,14 @@
-require 'catalog/import/import_directory'
+require 'catalog/import/full_import'
 
 module Catalog
   module Import
-    describe ImportDirectory do
+    describe FullImport do
       it "imports all files in a directory" do
         expect(ImportFile).
           to receive(:add).
           with("spec/fixtures/17 More Than A Mouthful.mp3")
 
-        ImportDirectory.new("spec/fixtures").scan
+        FullImport.new("spec/fixtures").scan
       end
 
       it "logs errors for exceptions" do
@@ -30,7 +30,7 @@ module Catalog
           with(stacktrace: "Exception",
                filename: fixed)
 
-        ImportDirectory.scan("spec/fixtures")
+        FullImport.scan("spec/fixtures")
       end
     end
   end
