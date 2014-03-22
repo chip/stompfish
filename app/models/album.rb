@@ -1,4 +1,8 @@
+require 'elasticsearch/model'
+
 class Album < ActiveRecord::Base
+  include Elasticsearch::Model
+
   belongs_to :artist
   has_many :songs
 

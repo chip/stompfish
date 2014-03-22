@@ -1,4 +1,8 @@
+require 'elasticsearch/model'
+
 class Song < ActiveRecord::Base
+  include Elasticsearch::Model
+
   delegate :bit_rate, :duration, :filename, :filesize,
     :format, :mtime, :duration_to_human, :filesize_to_human,
     to: :song_file
