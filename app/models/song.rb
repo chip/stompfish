@@ -17,4 +17,16 @@ class Song < ActiveRecord::Base
 
   validates_presence_of :album_id, :artist_id, :title
   validates_uniqueness_of :title, scope: [:album_id, :track]
+
+  scope :duration_less_than, ->(time) do
+    SongScopes::DurationScope.new(high: time).less_than
+  end
+
+  scope :duration_greater_than, ->(time) do
+    SongScopes::DurationScope.new(low: time).greater_than
+  end
+
+  scope :duration_between, ->(low, high) do
+    SongScopes::DurationScope.new(high: high, low: low).between
+  end
 end

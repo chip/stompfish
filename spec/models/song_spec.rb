@@ -34,4 +34,31 @@ describe Song do
     it { expect(song).to respond_to(:date) }
     it { expect(song).to respond_to(:genre) }
   end
+
+  context "scopes" do
+    let!(:song) { Song.create!(title: "Foo", artist_id: 1, album_id: 1) }
+    let!(:song_file) { SongFile.create!(fileable_id: song.id, filename: "Foo",
+                                        fileable_type: "Song", duration: 123) }
+
+    context "#duration_less_than" do
+      it "returns all songs with duration less than x" do
+        songs = Song.duration_less_than("2:04")
+        expect(songs).to eq([song])
+      end
+    end
+
+    context "#duration_greater_than" do
+      it "returns all songs with duration greater than x" do
+        songs = Song.duration_greater_than("2:02")
+        expect(songs).to eq([song])
+      end
+    end
+
+    context "#duration_between" do
+      it "returns all songs with duration between x & y" do
+        songs = Song.duration_between("2:02", "2:04")
+        expect(songs).to eq([song])
+      end
+    end
+  end
 end
