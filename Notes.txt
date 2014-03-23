@@ -1,6 +1,3 @@
-add error checking for file not found to ImportFile
-add test coverage to Create* classes that return a model (Song, Album, Artist, etc.)
-
 Playlist
  - decorated_songs
    - position
@@ -15,23 +12,3 @@ Artist
 
 Album
   - songs_by_track
-
-  - belongs_to genre
-  - genre_id
-  - add_index_on :genre_id
-
-  - belongs_to_release_date
-  - release_date_id
-  - add_index_on_release_date_id
-
-Genre
-  - name
-  - has_many albums
-  - validates_presence_of :name
-  - add_index_on_id
-
-ReleaseDate
-  - year
-  - has_many albums
-  - validates_presence_of :year
-  - add_index_on_id
