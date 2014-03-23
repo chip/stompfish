@@ -1,4 +1,8 @@
+require 'elasticsearch/model'
+
 class Genre < ActiveRecord::Base
+  include Elasticsearch::Model
+
   # associations
   has_many :albums
 
