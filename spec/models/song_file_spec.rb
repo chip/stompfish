@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe SongFile do
-  context "relationships" do
+  context "associations" do
     it { should belong_to(:fileable) }
   end
 
