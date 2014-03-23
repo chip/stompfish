@@ -20,9 +20,9 @@ describe Playlist do
       song_file_two = SongFile.create!(filename: "Two", fileable_id: song_two.id,
                                       fileable_type: "Song", duration: 345)
 
-      playlist = Playlist.new(title: "Playlist")
-      playlist.songs = [song_one, song_two]
-      playlist.save!
+      playlist = Playlist.create(title: "Playlist")
+      PlaylistCollaborator.create(position: 1, playlist_id: playlist.id, song_id: song_one.id)
+      PlaylistCollaborator.create(position: 2, playlist_id: playlist.id, song_id: song_two.id)
 
       expect(playlist.runtime).to eq("07:48")
     end
