@@ -3,24 +3,30 @@ require 'elasticsearch/model'
 class Song < ActiveRecord::Base
   include Elasticsearch::Model
 
+  # associations
+  belongs_to :album
+  belongs_to :artist
+
+  has_one :song_file, as: :fileable
+
+  has_many :playlist_collaborators
+  has_many :playlists, through: :playlist_collaborators
+
+  # validations
+  validates_presence_of :album_id, :artist_id, :title
+  validates_uniqueness_of :title, scope: [:album_id, :track]
+
+  # delegations
   delegate :bit_rate, :duration, :filename, :filesize,
     :format, :mtime, :duration_to_human, :filesize_to_human,
     to: :song_file
 
-  delegate :name, to: :artist, prefix: true
-  delegate :title, :image, to: :album, prefix: true
   delegate :date, :genre, to: :album
+  delegate :name, to: :artist, prefix: true
   delegate :position, to: :playlists
+  delegate :title, :image, to: :album, prefix: true
 
-  belongs_to :album
-  belongs_to :artist
-  has_one :song_file, as: :fileable
-  has_many :playlist_collaborators
-  has_many :playlists, through: :playlist_collaborators
-
-  validates_presence_of :album_id, :artist_id, :title
-  validates_uniqueness_of :title, scope: [:album_id, :track]
-
+  # scopes
   scope :duration_less_than, ->(time) do
     SongScopes::DurationScope.new(high: time).less_than
   end
