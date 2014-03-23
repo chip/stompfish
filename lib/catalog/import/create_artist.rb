@@ -1,19 +1,19 @@
 module Catalog
   module Import
     class CreateArtist
-      attr_reader :tags, :artist_model
+      attr_reader :name, :artist_model
 
-      def initialize(tags, options = {})
-        @tags = tags
-        @artist_model = options[:artist_model] || Artist
+      def initialize(name: name, artist_model: Artist)
+        @name = name
+        @artist_model = artist_model
       end
 
       def add
-        artist_model.find_or_create_by(name: tags[:artist])
+        artist_model.find_or_create_by(name: name)
       end
 
-      def self.add(tags, options = {})
-        new(tags, options).add
+      def self.add(name: name, artist_model: Artist)
+        new(name: name, artist_model: artist_model).add
       end
     end
   end

@@ -1,22 +1,20 @@
 module Catalog
   module Import
     class CreateAlbum
-      attr_reader :tags, :artist, :album_model
+      attr_reader :title, :artist, :date, :genre, :album_model
 
-      def initialize(tags, artist, options = {})
-        @tags = tags
-        @artist = artist
-        @album_model = options[:album_model] || Album
+      def initialize(title: title, artist: artist, date: date, genre: genre, album_model: Album)
+        @title, @artist, @date, @genre, @album_model = title, artist, date, genre, album_model
       end
 
       def add
-        album = album_model.find_or_create_by(title: tags[:album], artist: artist)
-        album.update(date: tags[:date].to_i, genre: tags[:genre])
+        album = album_model.find_or_create_by(title: title, artist: artist)
+        album.update(date: date, genre: genre)
         album
       end
 
-      def self.add(tags, artist, options = {})
-        new(tags, artist, options).add
+      def self.add(title: title, artist: artist, date: date, genre: genre, album_model: Album)
+        new(title: title, artist: artist, date: date, genre: genre, album_model: album_model).add
       end
     end
   end

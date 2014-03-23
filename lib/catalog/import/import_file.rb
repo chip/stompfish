@@ -7,10 +7,13 @@ require 'catalog/import/create_song_file'
 module Catalog
   module Import
     class ImportFile
-      attr_reader :filepath
-
       def initialize(filepath)
         @filepath = filepath
+      end
+
+      def filepath
+        File.exists?(@filepath) or raise FileNotFound
+        @filepath
       end
 
       def add
@@ -29,11 +32,16 @@ module Catalog
 
       private
       def artist
-        CreateArtist.add(tags)
+        CreateArtist.add(name: tags[:artist])
+      end
+
+      def genre
+        CreateGenre.add(name: tags[:genre])
       end
 
       def album
-        CreateAlbum.add(tags, artist)
+        CreateAlbum.add(title: tags[:album], artist: artist,
+                        genre: genre, date: tags[:date].to_i)
       end
 
       def song_file
@@ -44,5 +52,7 @@ module Catalog
         @created_song ||= CreateSong.add(tags, album)
       end
     end
+
+    FileNotFound = Class.new(StandardError)
   end
 end
