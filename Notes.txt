@@ -6,6 +6,7 @@ Playlist
    - album title
    - duration
    - filename
+   - release date
 
 Artist
   - albums_by_date
