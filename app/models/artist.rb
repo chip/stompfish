@@ -9,4 +9,8 @@ class Artist < ActiveRecord::Base
 
   # validations
   validates :name, presence: true, uniqueness: true
+
+  def albums_by_date
+    albums.sort_by(&:year)
+  end
 end
