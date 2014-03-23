@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Playlist do
   context "relationships" do
-    it { should have_many(:songs).through(:playlists_songs) }
+    it { should have_many(:songs).through(:playlist_collaborators) }
   end
 
   context "validations" do

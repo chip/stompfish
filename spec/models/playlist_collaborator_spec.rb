@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PlaylistsSong do
+describe PlaylistCollaborator do
   it { should belong_to(:playlist) }
   it { should belong_to(:song) }
 

@@ -1,4 +1,4 @@
-class PlaylistsSong < ActiveRecord::Base
+class PlaylistCollaborator < ActiveRecord::Base
   belongs_to :playlist
   belongs_to :song
 
