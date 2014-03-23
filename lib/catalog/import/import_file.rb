@@ -39,9 +39,13 @@ module Catalog
         CreateGenre.add(name: tags[:genre])
       end
 
+      def release_date
+        CreateReleaseDate.add(year: tags[:date].to_i)
+      end
+
       def album
         CreateAlbum.add(title: tags[:album], artist: artist,
-                        genre: genre, date: tags[:date].to_i)
+                        genre: genre, release_date: release_date)
       end
 
       def song_file

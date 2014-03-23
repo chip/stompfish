@@ -11,24 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140323213600) do
+ActiveRecord::Schema.define(version: 20140323214258) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "albums", force: true do |t|
-    t.text     "title",      default: "", null: false
+    t.text     "title",           default: "", null: false
     t.string   "image"
-    t.integer  "artist_id",  default: 0,  null: false
-    t.string   "date"
+    t.integer  "artist_id",       default: 0,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "genre_id"
+    t.integer  "release_date_id"
   end
 
   add_index "albums", ["artist_id"], name: "index_albums_on_artist_id", using: :btree
   add_index "albums", ["genre_id"], name: "index_albums_on_genre_id", using: :btree
   add_index "albums", ["id"], name: "index_albums_on_id", using: :btree
+  add_index "albums", ["release_date_id"], name: "index_albums_on_release_date_id", using: :btree
 
   create_table "artists", force: true do |t|
     t.text     "name",       default: "", null: false
@@ -76,6 +77,8 @@ ActiveRecord::Schema.define(version: 20140323213600) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "release_dates", ["id"], name: "index_release_dates_on_id", using: :btree
 
   create_table "song_files", force: true do |t|
     t.integer  "filesize"

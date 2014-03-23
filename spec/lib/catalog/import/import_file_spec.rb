@@ -11,16 +11,20 @@ module Catalog
           artist = Artist.last
           album = Album.last
           genre = Genre.last
+          release_date = ReleaseDate.last
           song = Song.last
           song_file = SongFile.last
 
           expect(artist.name).to eq("Nmesh")
 
           expect(genre.name).to eq("Vaporwave")
+          
+          expect(release_date.year).to eq(2013)
 
           expect(album.title).to eq("Nu.wav Hallucinations")
           expect(album.artist).to eq(artist)
           expect(album.genre).to eq(genre)
+          expect(album.release_date).to eq(release_date)
 
           expect(song.title).to eq("More Than A Mouthful")
           expect(song.artist).to eq(artist)

@@ -6,6 +6,7 @@ class Album < ActiveRecord::Base
   # associations
   belongs_to :artist
   belongs_to :genre
+  belongs_to :release_date
   has_many :songs
 
   # validations

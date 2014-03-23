@@ -5,7 +5,7 @@ module Catalog
     describe CreateAlbum do
       let(:genre) { double("genre") }
       let(:artist) { double("artist") }
-      let(:date) { double("date") }
+      let(:release_date) { double("release_date") }
 
       let(:album_model) { Class.new }
       let(:album_instance) { double(:update) }
@@ -23,10 +23,10 @@ module Catalog
 
           expect(album_instance).
             to receive(:update).
-            with(date: date, genre: genre)
+            with(release_date: release_date, genre: genre)
 
           CreateAlbum.add(title: "Low", artist: artist, genre: genre,
-                          date: date, album_model: album_model)
+                          release_date: release_date, album_model: album_model)
         end
 
         it "returns an Album" do
@@ -38,7 +38,7 @@ module Catalog
             to receive(:update)
 
           album = CreateAlbum.add(title: "Low", artist: artist, genre: genre,
-                                  date: date, album_model: album_model)
+                                  release_date: release_date, album_model: album_model)
 
           expect(album).to eq(album_instance)
         end
@@ -46,7 +46,7 @@ module Catalog
 
       context "#album_model" do
         it "defaults to Album" do
-          album = CreateAlbum.new(title: "", artist: "", date: "", genre: "", date: "")
+          album = CreateAlbum.new(title: "", artist: "", genre: "", release_date: "")
           expect(album.album_model).to eq(Album)
         end
       end
