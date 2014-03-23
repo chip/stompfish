@@ -16,4 +16,8 @@ class Album < ActiveRecord::Base
   # delegations
   delegate :name, to: :genre, prefix: true
   delegate :year, to: :release_date
+
+  def songs_by_track
+    songs.order("track ASC")
+  end
 end

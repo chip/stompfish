@@ -7,9 +7,3 @@ Playlist
    - duration
    - filename
    - release date
-
-Artist
-  - albums_by_date
-
-Album
-  - songs_by_track
