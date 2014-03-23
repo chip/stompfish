@@ -10,11 +10,13 @@ class Song < ActiveRecord::Base
   delegate :name, to: :artist, prefix: true
   delegate :title, :image, to: :album, prefix: true
   delegate :date, :genre, to: :album
+  delegate :position, to: :playlists
 
   belongs_to :album
   belongs_to :artist
   has_one :song_file, as: :fileable
-  has_and_belongs_to_many :playlists
+  has_many :playlists_songs
+  has_many :playlists, through: :playlists_songs
 
   validates_presence_of :album_id, :artist_id, :title
   validates_uniqueness_of :title, scope: [:album_id, :track]

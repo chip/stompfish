@@ -1,5 +1,7 @@
 class Playlist < ActiveRecord::Base
-  has_and_belongs_to_many :songs
+  has_many :playlists_songs
+  has_many :songs, through: :playlists_songs
+
   validates_presence_of :title
 
   def runtime
