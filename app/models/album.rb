@@ -12,4 +12,8 @@ class Album < ActiveRecord::Base
   # validations
   validates_presence_of :artist_id, :title
   validates_uniqueness_of :title, scope: :artist_id
+
+  # delegations
+  delegate :name, to: :genre, prefix: true
+  delegate :year, to: :release_date
 end
