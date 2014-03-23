@@ -4,6 +4,10 @@ class Playlist < ActiveRecord::Base
 
   validates_presence_of :title
 
+  def play_order
+    songs.order("position ASC")
+  end
+
   def runtime
     SongFileFormatters::DurationFormatter.as_strftime(runtime_as_integer)
   end
