@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Playlist do
-  context "relationships" do
+  context "associations" do
     it { should have_many(:songs).through(:playlist_collaborators) }
   end
 
