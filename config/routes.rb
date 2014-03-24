@@ -3,6 +3,10 @@ StompFish::Application.routes.draw do
   get "artists/:id" => "artists#show"
   get "artists" => "artists#index"
   
+  # Albums
+  get "albums/:id" => "albums#show"
+  get "albums" => "albums#index"
+  
   # Songs
   get "songs/:id" => "songs#show"
   get "songs" => "songs#index"
