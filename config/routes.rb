@@ -6,7 +6,7 @@ StompFish::Application.routes.draw do
   # Albums
   get "albums/:id" => "albums#show"
   get "albums" => "albums#index"
-  
+
   # Songs
   get "songs/:id" => "songs#show"
   get "songs" => "songs#index"

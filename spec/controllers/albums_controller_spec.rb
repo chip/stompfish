@@ -7,14 +7,28 @@ describe AlbumsController do
   end
 
   describe "GET #index" do
-    before { get :index }
 
-    it "assigns Album.all to @album" do
+    it "assigns Album.all to @albums" do
+      get :index
       expect(assigns(:albums)).to eq(Album.all)
     end
 
     it "renders the :index view" do
+      get :index
       expect(response).to render_template :index
+    end
+
+    it "renders @albums as json" do
+      get :index, format: :json
+      albums = Album.all
+      expect(response.body).to eq(albums.to_json)
+    end
+
+    context "with search term" do
+      it "assigns Album.search.results to @albums" do
+        expect(Album).to receive(:search).with("foo")
+        get :index, query: "foo"
+      end
     end
   end
 
