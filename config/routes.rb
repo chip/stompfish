@@ -1,5 +1,11 @@
 StompFish::Application.routes.draw do
+  # Playlists
   resources :playlists
+  
+  # Songs
+  get "songs/:id" => "songs#show"
+  get "songs" => "songs#index"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
