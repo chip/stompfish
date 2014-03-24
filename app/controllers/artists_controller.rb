@@ -1,6 +1,15 @@
 class ArtistsController < ApplicationController
   def index
-    @artists = Artist.all
+    if params[:query]
+      @artists = Artist.search(params[:query])
+    else
+      @artists = Artist.all
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @artists }
+    end
   end
 
   def show
