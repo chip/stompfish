@@ -16,7 +16,7 @@ describe PlaylistsController do
   end
 
   describe "GET #show" do
-    before { get:show, id: playlist}
+    before { get :show, id: playlist }
 
     it "assigns the requested playlist to @playlist" do
       expect(assigns(:playlist)).to eq(playlist)
