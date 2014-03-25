@@ -20,8 +20,7 @@ describe SongsController do
 
     it "renders @songs as json" do
       get :index, format: :json
-      songs = Song.all
-      expect(response.body).to eq(songs.to_json)
+      expect(response.body).to include(@song.to_json)
     end
 
     context "with valid search term" do

@@ -20,8 +20,7 @@ describe AlbumsController do
 
     it "renders @albums as json" do
       get :index, format: :json
-      albums = Album.all
-      expect(response.body).to eq(albums.to_json)
+      expect(response.body).to include(@album.to_json)
     end
 
     context "with search term" do

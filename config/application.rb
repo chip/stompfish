@@ -26,6 +26,7 @@ module StompFish
     # config.i18n.default_locale = :de
     config.autoload_paths += ["#{config.root}/lib",
                               "#{config.root}/app/models/song_file_formatters)",
-                              "#{config.root}/app/modlels/song_scopes"]
+                              "#{config.root}/app/models/song_scopes",
+                              "#{config.root}/app/serializers"]
   end
 end
