@@ -20,7 +20,8 @@ describe AlbumsController do
 
     it "renders @albums as json" do
       get :index, format: :json
-      expect(response.body).to include(@album.to_json)
+      serialized = AlbumSerializer.new(@album).serializable_hash
+      expect(response.body).to eq("{\"albums\":[#{serialized.to_json}]}")
     end
 
     context "with search term" do
