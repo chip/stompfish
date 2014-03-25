@@ -19,8 +19,9 @@ describe SongsController do
     end
 
     it "renders @songs as json" do
+      serialized = SongSerializer.new(@song).serializable_hash
       get :index, format: :json
-      expect(response.body).to include(@song.to_json)
+      expect(response.body).to eq("{\"songs\":[#{serialized.to_json}]}")
     end
 
     context "with valid search term" do

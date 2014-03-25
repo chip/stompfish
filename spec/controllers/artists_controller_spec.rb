@@ -15,8 +15,7 @@ describe ArtistsController do
     end
 
     it "renders @artists as json" do
-      Artist.create!(name: "David Bowie")
-      serialized = ArtistSerializer.new(Artist.last).serializable_hash
+      serialized = ArtistSerializer.new(artist).serializable_hash
       get :index, format: :json
       expect(response.body).to eq("{\"artists\":[#{serialized.to_json}]}")
     end

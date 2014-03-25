@@ -2,11 +2,10 @@ require 'spec_helper'
 
 describe AlbumSerializer do
   it "creates customized JSON for an #album" do
-    artist = Artist.create!(name: "David Bowie")
-    album = Album.create!(title: "Low", artist: artist)
+    album = Album.new(title: "Low")
 
     serializer = AlbumSerializer.new(album)
     expect(serializer.to_json).
-      to eq("{\"album\":{\"id\":#{album.id},\"title\":\"Low\",\"genre\":null,\"release_date\":null}}")
+      to eq('{"album":{"id":null,"title":"Low","artist_id":null,"genre":null,"release_date":null,"song_ids":[]}}')
   end
 end

@@ -7,5 +7,5 @@ class ArtistSerializer < ActiveModel::Serializer
   attributes :id, :name
 
   # associations
-  has_many :albums
+  has_many :albums, embed: :ids
 end

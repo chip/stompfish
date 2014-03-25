@@ -6,6 +6,6 @@ describe ArtistSerializer do
 
     serializer = ArtistSerializer.new(artist)
     expect(serializer.to_json).
-      to eq('{"artist":{"id":null,"name":"David Bowie","albums":[]}}')
+      to eq('{"artist":{"id":null,"name":"David Bowie","album_ids":[]}}')
   end
 end
