@@ -7,6 +7,6 @@ describe AlbumSerializer do
 
     serializer = AlbumSerializer.new(album)
     expect(serializer.to_json).
-      to eq("{\"album\":{\"id\":#{album.id},\"title\":\"Low\",\"artist\":{\"id\":#{artist.id},\"name\":\"David Bowie\"}}}")
+      to eq("{\"album\":{\"id\":#{album.id},\"title\":\"Low\"}}")
   end
 end
