@@ -4,7 +4,7 @@ require 'catalog/import/safe_encoding'
 
 module Catalog
   module Import
-    class FullImport
+    class RecursiveImport
       attr_reader :directory
 
       def initialize(directory)
