@@ -25,6 +25,8 @@ module Catalog
             to receive(:new).
             with("spec/fixtures")
 
+          expect(Thread).to receive(:new).and_yield
+
           expect(notifier).to receive(:run)
 
           Monitor.new(directory).listen { |event| fake.new(event) }
@@ -41,6 +43,8 @@ module Catalog
             to receive(:new).
             with("spec/fixtures")
 
+          expect(Thread).to receive(:new).and_yield
+
           expect(notifier).to receive(:run)
 
           Monitor.new(directory).listen { |event| fake.new(event) }
@@ -56,6 +60,8 @@ module Catalog
           expect(fake).
             to receive(:new).
             with("spec/fixtures")
+
+          expect(Thread).to receive(:new).and_yield
 
           expect(notifier).to receive(:run)
 

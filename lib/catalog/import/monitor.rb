@@ -17,8 +17,15 @@ module Catalog
         notifier.watch(directory, :create, :recursive, :close_write) do |event|
           block.call(directory_for_event(event.absolute_name))
         end
-        notifier.run
+
+        Thread.new do
+          notifier.run
+        end
       end 
+
+      def self.listen(directory, ignore: nil, &block)
+        new(directory, ignore: ignore).listen(&block)
+      end
 
       private
       def notifier
