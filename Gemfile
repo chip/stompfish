@@ -10,6 +10,7 @@ gem 'turbolinks'
 gem 'pg'
 gem 'puma'
 gem 'active_model_serializers'
+gem 'rb-inotify'
 
 gem 'elasticsearch-rails'
 gem 'elasticsearch-model'
