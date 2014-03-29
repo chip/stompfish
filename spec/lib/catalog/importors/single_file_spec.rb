@@ -7,7 +7,7 @@ describe Catalog::Importors::SingleFile do
 
   context "#add" do
     it "creates Artist, Genre, Album, Song, SongFile for the import file" do
-      subject.new(filepath).add
+      subject.new(filepath: filepath).add
       artist = Artist.last
       album = Album.last
       genre = Genre.last
@@ -46,31 +46,35 @@ describe Catalog::Importors::SingleFile do
 
       expect(MultimediaTools::Metadata::Read).
         to receive(:tags).
-        and_raise(Exception)
+        and_return({filename: "foobar"})
 
-      expect(CharacterEncoding::ReplaceInvalidCharacters).
-        to receive(:clean).
-        with("spec/fixtures/17 More Than A Mouthful.mp3").
-        and_return(fixed)
+      expect(Catalog::DatabaseTools::AlbumRecord).
+        to receive(:add).
+        and_raise(Exception)
 
       expect(import_log).
         to receive(:create!).
         with(stacktrace: "Exception",
-             filename: fixed)
+             filename: "foobar")
 
-      subject.add("spec/fixtures/17 More Than A Mouthful.mp3")
+      subject.new(filepath: "spec/fixtures/17 More Than A Mouthful.mp3").add
+    end
+
+    it "optionally takes @tags upon initialize" do
+      single = subject.new(tags: {artist: "artist"})
+      expect(single.tags).to eq({artist: "artist"})
     end
   end
 
   context "#filepath" do
     it "returns filepath" do
-      import_file = subject.new(filepath).filepath
+      import_file = subject.new(filepath: filepath).filepath
       expect(import_file).to eq(filepath)
     end
 
     it "raises error if file does not exist" do
       expect do
-        subject.add("foo")
+        subject.new(filepath: "foo").add
       end.to raise_error(Catalog::Importors::FileNotFound)
     end
   end

@@ -1,8 +1,9 @@
 module Catalog
   module Importors
     class SingleFile
-      def initialize(filepath)
+      def initialize(filepath: filepath, tags: nil)
         @filepath = filepath
+        @tags = tags
       end
 
       def filepath
@@ -16,17 +17,16 @@ module Catalog
           updateable.song_file = song_file
           updateable.save
         rescue Exception => e
-          fixed = CharacterEncoding::ReplaceInvalidCharacters.clean(filepath)
-          ImportLog.create!(stacktrace: "#{e}", filename: fixed)
+          ImportLog.create!(stacktrace: "#{e}", filename: tags[:filename])
         end
       end
 
       def tags
-        @read_tags ||= MultimediaTools::Metadata::Read.tags(filepath)
+        @read_tags ||= (@tags || MultimediaTools::Metadata::Read.tags(filepath))
       end
 
-      def self.add(filepath)
-        new(filepath).add
+      def self.add(filepath: filepath, tags: nil)
+        new(filepath: filepath, tags: tags).add
       end
 
       private
