@@ -3,19 +3,16 @@ require 'rb-inotify'
 module Catalog
   module Import
     class Monitor
+      attr_reader :directory
+
       def initialize(directory, ignore: nil)
         @directory = directory
         INotify::Notifier::RECURSIVE_BLACKLIST << ignore if ignore
       end
 
-      def directory
-        Dir.exists?(@directory) or raise DirectoryNotFound
-        @directory
-      end
-
       def listen(&block)
-        notifier.watch(directory, :create, :recursive, :onlydir) do |event|
-          block.call(directory_for_event(event.absolute_name))
+        notifier.watch(directory, :create, :moved_to, :recursive) do |event|
+          block.call(event.absolute_name)
         end
 
         Thread.new do
@@ -31,12 +28,6 @@ module Catalog
       def notifier
         @not ||= INotify::Notifier.new
       end
-
-      def directory_for_event(name)
-        File.directory?(name) ? name : File.dirname(name)
-      end
     end
-
-    DirectoryNotFound = Class.new(StandardError)
   end
 end

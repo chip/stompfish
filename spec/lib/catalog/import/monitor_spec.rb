@@ -18,26 +18,8 @@ module Catalog
 
           expect(notifier).
             to receive(:watch).
-            with("spec/fixtures", :create, :recursive, :onlydir).
+            with("spec/fixtures", :create, :moved_to, :recursive).
             and_yield(event)
-
-          expect(fake).
-            to receive(:new).
-            with("spec/fixtures")
-
-          expect(Thread).to receive(:new).and_yield
-
-          expect(notifier).to receive(:run)
-
-          Monitor.new(directory).listen { |event| fake.new(event) }
-        end
-
-        it "calls block on directory if event happened on file" do
-          stub_const("Fake", fake)
-          file_event = double(:event, absolute_name: "spec/fixtures/file.txt")
-
-          expect(INotify::Notifier).to receive(:new).and_return(notifier)
-          expect(notifier).to receive(:watch).and_yield(file_event)
 
           expect(fake).
             to receive(:new).
@@ -84,12 +66,6 @@ module Catalog
       end
 
       context "#directory" do
-        it "raises error if directory does not exist" do
-          expect do
-            Monitor.new("foo").directory
-          end.to raise_error DirectoryNotFound
-        end
-
         it "returns @directory" do
           dir = Monitor.new("spec/fixtures").directory
           expect(dir).to eq("spec/fixtures")
