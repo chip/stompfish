@@ -7,3 +7,26 @@ Playlist
    - duration
    - filename
    - release date
+
+lib/character_encoding
+  -> replace_invalid_characters
+
+lib/filesystem_tools
+  -> find_files
+  -> move_file
+
+lib/multimedia_tools
+  -> metadata
+    -> ffprobe
+    -> clean_raw_output
+    -> read
+
+lib/catalog
+  -> creators
+    -> album, artist, genre, release date, song file, song
+  -> importors
+    -> single_file
+    -> recurse_directory
+    -> auto_import
+  -> monitors
+    -> directory_watcher

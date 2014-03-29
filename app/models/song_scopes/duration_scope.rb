@@ -27,7 +27,7 @@ module SongScopes
 
     private
     def to_seconds(time)
-      Duration::DurationParse.new(time).to_seconds
+      StringConverters::Duration.new(time).to_seconds
     end
   end
 end
