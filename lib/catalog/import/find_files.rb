@@ -9,11 +9,11 @@ module Catalog
       end
 
       def directory
-        File.directory?(@directory) or raise InvalidDirectory
-        @directory
+        File.directory?(@directory) and @directory
       end
 
       def files
+        return [] unless directory
         Find.find(directory).select { |f| is_audio_file?(f) }
       end
 

@@ -16,13 +16,17 @@ module Catalog
           files = FindFiles.new(dir).files
           expect(files).not_to include(["spec/fixtures/non_audio.txt"])
         end
+
+        it "returns an empty array if not a valid #directory" do
+          files = FindFiles.new("foo").files
+          expect(files).to eq([])
+        end
       end
 
       context "#directory" do
-        it "raises error if not a valid directory" do
-          expect do
-            FindFiles.new("foo").directory
-          end.to raise_error(InvalidDirectory)
+        it "returns false if not a valid directory" do
+          directory = FindFiles.new("foo").directory
+          expect(directory).to be false
         end
 
         it "returns the directory" do
