@@ -1,0 +1,15 @@
+defaults: &defaults
+  # directory to scan for new files
+  watch_dir: "/mnt/music/TMP"
+
+  # directory to import new files
+  import_dir: "/mnt/music"
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
+
+test:
+  <<: *defaults
