@@ -17,6 +17,10 @@ module MultimediaTools
         end
       end
 
+      def self.store(directory)
+        new(directory).store
+      end
+
       private
 
       def files
