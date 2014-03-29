@@ -14,7 +14,7 @@ module Catalog
       end
 
       def listen(&block)
-        notifier.watch(directory, :create, :recursive, :close_write) do |event|
+        notifier.watch(directory, :create, :recursive, :onlydir) do |event|
           block.call(directory_for_event(event.absolute_name))
         end
 

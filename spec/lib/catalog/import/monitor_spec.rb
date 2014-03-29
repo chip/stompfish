@@ -18,7 +18,7 @@ module Catalog
 
           expect(notifier).
             to receive(:watch).
-            with("spec/fixtures", :create, :recursive, :close_write).
+            with("spec/fixtures", :create, :recursive, :onlydir).
             and_yield(event)
 
           expect(fake).
