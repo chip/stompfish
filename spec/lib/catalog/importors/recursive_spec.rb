@@ -15,7 +15,7 @@ describe Catalog::Importors::Recursive do
     it "takes an optional block" do
       expect(Catalog::Importors::SingleFile).to receive(:add)
       expect($stdout).to receive(:puts).with("Hello")
-      subject.new("spec/fixtures").scan { $stdout.puts "Hello" }
+      subject.scan("spec/fixtures") { $stdout.puts "Hello" }
     end
   end
 end

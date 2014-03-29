@@ -18,7 +18,7 @@ module Catalog
       end
 
       def self.scan(directory, &block)
-        new(directory, &block).scan
+        new(directory).scan(&block)
       end
 
       private
