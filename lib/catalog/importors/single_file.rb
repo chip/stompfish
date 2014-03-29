@@ -39,7 +39,7 @@ module Catalog
       end
 
       def release_date
-        Catalog::DatabaseTools::ReleaseDateRecord.add(year: tags[:date].to_i)
+        Catalog::DatabaseTools::ReleaseDateRecord.add(year: tags[:date])
       end
 
       def album

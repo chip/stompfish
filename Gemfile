@@ -12,6 +12,7 @@ gem 'puma'
 gem 'active_model_serializers'
 gem 'rb-inotify'
 gem 'parallel'
+gem 'taglib-ruby'
 
 gem 'elasticsearch-rails'
 gem 'elasticsearch-model'

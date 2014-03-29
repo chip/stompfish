@@ -31,8 +31,8 @@ describe Catalog::Importors::SingleFile do
       expect(song.album).to eq(album)
       expect(song.song_file).to eq(song_file)
 
-      expect(song_file.bit_rate).to eq(320009)
-      expect(song_file.duration).to eq(46.419592)
+      expect(song_file.bit_rate).to eq(319)
+      expect(song_file.duration).to eq(46.0)
       expect(song_file.filename).to eq(filepath)
       expect(song_file.filesize).to eq(1856841)
       expect(song_file.format).to eq("mp3")

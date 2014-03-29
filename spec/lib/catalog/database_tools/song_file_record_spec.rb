@@ -4,9 +4,9 @@ describe Catalog::DatabaseTools::SongFileRecord do
   subject { Catalog::DatabaseTools::SongFileRecord }
 
   let(:tags) do 
-    {filename: "filename", bit_rate: "12345",
-     duration: "123.456", format_name: "format",
-     size: "12345"}
+    {filename: "filename", bit_rate: 12345,
+     duration: 123, format: "format",
+     filesize: 12345}
   end
 
   let(:song_file_model) { Class.new }
@@ -35,7 +35,7 @@ describe Catalog::DatabaseTools::SongFileRecord do
       with(filesize: 12345,
            bit_rate: 12345,
            format: "format",
-           duration: 123.456,
+           duration: 123,
            fileable_id: 1,
            mtime: "fake datetime",
            fileable_type: "Song")

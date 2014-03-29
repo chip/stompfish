@@ -11,10 +11,10 @@ module Catalog
 
       def add
         file = song_file_model.find_or_create_by(filename: tags[:filename])
-        file.update(bit_rate: tags[:bit_rate].to_i,
-                  duration: tags[:duration].to_f,
-                  filesize: tags[:size].to_i,
-                  format: tags[:format_name],
+        file.update(bit_rate: tags[:bit_rate],
+                  duration: tags[:duration],
+                  filesize: tags[:filesize],
+                  format: tags[:format],
                   mtime: mtime,
                   fileable_id: song_id,
                   fileable_type: "Song")
