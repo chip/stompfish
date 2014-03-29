@@ -1,8 +1,6 @@
 module Catalog
   module Importors
     class AutoImport
-      MONITOR_SETTINGS = YAML.load_file("#{Rails.root}/config/monitor_settings.yml")[Rails.env]
-
       attr_reader :watch_dir, :import_dir, :sleep_time
 
       def initialize watch_dir: MONITOR_SETTINGS["watch_dir"],
