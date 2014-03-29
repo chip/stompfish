@@ -39,7 +39,7 @@ module Catalog
       end
 
       def move_file(file)
-        FilesystemTools::MoveFile.new(source: file, import_dir: import_dir)
+        FilesystemTools::MoveFile.new(source: file, base: import_dir)
       end
 
       def import_file(path)

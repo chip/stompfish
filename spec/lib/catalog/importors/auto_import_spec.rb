@@ -22,7 +22,7 @@ describe Catalog::Importors::AutoImport do
 
       expect(FilesystemTools::MoveFile).
         to receive(:new).
-        with(source: file, import_dir: "there").
+        with(source: file, base: "there").
         and_return(mover)
 
       expect(mover).
