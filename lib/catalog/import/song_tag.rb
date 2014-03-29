@@ -24,15 +24,15 @@ module Catalog
       end
 
       def format
-        dirty["format"]
-      end
-
-      def tags
-        format["tags"]
+        @form ||= dirty["format"]
       end
 
       def flat
-        format.delete("tags").merge(format)
+        tags.merge(format)
+      end
+
+      def tags
+        format.delete("tags") || {}
       end
 
       def sanitize(k)

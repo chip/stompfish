@@ -57,6 +57,12 @@ module Catalog
           probe_score: "51"
         })
       end
+
+      it "still returns 'format' if missing 'tags' attribute" do
+        invalid_object = '{"format":{"size":1234}}'
+        st = SongTag.new(invalid_object)
+        expect(st.clean).to eq({size: "1234"})
+      end
     end
   end
 end
