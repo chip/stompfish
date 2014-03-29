@@ -18,7 +18,7 @@ module Catalog
           expect(artist.name).to eq("Nmesh")
 
           expect(genre.name).to eq("Vaporwave")
-          
+
           expect(release_date.year).to eq(2013)
 
           expect(album.title).to eq("Nu.wav Hallucinations")
@@ -37,6 +37,28 @@ module Catalog
           expect(song_file.filesize).to eq(1856841)
           expect(song_file.format).to eq("mp3")
           expect(song_file.mtime).to eq("2014-03-18 02:24:57.834328000 +0000")
+        end
+
+        it "logs errors for exceptions" do
+          fixed = double("safe_encoded_filename")
+          import_log = Class.new
+          stub_const("ImportLog", import_log)
+
+          expect(ReadFile).
+            to receive(:tags).
+            and_raise(Exception)
+
+          expect(SafeEncoding).
+            to receive(:ensure).
+            with("spec/fixtures/17 More Than A Mouthful.mp3").
+            and_return(fixed)
+
+          expect(import_log).
+            to receive(:create!).
+            with(stacktrace: "Exception",
+                 filename: fixed)
+
+          ImportFile.add("spec/fixtures/17 More Than A Mouthful.mp3")
         end
       end
 

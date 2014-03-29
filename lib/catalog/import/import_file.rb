@@ -3,6 +3,7 @@ require 'catalog/import/create_artist'
 require 'catalog/import/create_album'
 require 'catalog/import/create_song'
 require 'catalog/import/create_song_file'
+require 'catalog/import/safe_encoding'
 
 module Catalog
   module Import
@@ -17,9 +18,14 @@ module Catalog
       end
 
       def add
-        updateable = Song.find(song.id)
-        updateable.song_file = song_file
-        updateable.save
+        begin
+          updateable = Song.find(song.id)
+          updateable.song_file = song_file
+          updateable.save
+        rescue Exception => e
+          fixed = SafeEncoding.ensure(filepath)
+          ImportLog.create!(stacktrace: "#{e}", filename: fixed)
+        end
       end
 
       def tags

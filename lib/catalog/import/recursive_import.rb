@@ -1,6 +1,5 @@
 require 'catalog/import/import_file'
 require 'catalog/import/find_files'
-require 'catalog/import/safe_encoding'
 
 module Catalog
   module Import
@@ -13,12 +12,7 @@ module Catalog
 
       def scan
         files.each do |file|
-          begin
-            ImportFile.add(file)
-          rescue Exception => e
-            fixed = SafeEncoding.ensure(file)
-            ImportLog.create!(stacktrace: "#{e}", filename: fixed)
-          end
+          ImportFile.add(file)
         end
       end
 
