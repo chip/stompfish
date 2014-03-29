@@ -10,9 +10,10 @@ module Catalog
         @directory = directory
       end
 
-      def scan
+      def scan(&block)
         files.each do |file|
           SingleFile.add(file)
+          block.call if block_given?
         end
       end
 
