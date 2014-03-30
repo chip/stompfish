@@ -31,7 +31,7 @@ describe Catalog::Importors::AutoImport do
 
       expect(Catalog::Importors::SingleFile).
         to receive(:add).
-        with("newpath")
+        with(filepath: "newpath")
 
       subject.new(watch_dir: "here", import_dir: "there", sleep_time: 0).start!
     end

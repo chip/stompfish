@@ -12,7 +12,7 @@ module Catalog
 
       def listen(&block)
         notifier.watch(directory, :create, :moved_to, :recursive) do |event|
-          block.call(event.absolute_name)
+          yield(event.absolute_name)
         end
 
         Thread.new do

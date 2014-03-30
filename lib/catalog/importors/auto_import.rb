@@ -41,7 +41,7 @@ module Catalog
       end
 
       def import_file(path)
-        Catalog::Importors::SingleFile.add(path)
+        Catalog::Importors::SingleFile.add(filepath: path)
       end
     end
   end

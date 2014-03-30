@@ -11,9 +11,11 @@ module Catalog
       end
 
       def scan(&block)
-        files.each do |file|
-          SingleFile.add(file)
-          block.call if block_given?
+        files(&block).each do |file|
+          unless SongFile.find_by(filename: file)
+            SingleFile.add(filepath: file)
+            yield if block_given?
+          end
         end
       end
 
