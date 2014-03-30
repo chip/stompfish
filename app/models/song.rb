@@ -7,7 +7,7 @@ class Song < ActiveRecord::Base
   belongs_to :album
   belongs_to :artist
 
-  has_one :song_file, as: :fileable
+  has_one :song_file, as: :fileable, dependent: :destroy
 
   has_many :playlist_collaborators
   has_many :playlists, through: :playlist_collaborators

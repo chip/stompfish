@@ -7,7 +7,7 @@ describe Album do
     it { should belong_to(:artist) }
     it { should belong_to(:genre) }
     it { should belong_to(:release_date) }
-    it { should have_many(:songs) }
+    it { should have_many(:songs).dependent(:destroy) }
   end
 
   context "validations" do

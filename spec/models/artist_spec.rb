@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Artist do
   context "associations" do
-    it { should have_many(:albums) }
+    it { should have_many(:albums).dependent(:destroy) }
     it { should have_many(:songs) }
   end
 

@@ -4,7 +4,7 @@ class Artist < ActiveRecord::Base
   include Elasticsearch::Model
 
   # associations
-  has_many :albums
+  has_many :albums, dependent: :destroy
   has_many :songs
 
   # validations
