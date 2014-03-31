@@ -6,10 +6,7 @@ class SongsController < ApplicationController
       @songs = Song.all
     end
 
-    respond_to do |format|
-      format.html
-      format.json { render json: @songs }
-    end
+    render json: @songs
   end
 
   def show

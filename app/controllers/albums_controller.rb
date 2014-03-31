@@ -6,10 +6,7 @@ class AlbumsController < ApplicationController
       @albums = Album.all
     end
 
-    respond_to do |format|
-      format.html
-      format.json { render json: @albums }
-    end
+    render json: @albums
   end
 
   def show

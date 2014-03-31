@@ -13,11 +13,6 @@ describe AlbumsController do
       expect(assigns(:albums)).to eq(Album.all)
     end
 
-    it "renders the :index view" do
-      get :index
-      expect(response).to render_template :index
-    end
-
     it "renders @albums as json" do
       get :index, format: :json
       serialized = AlbumSerializer.new(@album).serializable_hash
@@ -37,10 +32,6 @@ describe AlbumsController do
 
     it "assigns the requested album to @album" do
       expect(assigns(:album)).to eq(@album)
-    end
-
-    it "renders the :show view" do
-      expect(response).to render_template(:show)
     end
   end
 end

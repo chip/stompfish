@@ -14,10 +14,6 @@ describe SongsController do
       expect(assigns(:songs)).to eq(Song.all)
     end
 
-    it "renders the :index view" do
-      expect(response).to render_template :index
-    end
-
     it "renders @songs as json" do
       serialized = SongSerializer.new(@song).serializable_hash
       get :index, format: :json
@@ -37,10 +33,6 @@ describe SongsController do
 
     it "assigns the requested song to @song" do
       expect(assigns(:song)).to eq(@song)
-    end
-
-    it "renders the :show view" do
-      expect(response).to render_template(:show)
     end
   end
 end

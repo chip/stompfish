@@ -5,11 +5,7 @@ class ArtistsController < ApplicationController
     else
       @artists = Artist.all
     end
-
-    respond_to do |format|
-      format.html
-      format.json { render json: @artists }
-    end
+    render json: @artists
   end
 
   def show

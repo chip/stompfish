@@ -13,12 +13,7 @@ class PlaylistsController < ApplicationController
 
   def create
     @playlist = Playlist.new(playlist_params)
-
-    if @playlist.save
-      redirect_to @playlist
-    else
-      render :new
-    end
+    @playlist.save
   end
 
   def edit
@@ -27,12 +22,7 @@ class PlaylistsController < ApplicationController
 
   def update
     @playlist = Playlist.find(params[:id])
-
-    if @playlist.update(playlist_params)
-      redirect_to @playlist
-    else
-      render :edit
-    end
+    @playlist.update(playlist_params)
   end
 
   private

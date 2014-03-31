@@ -9,10 +9,6 @@ describe PlaylistsController do
     it "assigns Playlist.all to @playlists" do
       expect(assigns(:playlists)).to eq(Playlist.all)
     end
-
-    it "renders the :index view" do
-      expect(response).to render_template :index
-    end
   end
 
   describe "GET #show" do
@@ -21,10 +17,6 @@ describe PlaylistsController do
     it "assigns the requested playlist to @playlist" do
       expect(assigns(:playlist)).to eq(playlist)
     end
-
-    it "renders the :show view" do
-      expect(response).to render_template(:show)
-    end
   end
 
   describe "GET #new" do
@@ -32,10 +24,6 @@ describe PlaylistsController do
 
     it "assigns a new Playlist to @playlist" do
       expect(assigns(:playlist)).to be_a_new(Playlist)
-    end
-
-    it "renders the :new view" do
-      expect(response).to render_template(:new)
     end
   end
 
@@ -48,11 +36,6 @@ describe PlaylistsController do
           post :create, attributes
         end.to change(Playlist, :count).by(1)
       end
-
-      it "redirects to playlists#show" do
-        post :create, attributes
-        expect(response).to redirect_to(playlist_path(assigns(:playlist)))
-      end
     end
 
     context "with invalid attributes" do
@@ -63,11 +46,6 @@ describe PlaylistsController do
           post :create, invalid
         end.not_to change(Playlist, :count)
       end
-
-      it "re-renders the :new view" do
-        post :create, invalid
-        expect(response).to render_template(:new)
-      end
     end
   end
 
@@ -76,10 +54,6 @@ describe PlaylistsController do
 
     it "assigns the requested playlist to @playlist" do
       expect(assigns(:playlist)).to eq(playlist)
-    end
-
-    it "renders the :edit view" do
-      expect(response).to render_template(:edit)
     end
   end
 
@@ -96,23 +70,6 @@ describe PlaylistsController do
       it "changes the playlist's attributes" do
         playlist.reload
         expect(playlist.title).to eq("Something Else")
-      end
-
-      it "redirects to playlist's :show view" do
-        expect(response).to redirect_to(playlist)
-      end
-    end
-
-    context "with invalid attributes" do
-      before { patch :update, id: playlist, title: nil }
-
-      it "does not change the playlist's attributes" do
-        playlist.reload
-        expect(playlist.title).to eq("Another Playlist")
-      end
-
-      it "renders the :edit view" do
-        expect(response).to render_template :edit
       end
     end
   end

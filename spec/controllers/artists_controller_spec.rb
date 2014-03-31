@@ -10,10 +10,6 @@ describe ArtistsController do
       expect(assigns(:artists)).to eq(Artist.all)
     end
 
-    it "renders the :index view" do
-      expect(response).to render_template :index
-    end
-
     it "renders @artists as json" do
       serialized = ArtistSerializer.new(artist).serializable_hash
       get :index, format: :json
@@ -33,10 +29,6 @@ describe ArtistsController do
 
     it "assigns the requested artist to @artist" do
       expect(assigns(:artist)).to eq(artist)
-    end
-
-    it "renders the :show view" do
-      expect(response).to render_template(:show)
     end
   end
 end
