@@ -17,6 +17,10 @@ class Album < ActiveRecord::Base
   delegate :name, to: :genre, prefix: true
   delegate :year, to: :release_date
 
+  def self.artists_and_titles
+    all.map { |album| "#{album.artist.name} :: #{album.title}" }.sort
+  end
+
   def songs_by_track
     songs.order("track ASC")
   end

@@ -24,6 +24,15 @@ describe Album do
     it { expect(album).to respond_to(:genre_name) }
   end
 
+  context ".artists_and_titles" do
+    it "returns an array matching Artist Name :: Album Title in alphabetical order" do
+      artist = Artist.create!(name: "David Bowie")
+      Album.create!(title: "Low", artist: artist)
+
+      expect(Album.artists_and_titles).to eq(["David Bowie :: Low"])
+    end
+  end
+
   context "#songs_by_track" do
     it "sorts songs by track" do
       album = Album.create!(title: "Low", artist_id: 1)
