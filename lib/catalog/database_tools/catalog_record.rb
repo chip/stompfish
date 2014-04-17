@@ -12,6 +12,10 @@ module Catalog
         updateable.song_file = song_file
         updateable.save
       end
+
+      def self.create(tags)
+        new(tags).create
+      end
       
       private
       def artist

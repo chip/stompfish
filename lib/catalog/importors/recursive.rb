@@ -10,14 +10,15 @@ module Catalog
         @directory = directory
       end
 
-      def scan
+      def scan(&block)
         files.each do |file|
           AudioFile.add(file)
+          yield if block_given?
         end
       end
 
-      def self.scan(directory)
-        new(directory).scan
+      def self.scan(directory, &block)
+        new(directory).scan(&block)
       end
 
       private
