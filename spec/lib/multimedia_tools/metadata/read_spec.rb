@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'multimedia_tools/metadata/read'
 
 describe MultimediaTools::Metadata::Read do
   subject { MultimediaTools::Metadata::Read }
@@ -10,6 +10,10 @@ describe MultimediaTools::Metadata::Read do
 
     properties = double(length: 123, bitrate: 234)
     fileref = double(tag: tags, audio_properties: properties)
+
+    expect(FilesystemTools::Validator).
+      to receive(:valid?).
+      and_return(true)
 
     expect(TagLib::FileRef).
       to receive(:open).
@@ -54,6 +58,10 @@ describe MultimediaTools::Metadata::Read do
       with("fake.txt").
       and_yield(fileref)
 
+    expect(FilesystemTools::Validator).
+      to receive(:valid?).
+      and_return(true)
+
     expect(MultimediaTools::Metadata::Ffprobe).
       to receive(:new).
       with("fake.txt").
@@ -78,5 +86,15 @@ describe MultimediaTools::Metadata::Read do
       genre: "Genre",
       title: "Title",
       track: 1})
+  end
+
+  it "returns an empty OpenStruct if not a valid file" do
+    expect(FilesystemTools::Validator).
+      to receive(:valid?).
+      with("fake.txt").
+      and_return(false)
+
+    tags = MultimediaTools::Metadata::Read.new("fake.txt").tags
+    expect(tags).to be_a(OpenStruct)
   end
 end

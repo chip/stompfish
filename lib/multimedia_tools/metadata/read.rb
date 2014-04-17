@@ -1,4 +1,6 @@
+require 'ostruct'
 require 'taglib'
+require 'filesystem_tools/validator'
 require 'multimedia_tools/metadata/ffprobe'
 
 module MultimediaTools
@@ -11,6 +13,8 @@ module MultimediaTools
       end
 
       def tags
+        return OpenStruct.new unless FilesystemTools::Validator.valid?(source_file)
+
         TagLib::FileRef.open(source_file) do |fileref|
           tag = fileref.tag || ffprobe.tags
           properties = fileref.audio_properties || ffprobe.properties
