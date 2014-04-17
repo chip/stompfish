@@ -2,8 +2,8 @@ postgres: &postgres
   adapter: postgresql
   encoding: unicode
   host: localhost
-  username: marsalis
-  password: w@+3Rf@77
+  username: <username>
+  password: <password>
 
 development:
   <<: *postgres
