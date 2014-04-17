@@ -36,6 +36,6 @@ describe Catalog::DatabaseTools::CatalogRecord do
     expect(song_file.filename).to eq(filepath)
     expect(song_file.filesize).to eq(1856841)
     expect(song_file.format).to eq("mp3")
-    expect(song_file.mtime).to eq("2014-03-18 02:24:57.834328000 +0000")
+    expect(song_file.mtime).to eq(File.stat(filepath).mtime)
   end
 end
