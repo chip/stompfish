@@ -15,5 +15,9 @@
 /log/*.log
 /tmp
 
-config/database.yml
+# Ignore all vim tmp files
 *.swp
+
+# Ignore specific configuration files
+config/database.yml
+config/monitor_settings.yml
