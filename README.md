@@ -28,5 +28,6 @@ Setup
 2. Create your databases: `rake db:create:all db:migrate db:test:prepare`
 
 ### Add Songs to Database
-1. Import your music: run `rake import:full`
+1. Import your music: `rake import:full`
 2. Check the `ImportLog` model/table for errors on import
+3. Index ElasticSearch: `rake elasticsearch:index`
