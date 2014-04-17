@@ -1,5 +1,5 @@
-require 'catalog/importors/single_file'
-require 'filesystem_tools/find_files'
+require 'catalog/importors/audio_file'
+require 'find'
 
 module Catalog
   module Importors
@@ -10,22 +10,19 @@ module Catalog
         @directory = directory
       end
 
-      def scan(&block)
-        files(&block).each do |file|
-          unless SongFile.find_by(filename: file)
-            SingleFile.add(filepath: file)
-            yield if block_given?
-          end
+      def scan
+        files.each do |file|
+          AudioFile.add(file)
         end
       end
 
-      def self.scan(directory, &block)
-        new(directory).scan(&block)
+      def self.scan(directory)
+        new(directory).scan
       end
 
       private
       def files
-        FilesystemTools::FindFiles.files(directory)
+        Find.find(directory)
       end
     end
   end

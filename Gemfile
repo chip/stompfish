@@ -6,7 +6,7 @@ gem 'rails-api'
 gem 'pg'
 gem 'puma'
 gem 'active_model_serializers'
-gem 'rb-inotify'
+gem 'listen'
 gem 'taglib-ruby'
 
 gem 'elasticsearch-rails'

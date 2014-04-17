@@ -1,32 +1,23 @@
-require 'rb-inotify'
+require 'listen'
 
 module Catalog
   module Monitors
     class DirectoryWatcher
       attr_reader :directory
 
-      def initialize(directory, ignore: nil)
+      def initialize(directory)
         @directory = directory
-        INotify::Notifier::RECURSIVE_BLACKLIST << ignore if ignore
       end
 
       def listen(&block)
-        notifier.watch(directory, :create, :moved_to, :recursive) do |event|
-          yield(event.absolute_name)
+       listener = Listen.to(directory) do |modified, added|
+          yield added if block_given?
         end
-
-        Thread.new do
-          notifier.run
-        end
+       listener.start
       end 
 
-      def self.listen(directory, ignore: nil, &block)
-        new(directory, ignore: ignore).listen(&block)
-      end
-
-      private
-      def notifier
-        @not ||= INotify::Notifier.new
+      def self.listen(directory, &block)
+        new(directory).listen(&block)
       end
     end
   end

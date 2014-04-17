@@ -31,6 +31,11 @@ GEM
     atomic (1.1.16)
     awesome_print (1.2.0)
     builder (3.1.4)
+    celluloid (0.15.2)
+      timers (~> 1.1.0)
+    celluloid-io (0.15.0)
+      celluloid (>= 0.15.0)
+      nio4r (>= 0.5.0)
     coderay (1.1.0)
     diff-lcs (1.2.5)
     elasticsearch (1.0.1)
@@ -53,6 +58,11 @@ GEM
     hashie (2.0.5)
     hike (1.2.3)
     i18n (0.6.9)
+    listen (2.7.1)
+      celluloid (>= 0.15.2)
+      celluloid-io (>= 0.15.0)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -61,6 +71,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.9.0)
     multipart-post (2.0.0)
+    nio4r (1.0.0)
     pg (0.17.1)
     polyglot (0.3.4)
     pry (0.9.12.6)
@@ -91,6 +102,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.1.1)
+    rb-fsevent (0.9.4)
     rb-inotify (0.9.3)
       ffi (>= 0.5.0)
     rspec-collection_matchers (0.0.3)
@@ -134,6 +146,7 @@ GEM
     thread_safe (0.2.0)
       atomic (>= 1.1.7, < 2)
     tilt (1.4.1)
+    timers (1.1.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -147,12 +160,12 @@ DEPENDENCIES
   awesome_print
   elasticsearch-model
   elasticsearch-rails
+  listen
   pg
   pry-rails
   puma
   rails (= 4.0.4)
   rails-api
-  rb-inotify
   rspec-rails (~> 3.0.0.beta)
   shoulda
   taglib-ruby

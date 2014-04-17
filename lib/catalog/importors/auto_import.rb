@@ -1,20 +1,21 @@
+require 'catalog/importors/audio_file'
+require 'catalog/monitors/directory_watcher'
+require 'filesystem_tools/move_file'
+
 module Catalog
   module Importors
     class AutoImport
-      attr_reader :watch_dir, :import_dir, :sleep_time
+      attr_reader :watch_dir, :import_dir
 
       def initialize watch_dir: MONITOR_SETTINGS["watch_dir"],
-                     import_dir: MONITOR_SETTINGS["import_dir"],
-                     sleep_time: 3
+                     import_dir: MONITOR_SETTINGS["import_dir"]
 
-        @watch_dir, @import_dir, @sleep_time = watch_dir, import_dir, sleep_time
+        @watch_dir, @import_dir = watch_dir, import_dir
       end
 
       def start!
         Catalog::Monitors::DirectoryWatcher.listen(watch_dir) do |event|
-          sleep sleep_time # Dirty hack to prevent race condition on import
-
-          files_for_event(event).each do |file|
+          event.each do |file|
             mover = move_file(file)
 
             if mover.relocate
@@ -25,23 +26,18 @@ module Catalog
       end
 
       def self.start! watch_dir: MONITOR_SETTINGS["watch_dir"],
-                      import_dir: MONITOR_SETTINGS["import_dir"],
-                      sleep_time: 3
+                      import_dir: MONITOR_SETTINGS["import_dir"]
 
-        new(watch_dir: watch_dir, import_dir: import_dir, sleep_time: sleep_time).start!
+        new(watch_dir: watch_dir, import_dir: import_dir).start!
       end
 
       private
-      def files_for_event(event)
-        FilesystemTools::FindFiles.files(event)
-      end
-
       def move_file(file)
         FilesystemTools::MoveFile.new(source: file, base: import_dir)
       end
 
       def import_file(path)
-        Catalog::Importors::SingleFile.add(filepath: path)
+        Catalog::Importors::AudioFile.add(path)
       end
     end
   end

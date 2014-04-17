@@ -1,51 +1,23 @@
-require 'spec_helper'
+require 'catalog/importors/recursive'
 
 describe Catalog::Importors::Recursive do
   subject { Catalog::Importors::Recursive }
 
   let(:directory) { double("directory") }
-  let(:file) { double(filename: "foobar") }
+  let(:file) { double(filename: "foobar.txt") }
   let(:files) { [file] }
 
   context "#scan" do
     it "imports all files in a directory" do
-      expect(FilesystemTools::FindFiles).
-        to receive(:files).with(directory).
+      expect(Find).
+        to receive(:find).with(directory).
         and_return(files)
 
-      expect(SongFile).
-        to receive(:find_by).
-        and_return(false)
-
-      expect(Catalog::Importors::SingleFile).
+      expect(Catalog::Importors::AudioFile).
         to receive(:add).
-        with(filepath: file)
+        with(file)
 
       subject.new(directory).scan
-    end
-
-    it "skips the file if it already exists" do
-      expect(FilesystemTools::FindFiles).
-        to receive(:files).with(directory).
-        and_return(files)
-
-      expect(SongFile).
-        to receive(:find_by).
-        with(filename: file).
-        and_return(true)
-
-      expect(Catalog::Importors::SingleFile).
-        not_to receive(:add)
-
-      subject.new(directory).scan
-    end
-
-    it "takes an optional block" do
-      expect(FilesystemTools::FindFiles).to receive(:files) { files }
-      expect(SongFile).to receive(:find_by).and_return(false)
-      expect(Catalog::Importors::SingleFile).to receive(:add)
-      expect($stdout).to receive(:puts).with("Hello")
-      subject.scan("spec/fixtures") { $stdout.puts "Hello" }
     end
   end
 end
