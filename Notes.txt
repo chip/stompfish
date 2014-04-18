@@ -1,9 +1,28 @@
-Playlist
- - decorated_songs
-   - position
-   - song title
-   - artist name
-   - album title
-   - duration
-   - filename
-   - release date
+Sequence of events for adding new audio files to StompFish
+
+1. Monitor watches a Directory
+2. (User)Directory adds a new AudioFile
+3. AudioFile moves to new Directory [ Metadata from AudioFile (*optional) ]
+4. CatalogRecord creates a new instance of itself with Metadata from AudioFile
+
+Monitor 
+ -> can 'watch' a Directory
+ -> trigger an event when Directory changes
+
+Directory
+ -> dirpath on the filesystem
+ -> it can add new objects to itself, including AudioFiles
+
+AudioFile
+ -> a binary object that contains Metadata
+ -> can relocate to a new Directory
+
+Metadata
+ -> filesystem information [ filename, filesize, file format ]
+ -> audio properties [ duration, bit_rate ]
+ -> audio tag attributes [ album, artist, genre, song title, track number, release date ]
+ -> create it's internal state from an AudioFile
+
+CatalogRecord
+ -> a collection of objects in a relational database [ Artist, Album, Song, SongFile, Genre, ReleaseDate ]
+ -> can create a collection of objects in a relational database from Metadata
