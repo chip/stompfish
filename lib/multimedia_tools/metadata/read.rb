@@ -2,6 +2,7 @@ require 'ostruct'
 require 'taglib'
 require 'filesystem_tools/validator'
 require 'multimedia_tools/metadata/ffprobe'
+require 'multimedia_tools/metadata/file_metadata'
 
 module MultimediaTools
   module Metadata
@@ -16,22 +17,10 @@ module MultimediaTools
         return OpenStruct.new unless FilesystemTools::Validator.valid?(source_file)
 
         TagLib::FileRef.open(source_file) do |fileref|
-          tag = fileref.tag || ffprobe.tags
+          tags = fileref.tag || ffprobe.tags
           properties = fileref.audio_properties || ffprobe.properties
 
-          new_file = {
-            album: tag.album,
-            artist: tag.artist,
-            bit_rate: properties.bitrate || properties.bit_rate.to_i,
-            date: tag.year || tag.date.to_i,
-            duration: properties.length || properties.duration.to_i,
-            filename: source_file,
-            filesize: File.size(source_file),
-            format: File.extname(source_file)[1..-1],
-            genre: tag.genre,
-            title: tag.title,
-            track: tag.track.to_i
-          }
+          FileMetadata.new(filename: source_file, tags: tags, properties: properties).process!
         end
       end
 
