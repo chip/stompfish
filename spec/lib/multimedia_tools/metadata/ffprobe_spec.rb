@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'multimedia_tools/metadata/ffprobe'
 
 describe MultimediaTools::Metadata::Ffprobe do
   subject { MultimediaTools::Metadata::Ffprobe }
