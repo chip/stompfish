@@ -3,10 +3,10 @@ require 'ostruct'
 module MultimediaTools
   module Metadata
     class FileMetadata
-      attr_reader :tags, :properties, :filename
+      attr_reader :tags, :props, :filename
 
-      def initialize(tags: tags, properties: properties, filename: filename)
-        @tags, @properties, @filename = tags, properties, filename
+      def initialize(tags: tags, props: props, filename: filename)
+        @tags, @props, @filename = tags, props, filename
       end
 
       def process!
@@ -14,6 +14,10 @@ module MultimediaTools
                        date: date, duration: duration, filename: filename,
                        filesize: filesize, format: format, genre: genre,
                        title: title, track: track)
+      end
+
+      def self.process!(tags: tags, props: props, filename: filename)
+        new(tags: tags, props: props, filename: filename).process!
       end
 
       private
@@ -42,13 +46,13 @@ module MultimediaTools
         tags.track.to_i
       end
 
-      # @properties
+      # @props
       def bit_rate
-        properties.bitrate || properties.bit_rate.to_i
+        props.bitrate || props.bit_rate.to_i
       end
 
       def duration
-        properties.length || properties.duration.to_i
+        props.length || props.duration.to_i
       end
 
       # @source_file

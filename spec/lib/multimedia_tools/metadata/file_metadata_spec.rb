@@ -8,13 +8,13 @@ describe MultimediaTools::Metadata::FileMetadata do
            genre: "genre", title: "title", track: "1", year: nil)
   end
 
-  let(:properties) do
+  let(:props) do
     double(bit_rate: "123", duration: "456", bitrate: nil, length: nil)
   end
 
   let(:file) { "spec/fixtures/17 More Than A Mouthful.mp3" }
 
-  let(:meta) { subject.new(tags: tags, filename: file, properties: properties).process! }
+  let(:meta) { subject.new(tags: tags, filename: file, props: props).process! }
 
   context "#process!" do
     context "@tags" do
@@ -47,21 +47,21 @@ describe MultimediaTools::Metadata::FileMetadata do
           tags = double(album: "album", artist: "artist", date: "1999",
                         genre: "genre", title: "title", track: "1", year: 1975)
 
-          meta = subject.new(tags: tags, filename: file, properties: properties).process!
+          meta = subject.new(tags: tags, filename: file, props: props).process!
           expect(meta.date).to eq(1975)
         end
       end
     end
 
-    context "@properties" do
+    context "@props" do
       context "#bit_rate" do
         it "has a bit_rate (as integer)" do
           expect(meta.bit_rate).to eq(123)
         end
 
-        it "uses properties.bitrate if exists" do
-          properties = double(bit_rate: "123", duration: "456", bitrate: 789, length: 876)
-          meta = subject.new(tags: tags, filename: file, properties: properties).process!
+        it "uses props.bitrate if exists" do
+          props = double(bit_rate: "123", duration: "456", bitrate: 789, length: 876)
+          meta = subject.new(tags: tags, filename: file, props: props).process!
           expect(meta.bit_rate).to eq(789)
         end
       end
@@ -71,9 +71,9 @@ describe MultimediaTools::Metadata::FileMetadata do
           expect(meta.duration).to eq(456)
         end
 
-        it "uses properties.length if exists" do
-          properties = double(bit_rate: "123", duration: "456", bitrate: nil, length: 876)
-          meta = subject.new(tags: tags, filename: file, properties: properties).process!
+        it "uses props.length if exists" do
+          props = double(bit_rate: "123", duration: "456", bitrate: nil, length: 876)
+          meta = subject.new(tags: tags, filename: file, props: props).process!
           expect(meta.duration).to eq(876)
         end
       end

@@ -3,8 +3,6 @@ require 'multimedia_tools/metadata/read'
 describe MultimediaTools::Metadata::Read do
   subject { MultimediaTools::Metadata::Read }
 
-  let(:file_metadata) { double("file_metadata") }
-
   it "returns a FileMetadata object" do
     fileref = double("fileref")
 
@@ -26,10 +24,7 @@ describe MultimediaTools::Metadata::Read do
       and_return(true)
 
     expect(MultimediaTools::Metadata::FileMetadata).
-      to receive(:new).
-      and_return(file_metadata)
-
-    expect(file_metadata).to receive(:process!)
+      to receive(:process!)
 
     tags = subject.new("fake.txt").tags
   end
@@ -64,10 +59,7 @@ describe MultimediaTools::Metadata::Read do
     expect(ffprobe).to receive(:properties)
 
     expect(MultimediaTools::Metadata::FileMetadata).
-      to receive(:new).
-      and_return(file_metadata)
-
-    expect(file_metadata).to receive(:process!)
+      to receive(:process!)
 
     subject.tags("fake.txt")
   end
