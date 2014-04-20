@@ -1,13 +1,11 @@
-require 'spec_helper'
+require 'catalog_record/genre_record'
 
 describe CatalogRecord::GenreRecord do
   subject { CatalogRecord::GenreRecord }
 
   let(:genre_model) { Class.new} 
 
-  before do
-    stub_const("GenreModel", genre_model)
-  end
+  before { stub_const("Genre", genre_model) }
 
   context ".add" do
     it "adds new Genre" do
