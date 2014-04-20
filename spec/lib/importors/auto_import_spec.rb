@@ -1,8 +1,8 @@
-require 'catalog/importors/auto_import'
+require 'importors/auto_import'
 
-describe Catalog::Importors::AutoImport do
+describe Importors::AutoImport do
   let(:settings) { Class.new }
-  subject { Catalog::Importors::AutoImport }
+  subject { Importors::AutoImport }
 
   context "#start!" do
     let(:event) { double("event", each: "") }
