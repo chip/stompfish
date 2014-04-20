@@ -1,13 +1,11 @@
-require 'spec_helper'
+require 'catalog_record/release_date_record'
 
 describe CatalogRecord::ReleaseDateRecord do
   subject { CatalogRecord::ReleaseDateRecord }
 
   let(:release_date_model) { Class.new} 
 
-  before do
-    stub_const("ReleaseDateModel", release_date_model)
-  end
+  before { stub_const("ReleaseDate", release_date_model) }
 
   context ".add" do
     it "adds new ReleaseDate" do
