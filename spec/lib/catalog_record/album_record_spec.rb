@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'catalog_record/album_record'
 
 describe CatalogRecord::AlbumRecord do
   subject { CatalogRecord::AlbumRecord }
@@ -10,11 +10,9 @@ describe CatalogRecord::AlbumRecord do
   let(:album_model) { Class.new }
   let(:album_instance) { double(:update) }
 
-  context ".add" do
-    before do
-      stub_const("AlbumModel", album_model)
-    end
+  before { stub_const("Album", album_model) }
 
+  context ".add" do
     it "adds new Album" do
       expect(album_model).
         to receive(:find_or_create_by).
