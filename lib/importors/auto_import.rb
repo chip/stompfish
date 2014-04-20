@@ -1,5 +1,5 @@
 require 'audio_file'
-require 'catalog/monitors/directory_watcher'
+require 'monitors/directory_monitor'
 require 'audio_file_utils/move_file'
 
 module Importors
@@ -13,7 +13,7 @@ module Importors
     end
 
     def start!
-      Catalog::Monitors::DirectoryWatcher.listen(watch_dir) do |event|
+      Monitors::DirectoryMonitor.listen(watch_dir) do |event|
         event.each do |file|
           mover = move_file(file)
 

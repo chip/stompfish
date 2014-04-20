@@ -12,7 +12,7 @@ describe Importors::AutoImport do
     it "relocates & imports files from a watched directory" do
       stub_const("MONITOR_SETTINGS", settings)
 
-      expect(Catalog::Monitors::DirectoryWatcher).
+      expect(Monitors::DirectoryMonitor).
         to receive(:listen).
         with("here").
         and_yield(event)
@@ -41,7 +41,7 @@ describe Importors::AutoImport do
       it "does not try to import the file" do
         stub_const("MONITOR_SETTINGS", settings)
 
-        expect(Catalog::Monitors::DirectoryWatcher).
+        expect(Monitors::DirectoryMonitor).
           to receive(:listen).
           and_yield(event)
 

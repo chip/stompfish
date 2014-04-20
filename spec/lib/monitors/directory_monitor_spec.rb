@@ -1,12 +1,12 @@
-require 'catalog/monitors/directory_watcher'
+require 'monitors/directory_monitor'
 
-describe Catalog::Monitors::DirectoryWatcher do
+describe Monitors::DirectoryMonitor do
   let(:directory) { "spec/fixtures" }
   let(:notifier) { double("notifier") }
   let(:modified) { double("modified") }
   let(:added) { double("added") }
   let(:fake) { Class.new }
-  subject { Catalog::Monitors::DirectoryWatcher }
+  subject { Monitors::DirectoryMonitor }
 
   context "#listen" do
     it "imports files from @directory being watched" do
