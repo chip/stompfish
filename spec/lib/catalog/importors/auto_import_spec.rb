@@ -30,7 +30,7 @@ describe Catalog::Importors::AutoImport do
         to receive(:relocate).
         and_return(true)
 
-      expect(Catalog::Importors::AudioFile).
+      expect(AudioFile).
         to receive(:add).
         with("newpath")
 
@@ -57,7 +57,7 @@ describe Catalog::Importors::AutoImport do
           to receive(:relocate).
           and_return(false)
 
-        expect(Catalog::Importors::AudioFile).
+        expect(AudioFile).
           not_to receive(:add)
 
         subject.new(watch_dir: "here", import_dir: "there").start!

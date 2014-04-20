@@ -1,4 +1,4 @@
-require 'catalog/importors/audio_file'
+require 'audio_file'
 require 'find'
 
 module Catalog

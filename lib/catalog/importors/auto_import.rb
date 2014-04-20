@@ -1,4 +1,4 @@
-require 'catalog/importors/audio_file'
+require 'audio_file'
 require 'catalog/monitors/directory_watcher'
 require 'audio_file_utils/move_file'
 
@@ -37,7 +37,7 @@ module Catalog
       end
 
       def import_file(path)
-        Catalog::Importors::AudioFile.add(path)
+        AudioFile.add(path)
       end
     end
   end

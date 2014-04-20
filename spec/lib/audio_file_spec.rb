@@ -1,7 +1,7 @@
-require 'catalog/importors/audio_file'
+require 'audio_file'
 
-describe Catalog::Importors::AudioFile do
-  subject { Catalog::Importors::AudioFile }
+describe AudioFile do
+  subject { AudioFile }
 
   let(:tags) { double("tags") }
   let(:filepath) { "fakepath" }

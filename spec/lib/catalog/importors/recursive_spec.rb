@@ -13,7 +13,7 @@ describe Catalog::Importors::Recursive do
         to receive(:find).with(directory).
         and_return(files)
 
-      expect(Catalog::Importors::AudioFile).
+      expect(AudioFile).
         to receive(:add).
         with(file)
 
