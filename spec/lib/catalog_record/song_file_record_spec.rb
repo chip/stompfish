@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'catalog_record/song_file_record'
 
 describe CatalogRecord::SongFileRecord do
   subject { CatalogRecord::SongFileRecord }
@@ -13,8 +13,9 @@ describe CatalogRecord::SongFileRecord do
   let(:song_instance) { double(:update) }
   let(:stat_file) { double(:mtime) }
 
+  before { stub_const("SongFile", song_file_model) }
+
   it "adds a SongFile" do
-    stub_const("SongFileModel", song_file_model)
 
     expect(song_file_model).
       to receive(:find_or_create_by).
