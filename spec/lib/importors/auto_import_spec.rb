@@ -21,7 +21,7 @@ describe Importors::AutoImport do
         to receive(:each).
         and_yield(file)
 
-      expect(AudioFileUtils::MoveFile).
+      expect(AudioFileUtils::Move).
         to receive(:new).
         with(source: file, base: "there").
         and_return(mover)
@@ -49,7 +49,7 @@ describe Importors::AutoImport do
           to receive(:each).
           and_yield(file)
 
-        expect(AudioFileUtils::MoveFile).
+        expect(AudioFileUtils::Move).
           to receive(:new).
           and_return(mover)
 

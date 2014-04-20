@@ -1,6 +1,6 @@
 require 'audio_file'
 require 'monitors/directory_monitor'
-require 'audio_file_utils/move_file'
+require 'audio_file_utils/move'
 
 module Importors
   class AutoImport
@@ -32,7 +32,7 @@ module Importors
 
     private
     def move_file(file)
-      AudioFileUtils::MoveFile.new(source: file, base: import_dir)
+      AudioFileUtils::Move.new(source: file, base: import_dir)
     end
 
     def import_file(path)

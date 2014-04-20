@@ -2,7 +2,7 @@ require 'fileutils'
 require 'audio_file_utils/metadata'
 
 module AudioFileUtils
-  class MoveFile
+  class Move
     attr_reader :source, :base
 
     def initialize(source: source, base: base)
