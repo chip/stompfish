@@ -1,5 +1,5 @@
 require 'taglib'
-require 'filesystem_tools/validator'
+require 'audio_file_utils/validator'
 require 'audio_file_utils/metadata_core/ffprobe'
 require 'audio_file_utils/metadata_core/metadata_struct'
 
@@ -12,7 +12,7 @@ module AudioFileUtils
     end
 
     def tags
-      return OpenStruct.new unless FilesystemTools::Validator.valid?(file)
+      return OpenStruct.new unless AudioFileUtils::Validator.valid?(file)
 
       TagLib::FileRef.open(file) do |fileref|
         tags = fileref.tag || ffprobe.tags

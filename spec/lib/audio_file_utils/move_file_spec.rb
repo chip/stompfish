@@ -1,7 +1,7 @@
-require 'filesystem_tools/move_file'
+require 'audio_file_utils/move_file'
 
-describe FilesystemTools::MoveFile do
-  subject { FilesystemTools::MoveFile }
+describe AudioFileUtils::MoveFile do
+  subject { AudioFileUtils::MoveFile }
 
   let(:source) { "spec/fixtures/17 More Than A Mouthful.mp3" }
   let(:tags) { {artist: "Artist", album: "Album"} }

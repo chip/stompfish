@@ -1,5 +1,5 @@
 require 'catalog/database_tools/catalog_record'
-require 'filesystem_tools/validator'
+require 'audio_file_utils/validator'
 require 'audio_file_utils/metadata'
 
 module Catalog
@@ -12,7 +12,7 @@ module Catalog
       end
 
       def add
-        return unless FilesystemTools::Validator.valid?(filepath)
+        return unless AudioFileUtils::Validator.valid?(filepath)
 
         begin
           Catalog::DatabaseTools::CatalogRecord.create(tags)

@@ -8,7 +8,7 @@ describe Catalog::Importors::AudioFile do
 
   context "#add" do
     it "creates a new CatalogRecord" do
-      expect(FilesystemTools::Validator).
+      expect(AudioFileUtils::Validator).
         to receive(:valid?).
         with(filepath).
         and_return(true)
@@ -30,7 +30,7 @@ describe Catalog::Importors::AudioFile do
       import_log = Class.new
       stub_const("ImportLog", import_log)
 
-      expect(FilesystemTools::Validator).
+      expect(AudioFileUtils::Validator).
         to receive(:valid?).
         and_return(true)
 
@@ -52,7 +52,7 @@ describe Catalog::Importors::AudioFile do
   end
 
   it "ignores invalid files" do
-    expect(FilesystemTools::Validator).
+    expect(AudioFileUtils::Validator).
       to receive(:valid?).
       with(filepath).
       and_return(false)

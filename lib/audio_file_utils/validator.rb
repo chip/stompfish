@@ -1,4 +1,4 @@
-module FilesystemTools
+module AudioFileUtils
   class Validator
     VALID_AUDIO_FORMATS = %w(.flac .mp3 .m4a .ogg)
     attr_reader :filepath

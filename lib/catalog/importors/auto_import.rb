@@ -1,6 +1,6 @@
 require 'catalog/importors/audio_file'
 require 'catalog/monitors/directory_watcher'
-require 'filesystem_tools/move_file'
+require 'audio_file_utils/move_file'
 
 module Catalog
   module Importors
@@ -33,7 +33,7 @@ module Catalog
 
       private
       def move_file(file)
-        FilesystemTools::MoveFile.new(source: file, base: import_dir)
+        AudioFileUtils::MoveFile.new(source: file, base: import_dir)
       end
 
       def import_file(path)

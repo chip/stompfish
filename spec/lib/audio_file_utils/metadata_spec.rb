@@ -6,7 +6,7 @@ describe AudioFileUtils::Metadata do
   it "returns a FileMetadata object" do
     fileref = double("fileref")
 
-    expect(FilesystemTools::Validator).
+    expect(AudioFileUtils::Validator).
       to receive(:valid?).
       and_return(true)
 
@@ -38,7 +38,7 @@ describe AudioFileUtils::Metadata do
       with("fake.txt").
       and_yield(fileref)
 
-    expect(FilesystemTools::Validator).
+    expect(AudioFileUtils::Validator).
       to receive(:valid?).
       and_return(true)
 
@@ -65,7 +65,7 @@ describe AudioFileUtils::Metadata do
   end
 
   it "returns an empty OpenStruct if not a valid file" do
-    expect(FilesystemTools::Validator).
+    expect(AudioFileUtils::Validator).
       to receive(:valid?).
       with("fake.txt").
       and_return(false)

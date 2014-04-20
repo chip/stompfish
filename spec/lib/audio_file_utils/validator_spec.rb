@@ -1,8 +1,8 @@
-require 'filesystem_tools/validator'
+require 'audio_file_utils/validator'
 
-describe FilesystemTools::Validator do
+describe AudioFileUtils::Validator do
   let(:filepath) { "spec/fixtures/17 More Than A Mouthful.mp3" }
-  subject { FilesystemTools::Validator }
+  subject { AudioFileUtils::Validator }
 
   context "#valid?" do
     it "is true if is an audio file" do

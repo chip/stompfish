@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'audio_file_utils/metadata'
 
-module FilesystemTools
+module AudioFileUtils
   class MoveFile
     attr_reader :source, :base
 
