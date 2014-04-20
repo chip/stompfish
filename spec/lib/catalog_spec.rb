@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Catalog::DatabaseTools::CatalogRecord do
-  subject { Catalog::DatabaseTools::CatalogRecord }
+describe Catalog do
+  subject { Catalog }
 
   let(:filepath) { "spec/fixtures/17 More Than A Mouthful.mp3" }
   let(:tags) { AudioFileUtils::Metadata.tags(filepath) }

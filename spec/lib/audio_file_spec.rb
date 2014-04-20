@@ -18,7 +18,7 @@ describe AudioFile do
           with(filepath).
           and_return(tags)
 
-      expect(Catalog::DatabaseTools::CatalogRecord).
+      expect(Catalog).
         to receive(:create).
         with(tags)
 
@@ -38,7 +38,7 @@ describe AudioFile do
         to receive(:tags).
         and_return({filename: "fakepath"})
 
-      expect(Catalog::DatabaseTools::CatalogRecord).
+      expect(Catalog).
         to receive(:create).
         and_raise(Exception)
 

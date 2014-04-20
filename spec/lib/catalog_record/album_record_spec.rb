@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Catalog::DatabaseTools::AlbumRecord do
-  subject { Catalog::DatabaseTools::AlbumRecord }
+describe CatalogRecord::AlbumRecord do
+  subject { CatalogRecord::AlbumRecord }
 
   let(:genre) { double("genre") }
   let(:artist) { double("artist") }

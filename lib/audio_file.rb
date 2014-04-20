@@ -1,4 +1,4 @@
-require 'catalog/database_tools/catalog_record'
+require 'catalog'
 require 'audio_file_utils/validator'
 require 'audio_file_utils/metadata'
 
@@ -13,7 +13,7 @@ class AudioFile
     return unless AudioFileUtils::Validator.valid?(filepath)
 
     begin
-      Catalog::DatabaseTools::CatalogRecord.create(tags)
+      Catalog.create(tags)
     rescue Exception => e
       ImportLog.create!(stacktrace: "#{e}", filename: tags[:filename])
     end

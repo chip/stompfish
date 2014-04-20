@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Catalog::DatabaseTools::ReleaseDateRecord do
-  subject { Catalog::DatabaseTools::ReleaseDateRecord }
+describe CatalogRecord::ReleaseDateRecord do
+  subject { CatalogRecord::ReleaseDateRecord }
 
   let(:release_date_model) { Class.new} 
 

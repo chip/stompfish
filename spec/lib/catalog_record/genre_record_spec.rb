@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Catalog::DatabaseTools::GenreRecord do
-  subject { Catalog::DatabaseTools::GenreRecord }
+describe CatalogRecord::GenreRecord do
+  subject { CatalogRecord::GenreRecord }
 
   let(:genre_model) { Class.new} 
 

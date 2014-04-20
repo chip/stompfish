@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Catalog::DatabaseTools::SongRecord do
-  subject { Catalog::DatabaseTools::SongRecord }
+describe CatalogRecord::SongRecord do
+  subject { CatalogRecord::SongRecord }
 
   let(:tags) { {title: "Warszawa", track: "8"} }
   let(:song_model) { Class.new} 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Catalog::DatabaseTools::SongFileRecord do
-  subject { Catalog::DatabaseTools::SongFileRecord }
+describe CatalogRecord::SongFileRecord do
+  subject { CatalogRecord::SongFileRecord }
 
   let(:tags) do 
     {filename: "filename", bit_rate: 12345,

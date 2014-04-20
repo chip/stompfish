@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Catalog::DatabaseTools::ArtistRecord do
-  subject { Catalog::DatabaseTools::ArtistRecord }
+describe CatalogRecord::ArtistRecord do
+  subject { CatalogRecord::ArtistRecord }
 
   let(:name) { "David Bowie" }
   let(:artist_model) { Class.new} 
