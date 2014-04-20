@@ -1,7 +1,7 @@
-require 'importors/recursive'
+require 'importors/manual_import'
 
-describe Importors::Recursive do
-  subject { Importors::Recursive }
+describe Importors::ManualImport do
+  subject { Importors::ManualImport }
 
   let(:directory) { double("directory") }
   let(:file) { double(filename: "foobar.txt") }
