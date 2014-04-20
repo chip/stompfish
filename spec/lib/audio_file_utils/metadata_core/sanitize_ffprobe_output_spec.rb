@@ -1,7 +1,7 @@
-require 'multimedia_tools/metadata/sanitize_ffprobe_output'
+require 'audio_file_utils/metadata_core/sanitize_ffprobe_output'
 
-describe MultimediaTools::Metadata::SanitizeFfprobeOutput do
-  subject { MultimediaTools::Metadata::SanitizeFfprobeOutput }
+describe AudioFileUtils::MetadataCore::SanitizeFfprobeOutput do
+  subject { AudioFileUtils::MetadataCore::SanitizeFfprobeOutput }
 
   it "converts values to an OpenStruct" do
     dirty = {"FIRST" => "first", "SECOND" => "second"}

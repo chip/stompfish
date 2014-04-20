@@ -4,7 +4,7 @@ describe Catalog::DatabaseTools::CatalogRecord do
   subject { Catalog::DatabaseTools::CatalogRecord }
 
   let(:filepath) { "spec/fixtures/17 More Than A Mouthful.mp3" }
-  let(:tags) { MultimediaTools::Metadata::Read.tags(filepath) }
+  let(:tags) { AudioFileUtils::Metadata.tags(filepath) }
 
   it "creates Artist, Genre, Album, Song, SongFile for the import file" do
     subject.new(tags).create

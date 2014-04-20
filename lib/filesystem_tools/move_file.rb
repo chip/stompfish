@@ -1,5 +1,5 @@
 require 'fileutils'
-require 'multimedia_tools/metadata/read'
+require 'audio_file_utils/metadata'
 
 module FilesystemTools
   class MoveFile
@@ -36,7 +36,7 @@ module FilesystemTools
     end
 
     def tags
-      @read ||= MultimediaTools::Metadata::Read.tags(source)
+      @read ||= AudioFileUtils::Metadata.tags(source)
     end
   end
 end

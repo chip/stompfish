@@ -1,8 +1,8 @@
 require 'ostruct'
 
-module MultimediaTools
-  module Metadata
-    class FileMetadata
+module AudioFileUtils
+  module MetadataCore
+    class MetadataStruct
       attr_reader :tags, :props, :filename
 
       def initialize(tags: tags, props: props, filename: filename)

@@ -10,7 +10,7 @@ describe FilesystemTools::MoveFile do
     it "builds a destinaton from the file's artist & album tags" do
       mover = subject.new(source: source, base: "base")
 
-      expect(MultimediaTools::Metadata::Read).
+      expect(AudioFileUtils::Metadata).
         to receive(:tags).
         with(source).
         and_return(tags)
@@ -24,7 +24,7 @@ describe FilesystemTools::MoveFile do
     it "returns the full path of the moved file" do
       mover = subject.new(source: source, base: "base")
 
-      expect(MultimediaTools::Metadata::Read).
+      expect(AudioFileUtils::Metadata).
         to receive(:tags).
         with(source).
         and_return(tags)
@@ -36,7 +36,7 @@ describe FilesystemTools::MoveFile do
 
   context "#mkpath" do
     it "makes path for #destination" do
-      expect(MultimediaTools::Metadata::Read).
+      expect(AudioFileUtils::Metadata).
         to receive(:tags).
         with(source).
         and_return(tags)
@@ -51,7 +51,7 @@ describe FilesystemTools::MoveFile do
 
   context "#moves" do
     it "moves #source to #destination" do
-      expect(MultimediaTools::Metadata::Read).
+      expect(AudioFileUtils::Metadata).
         to receive(:tags).
         with(source).
         and_return(tags)
@@ -75,7 +75,7 @@ describe FilesystemTools::MoveFile do
     it "returns false if missing Artist" do
       movefile = subject.new(source: "foo", base: "base")
 
-      expect(MultimediaTools::Metadata::Read).
+      expect(AudioFileUtils::Metadata).
         to receive(:tags).
         with("foo").
         and_return({album: "foo"})
@@ -86,7 +86,7 @@ describe FilesystemTools::MoveFile do
     it "returns false if missing Album" do
       movefile = subject.new(source: "foo", base: "base")
 
-      expect(MultimediaTools::Metadata::Read).
+      expect(AudioFileUtils::Metadata).
         to receive(:tags).
         with("foo").
         and_return({artist: "foo"})

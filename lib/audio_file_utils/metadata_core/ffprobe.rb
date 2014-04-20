@@ -1,10 +1,10 @@
 require 'open3'
 require 'json'
 require 'active_support'
-require 'multimedia_tools/metadata/sanitize_ffprobe_output'
+require 'audio_file_utils/metadata_core/sanitize_ffprobe_output'
 
-module MultimediaTools
-  module Metadata
+module AudioFileUtils
+  module MetadataCore
     class Ffprobe
       attr_reader :file
 

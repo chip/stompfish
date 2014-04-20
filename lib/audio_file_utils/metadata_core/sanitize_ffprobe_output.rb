@@ -1,8 +1,8 @@
 require 'character_encoding/replace_invalid_characters'
 require 'ostruct'
 
-module MultimediaTools
-  module Metadata
+module AudioFileUtils
+  module MetadataCore
     class SanitizeFfprobeOutput
       attr_reader :dirty
 

@@ -1,6 +1,6 @@
 require 'catalog/database_tools/catalog_record'
 require 'filesystem_tools/validator'
-require 'multimedia_tools/metadata/read'
+require 'audio_file_utils/metadata'
 
 module Catalog
   module Importors
@@ -22,7 +22,7 @@ module Catalog
       end
 
       def tags
-        @_tags ||= MultimediaTools::Metadata::Read.tags(filepath)
+        @_tags ||= AudioFileUtils::Metadata.tags(filepath)
       end
 
       def self.add(filepath)

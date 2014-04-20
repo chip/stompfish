@@ -1,7 +1,7 @@
-require 'multimedia_tools/metadata/ffprobe'
+require 'audio_file_utils/metadata_core/ffprobe'
 
-describe MultimediaTools::Metadata::Ffprobe do
-  subject { MultimediaTools::Metadata::Ffprobe }
+describe AudioFileUtils::MetadataCore::Ffprobe do
+  subject { AudioFileUtils::MetadataCore::Ffprobe }
 
   let(:file) { double("file") }
 
@@ -17,7 +17,7 @@ describe MultimediaTools::Metadata::Ffprobe do
       to receive(:parse).
       and_return(parsed)
 
-   expect(MultimediaTools::Metadata::SanitizeFfprobeOutput).
+   expect(AudioFileUtils::MetadataCore::SanitizeFfprobeOutput).
      to receive(:clean).
      with({"this" => "time"})
 
@@ -31,7 +31,7 @@ describe MultimediaTools::Metadata::Ffprobe do
       to receive(:parse).
       and_return(parsed)
 
-   expect(MultimediaTools::Metadata::SanitizeFfprobeOutput).
+   expect(AudioFileUtils::MetadataCore::SanitizeFfprobeOutput).
      to receive(:clean).
      with({"another" => "place"})
 

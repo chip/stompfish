@@ -1,7 +1,7 @@
-require 'multimedia_tools/metadata/file_metadata'
+require 'audio_file_utils/metadata_core/metadata_struct'
 
-describe MultimediaTools::Metadata::FileMetadata do
-  subject { MultimediaTools::Metadata::FileMetadata }
+describe AudioFileUtils::MetadataCore::MetadataStruct do
+  subject { AudioFileUtils::MetadataCore::MetadataStruct }
 
   let(:tags) do
     double(album: "album", artist: "artist", date: "1999",

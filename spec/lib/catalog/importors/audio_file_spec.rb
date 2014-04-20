@@ -13,7 +13,7 @@ describe Catalog::Importors::AudioFile do
         with(filepath).
         and_return(true)
 
-        expect(MultimediaTools::Metadata::Read).
+        expect(AudioFileUtils::Metadata).
           to receive(:tags).
           with(filepath).
           and_return(tags)
@@ -34,7 +34,7 @@ describe Catalog::Importors::AudioFile do
         to receive(:valid?).
         and_return(true)
 
-      expect(MultimediaTools::Metadata::Read).
+      expect(AudioFileUtils::Metadata).
         to receive(:tags).
         and_return({filename: "fakepath"})
 

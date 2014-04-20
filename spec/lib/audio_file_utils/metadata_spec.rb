@@ -1,7 +1,7 @@
-require 'multimedia_tools/metadata/read'
+require 'audio_file_utils/metadata'
 
-describe MultimediaTools::Metadata::Read do
-  subject { MultimediaTools::Metadata::Read }
+describe AudioFileUtils::Metadata do
+  subject { AudioFileUtils::Metadata }
 
   it "returns a FileMetadata object" do
     fileref = double("fileref")
@@ -23,7 +23,7 @@ describe MultimediaTools::Metadata::Read do
       to receive(:audio_properties).
       and_return(true)
 
-    expect(MultimediaTools::Metadata::FileMetadata).
+    expect(AudioFileUtils::MetadataCore::MetadataStruct).
       to receive(:process!)
 
     tags = subject.new("fake.txt").tags
@@ -50,7 +50,7 @@ describe MultimediaTools::Metadata::Read do
       to receive(:audio_properties).
       and_return(false)
 
-    expect(MultimediaTools::Metadata::Ffprobe).
+    expect(AudioFileUtils::MetadataCore::Ffprobe).
       to receive(:new).
       with("fake.txt").
       and_return(ffprobe)
@@ -58,7 +58,7 @@ describe MultimediaTools::Metadata::Read do
     expect(ffprobe).to receive(:tags)
     expect(ffprobe).to receive(:properties)
 
-    expect(MultimediaTools::Metadata::FileMetadata).
+    expect(AudioFileUtils::MetadataCore::MetadataStruct).
       to receive(:process!)
 
     subject.tags("fake.txt")
@@ -70,7 +70,7 @@ describe MultimediaTools::Metadata::Read do
       with("fake.txt").
       and_return(false)
 
-    tags = MultimediaTools::Metadata::Read.new("fake.txt").tags
+    tags = subject.new("fake.txt").tags
     expect(tags).to be_a(OpenStruct)
   end
 end
