@@ -9,10 +9,10 @@ module CatalogRecord
     end
 
     def add
-      song = song_model.find_or_create_by(title: tags[:title],
+      song = song_model.find_or_create_by(title: tags.title,
                                           artist: album.artist,
                                           album: album,
-                                          track: tags[:track].to_i)
+                                          track: tags.track)
       song
     end
 

@@ -24,19 +24,19 @@ class Catalog
 
   private
   def artist
-    CatalogRecord::ArtistRecord.add(name: tags[:artist])
+    CatalogRecord::ArtistRecord.add(name: tags.artist)
   end
 
   def genre
-    CatalogRecord::GenreRecord.add(name: tags[:genre])
+    CatalogRecord::GenreRecord.add(name: tags.genre)
   end
 
   def release_date
-    CatalogRecord::ReleaseDateRecord.add(year: tags[:date])
+    CatalogRecord::ReleaseDateRecord.add(year: tags.date)
   end
 
   def album
-    CatalogRecord::AlbumRecord.add(title: tags[:album], artist: artist,
+    CatalogRecord::AlbumRecord.add(title: tags.album, artist: artist,
                                             genre: genre, release_date: release_date)
   end
 

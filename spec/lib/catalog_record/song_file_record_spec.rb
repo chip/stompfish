@@ -4,9 +4,9 @@ describe CatalogRecord::SongFileRecord do
   subject { CatalogRecord::SongFileRecord }
 
   let(:tags) do 
-    {filename: "filename", bit_rate: 12345,
+    double(filename: "filename", bit_rate: 12345,
      duration: 123, format: "format",
-     filesize: 12345}
+     filesize: 12345)
   end
 
   let(:song_file_model) { Class.new }

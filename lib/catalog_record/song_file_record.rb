@@ -9,11 +9,11 @@ module CatalogRecord
     end
 
     def add
-      file = song_file_model.find_or_create_by(filename: tags[:filename])
-      file.update(bit_rate: tags[:bit_rate],
-                  duration: tags[:duration],
-                  filesize: tags[:filesize],
-                  format: tags[:format],
+      file = song_file_model.find_or_create_by(filename: tags.filename)
+      file.update(bit_rate: tags.bit_rate,
+                  duration: tags.duration,
+                  filesize: tags.filesize,
+                  format: tags.format,
                   mtime: mtime,
                   fileable_id: song_id,
                   fileable_type: "Song")
@@ -26,7 +26,7 @@ module CatalogRecord
 
     private
     def mtime
-      File.stat(tags[:filename]).mtime
+      File.stat(tags.filename).mtime
     end
   end
 end

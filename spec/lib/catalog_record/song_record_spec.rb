@@ -3,7 +3,7 @@ require 'catalog_record/song_record'
 describe CatalogRecord::SongRecord do
   subject { CatalogRecord::SongRecord }
 
-  let(:tags) { {title: "Warszawa", track: "8"} }
+  let(:tags) { double(title: "Warszawa", track: 8) }
   let(:song_model) { Class.new} 
   let(:album) { double(artist: "foo") }
 
