@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'catalog_record/artist_record'
 
 describe CatalogRecord::ArtistRecord do
   subject { CatalogRecord::ArtistRecord }
@@ -6,10 +6,10 @@ describe CatalogRecord::ArtistRecord do
   let(:name) { "David Bowie" }
   let(:artist_model) { Class.new} 
 
+  before { stub_const("Artist", artist_model) }
+
   context ".add" do
     it "adds new Artist" do
-      stub_const("ArtistModel", artist_model)
-
       expect(artist_model).
         to receive(:find_or_create_by).
         with(name: "David Bowie")
