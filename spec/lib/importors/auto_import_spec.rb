@@ -5,6 +5,7 @@ describe Importors::AutoImport do
   subject { Importors::AutoImport }
 
   context "#start!" do
+    let(:audio_file) { double(valid?: "", add: "") }
     let(:event) { double("event", each: "") }
     let(:file) { double("file") }
     let(:mover) { double(relocate: "", new_path: "newpath") }
@@ -21,6 +22,15 @@ describe Importors::AutoImport do
         to receive(:each).
         and_yield(file)
 
+      expect(AudioFile).
+        to receive(:new).
+        with(file).
+        and_return(audio_file)
+
+      expect(audio_file).
+        to receive(:valid?).
+        and_return(true)
+
       expect(AudioFileUtils::Move).
         to receive(:new).
         with(source: file, base: "there").
@@ -31,37 +41,75 @@ describe Importors::AutoImport do
         and_return(true)
 
       expect(AudioFile).
-        to receive(:add).
-        with("newpath")
+        to receive(:new).
+        with("newpath").
+        and_return(audio_file)
+
+      expect(audio_file).to receive(:add)
 
       subject.new(watch_dir: "here", import_dir: "there").start!
     end
 
-    context "does not relocate file" do
-      it "does not try to import the file" do
-        stub_const("MONITOR_SETTINGS", settings)
+    it "does not add the file if invalid" do
+      stub_const("MONITOR_SETTINGS", settings)
 
-        expect(Monitors::DirectoryMonitor).
-          to receive(:listen).
-          and_yield(event)
+      expect(Monitors::DirectoryMonitor).
+        to receive(:listen).
+        with("here").
+        and_yield(event)
 
-        expect(event).
-          to receive(:each).
-          and_yield(file)
+      expect(event).
+        to receive(:each).
+        and_yield(file)
 
-        expect(AudioFileUtils::Move).
-          to receive(:new).
-          and_return(mover)
+      expect(AudioFile).
+        to receive(:new).
+        with(file).
+        and_return(audio_file)
 
-        expect(mover).
-          to receive(:relocate).
-          and_return(false)
+      expect(audio_file).
+        to receive(:valid?).
+        and_return(false)
 
-        expect(AudioFile).
-          not_to receive(:add)
+      expect(audio_file).
+        not_to receive(:add)
 
-        subject.new(watch_dir: "here", import_dir: "there").start!
-      end
+      subject.new(watch_dir: "here", import_dir: "there").start!
+    end
+
+    it "does not move the file it cannot relocate it" do
+      stub_const("MONITOR_SETTINGS", settings)
+
+      expect(Monitors::DirectoryMonitor).
+        to receive(:listen).
+        and_yield(event)
+
+      expect(event).
+        to receive(:each).
+        and_yield(file)
+
+      expect(AudioFile).
+        to receive(:new).
+        with(file).
+        and_return(audio_file)
+
+      expect(audio_file).
+        to receive(:valid?).
+        and_return(true)
+
+      expect(AudioFileUtils::Move).
+        to receive(:new).
+        and_return(mover)
+
+      expect(mover).
+        to receive(:relocate).
+        and_return(false)
+
+      expect(AudioFile).
+        not_to receive(:new).
+        with(mover.new_path)
+
+      subject.new(watch_dir: "here", import_dir: "there").start!
     end
   end
 

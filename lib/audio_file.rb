@@ -10,20 +10,19 @@ class AudioFile
   end
 
   def add
-    return unless AudioFileUtils::Validator.valid?(filepath)
-
     begin
       Catalog.create(tags)
     rescue Exception => e
-      ImportLog.create!(stacktrace: "#{e}", filename: tags[:filename])
+      ImportLog.create!(stacktrace: "#{e}", filename: tags.filename)
     end
   end
 
   def tags
+    return OpenStruct.new unless valid?
     @_tags ||= AudioFileUtils::Metadata.tags(filepath)
   end
 
-  def self.add(filepath)
-    new(filepath).add
+  def valid?
+    @_valid ||= AudioFileUtils::Validator.valid?(filepath)
   end
 end

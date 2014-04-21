@@ -11,7 +11,8 @@ module Importors
 
     def scan(&block)
       files.each do |file|
-        AudioFile.add(file)
+        audio_file = AudioFile.new(file)
+        audio_file.add if audio_file.valid?
         yield if block_given?
       end
     end

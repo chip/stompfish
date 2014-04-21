@@ -6,6 +6,45 @@ describe AudioFile do
   let(:tags) { double("tags") }
   let(:filepath) { "fakepath" }
 
+  context "#tags" do
+    it "calls AudioFileUtils::Metadata" do
+      expect(AudioFileUtils::Validator).
+        to receive(:valid?).
+        with(filepath).
+        and_return(true)
+
+      expect(AudioFileUtils::Metadata).
+        to receive(:tags).
+        with(filepath)
+
+      subject.new(filepath).tags
+    end
+
+    it "returns an empty OpenStruct if not valid" do
+      expect(AudioFileUtils::Validator).
+        to receive(:valid?).
+        with(filepath).
+        and_return(false)
+
+      expect(AudioFileUtils::Metadata).
+        not_to receive(:tags).
+        with(filepath)
+
+      tags = subject.new(filepath).tags
+      expect(tags).to be_a(OpenStruct)
+    end
+  end
+
+  context "#valid?" do
+    it "calls AudioFileUtils::Validator" do
+      expect(AudioFileUtils::Validator).
+        to receive(:valid?).
+        with(filepath)
+
+      subject.new(filepath).valid?
+    end
+  end
+
   context "#add" do
     it "creates a new CatalogRecord" do
       expect(AudioFileUtils::Validator).
@@ -13,10 +52,10 @@ describe AudioFile do
         with(filepath).
         and_return(true)
 
-        expect(AudioFileUtils::Metadata).
-          to receive(:tags).
-          with(filepath).
-          and_return(tags)
+      expect(AudioFileUtils::Metadata).
+        to receive(:tags).
+        with(filepath).
+        and_return(tags)
 
       expect(Catalog).
         to receive(:create).
@@ -32,11 +71,12 @@ describe AudioFile do
 
       expect(AudioFileUtils::Validator).
         to receive(:valid?).
+        with(filepath).
         and_return(true)
 
       expect(AudioFileUtils::Metadata).
         to receive(:tags).
-        and_return({filename: "fakepath"})
+        and_return(double(filename: "fakepath"))
 
       expect(Catalog).
         to receive(:create).
@@ -49,15 +89,5 @@ describe AudioFile do
 
         subject.new(filepath).add
     end
-  end
-
-  it "ignores invalid files" do
-    expect(AudioFileUtils::Validator).
-      to receive(:valid?).
-      with(filepath).
-      and_return(false)
-
-    audio_file = subject.new(filepath)
-    expect(audio_file.add).to be_nil
   end
 end

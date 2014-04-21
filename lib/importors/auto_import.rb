@@ -15,10 +15,13 @@ module Importors
     def start!
       Monitors::DirectoryMonitor.listen(watch_dir) do |event|
         event.each do |file|
-          mover = move_file(file)
+          audio_file = AudioFile.new(file)
+          if audio_file.valid?
+            mover = move_file(file)
 
-          if mover.relocate
-            import_file(mover.new_path)
+            if mover.relocate
+              AudioFile.new(mover.new_path).add
+            end
           end
         end
       end
@@ -33,10 +36,6 @@ module Importors
     private
     def move_file(file)
       AudioFileUtils::Move.new(source: file, base: import_dir)
-    end
-
-    def import_file(path)
-      AudioFile.add(path)
     end
   end
 end
