@@ -1,10 +1,99 @@
 require 'audio_file'
 
 describe AudioFile do
+  let(:filepath) { "fakepath" }
+
   subject { AudioFile }
 
-  let(:tags) { double("tags") }
-  let(:filepath) { "fakepath" }
+  context "#relocate" do
+    it "calls AudioFileUtils::Move.relocate" do
+      tags = double(album: "album", artist: "artist")
+      audio_file = subject.new(filepath)
+
+      expect(audio_file).
+        to receive(:valid?).
+        and_return(true)
+
+      expect(AudioFileUtils::Metadata).
+        to receive(:tags).
+        with("fakepath").
+        and_return(tags)
+
+      expect(AudioFileUtils::Move).
+        to receive(:relocate).
+        with(base: "basepath", source: audio_file)
+      
+      audio_file.relocate(base: "basepath")
+    end
+
+    it "does not relocate if invalid artist tag" do
+      tags = double(album: "album", artist: nil)
+      audio_file = subject.new(filepath)
+
+      expect(audio_file).
+        to receive(:valid?).
+        and_return(true)
+
+      expect(AudioFileUtils::Metadata).
+        to receive(:tags).
+        with("fakepath").
+        and_return(tags)
+
+      expect(AudioFileUtils::Move).
+        not_to receive(:relocate).
+        with(base: "basepath", source: audio_file)
+      
+      audio_file.relocate(base: "basepath")
+    end
+
+    it "does not relocate if invalid album tag" do
+      tags = double(album: nil, artist: "artist")
+      audio_file = subject.new(filepath)
+
+      expect(audio_file).
+        to receive(:valid?).
+        and_return(true)
+
+      expect(AudioFileUtils::Metadata).
+        to receive(:tags).
+        with("fakepath").
+        and_return(tags)
+
+      expect(AudioFileUtils::Move).
+        not_to receive(:relocate).
+        with(base: "basepath", source: audio_file)
+      
+      audio_file.relocate(base: "basepath")
+    end
+  end
+
+  context "#new_path" do
+    it "returns new_path if relocated" do
+      tags = double(album: "album", artist: "artist")
+      audio_file = subject.new(filepath)
+
+      expect(audio_file).
+        to receive(:valid?).
+        and_return(true)
+
+      expect(AudioFileUtils::Metadata).
+        to receive(:tags).
+        and_return(tags)
+
+      expect(AudioFileUtils::Move).
+        to receive(:relocate).
+        and_return("newpath")
+
+      audio_file.relocate(base: "basepath")
+
+      expect(audio_file.new_path).to eq("newpath")
+    end
+
+    it "returns nil if not relocated" do
+      audio_file = subject.new(filepath)
+      expect(audio_file.new_path).to be_nil
+    end
+  end
 
   context "#tags" do
     it "calls AudioFileUtils::Metadata" do
@@ -47,6 +136,8 @@ describe AudioFile do
 
   context "#add" do
     it "creates a new CatalogRecord" do
+      tags = double("tags")
+
       expect(AudioFileUtils::Validator).
         to receive(:valid?).
         with(filepath).

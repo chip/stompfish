@@ -1,25 +1,32 @@
 require 'fileutils'
-require 'audio_file_utils/metadata'
 
 module AudioFileUtils
   class Move
-    attr_reader :source, :base
+    attr_reader :base, :source
 
-    def initialize(source: source, base: base)
-      @source, @base, = source, base
+    def initialize(base: base, source: source)
+      @base, @source = base, source
     end
 
     def relocate
-      return false unless tags[:artist] && tags[:album]
-      mkpath and move
+      mkpath and move and new_path
+    end
+
+    def self.relocate(base: base, source: source)
+      new(base: base, source: source).relocate
+    end
+
+    private
+    def basename
+      File.basename(filepath)
     end
 
     def destination
-      @dest ||= "#{base}/#{tags[:artist]}/#{tags[:album]}/"
+      @_destination ||= "#{base}/#{tags.artist}/#{tags.album}/"
     end
 
-    def new_path
-      "#{destination}#{basename}"
+    def filepath
+      @_filename ||= source.filepath
     end
 
     def mkpath
@@ -27,16 +34,15 @@ module AudioFileUtils
     end
 
     def move
-      FileUtils.mv(source, destination)
+      FileUtils.mv(filepath, destination)
     end
 
-    private
-    def basename
-      File.basename(source)
+    def new_path
+      @_new_path ||= "#{destination}#{basename}"
     end
 
     def tags
-      @read ||= AudioFileUtils::Metadata.tags(source)
+      @_tags ||= source.tags
     end
   end
 end

@@ -1,6 +1,7 @@
 require 'catalog'
-require 'audio_file_utils/validator'
 require 'audio_file_utils/metadata'
+require 'audio_file_utils/move'
+require 'audio_file_utils/validator'
 
 class AudioFile
   attr_reader :filepath
@@ -17,9 +18,17 @@ class AudioFile
     end
   end
 
+  def relocate(base: base)
+    return unless tags.artist && tags.album
+    @newpath = AudioFileUtils::Move.relocate(base: base, source: self)
+  end
+
+  def new_path
+    @newpath
+  end
+
   def tags
-    return OpenStruct.new unless valid?
-    @_tags ||= AudioFileUtils::Metadata.tags(filepath)
+    @_tags ||= valid? ? AudioFileUtils::Metadata.tags(filepath) : OpenStruct.new
   end
 
   def valid?
