@@ -154,31 +154,5 @@ describe AudioFile do
 
       subject.new(filepath).add
     end
-
-    it "logs errors for exceptions" do
-      fixed = double("safe_encoded_filename")
-      import_log = Class.new
-      stub_const("ImportLog", import_log)
-
-      expect(AudioFileUtils::Validator).
-        to receive(:valid?).
-        with(filepath).
-        and_return(true)
-
-      expect(AudioFileUtils::Metadata).
-        to receive(:tags).
-        and_return(double(filename: "fakepath"))
-
-      expect(Catalog).
-        to receive(:create).
-        and_raise(Exception)
-
-      expect(import_log).
-        to receive(:create!).
-        with(stacktrace: "Exception",
-             filename: "fakepath")
-
-        subject.new(filepath).add
-    end
   end
 end

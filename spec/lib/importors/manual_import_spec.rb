@@ -5,7 +5,7 @@ describe Importors::ManualImport do
 
   let(:directory) { double("directory") }
   let(:audio_file) { double(valid?: "", add: "") }
-  let(:file) { double(filename: "foobar.txt") }
+  let(:file) { "foobar.txt" }
   let(:files) { [file] }
 
   context "#scan" do
@@ -70,6 +70,25 @@ describe Importors::ManualImport do
         with(".")
 
       subject.new(directory).scan { $stdout.puts "." }
+    end
+
+    it "calls ImportError to rescue error" do
+      import_log = Class.new
+      stub_const("ImportLog", import_log)
+
+      expect(Find).
+        to receive(:find).with(directory).
+        and_return(files)
+
+      expect(AudioFile).
+        to receive(:new).
+        and_raise(Exception)
+
+      expect(ImportLog).
+        to receive(:create!).
+        with(stacktrace: "Exception", filepath: "foobar.txt")
+
+      subject.new(directory).scan
     end
   end
 end

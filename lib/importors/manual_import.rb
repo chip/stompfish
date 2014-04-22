@@ -1,5 +1,6 @@
-require 'audio_file'
 require 'find'
+require 'audio_file'
+require 'importors/import_error'
 
 module Importors
   class ManualImport
@@ -11,9 +12,10 @@ module Importors
 
     def scan(&block)
       files.each do |file|
-        audio_file = AudioFile.new(file)
-        audio_file.add if audio_file.valid?
-        yield if block_given?
+        ImportError.capture(filename: file) do
+          add_audio_file(file)
+          yield if block_given?
+        end
       end
     end
 
@@ -24,6 +26,11 @@ module Importors
     private
     def files
       Find.find(directory)
+    end
+
+    def add_audio_file(file)
+      audio_file = AudioFile.new(file)
+      audio_file.add if audio_file.valid?
     end
   end
 end

@@ -11,11 +11,7 @@ class AudioFile
   end
 
   def add
-    begin
-      Catalog.create(tags)
-    rescue Exception => e
-      ImportLog.create!(stacktrace: "#{e}", filename: tags.filename)
-    end
+    Catalog.create(tags)
   end
 
   def relocate(base: base)

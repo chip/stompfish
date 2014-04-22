@@ -7,7 +7,7 @@ describe Importors::AutoImport do
   context "#start!" do
     let(:audio_file) { double(new_path: "newpath", add: "", relocate: "") }
     let(:event) { double("event", each: "") }
-    let(:file) { double("file") }
+    let(:file) { "file.txt" }
 
     it "relocates & imports files from a watched directory" do
       stub_const("MONITOR_SETTINGS", settings)
@@ -63,6 +63,30 @@ describe Importors::AutoImport do
       expect(AudioFile).
         not_to receive(:new).
         with("newpath")
+
+      subject.new(watch_dir: "here", import_dir: "there").start
+    end
+
+    it "calls ImportError to rescue error" do
+      import_log = Class.new
+      stub_const("ImportLog", import_log)
+
+      expect(Monitors::DirectoryMonitor).
+        to receive(:listen).
+        with("here").
+        and_yield(event)
+
+      expect(event).
+        to receive(:each).
+        and_yield(file)
+
+      expect(AudioFile).
+        to receive(:new).
+        and_raise(Exception)
+
+      expect(ImportLog).
+        to receive(:create!).
+        with(stacktrace: "Exception", filepath: "file.txt")
 
       subject.new(watch_dir: "here", import_dir: "there").start
     end
