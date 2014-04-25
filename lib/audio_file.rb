@@ -24,7 +24,7 @@ class AudioFile
   end
 
   def tags
-    @_tags ||= valid? ? AudioFileUtils::Metadata.tags(filepath) : OpenStruct.new
+    @_tags ||= valid? ? AudioFileUtils::Metadata.tags(filepath) : AudioFileUtils::MetadataCore::MetadataStruct.new
   end
 
   def valid?

@@ -1,14 +1,14 @@
 require 'audio_file'
 
 describe AudioFile do
-  let(:filepath) { "fakepath" }
+  let(:file) { double("file") }
 
   subject { AudioFile }
 
   context "#relocate" do
     it "calls AudioFileUtils::Move.relocate" do
       tags = double(album: "album", artist: "artist")
-      audio_file = subject.new(filepath)
+      audio_file = subject.new(file)
 
       expect(audio_file).
         to receive(:valid?).
@@ -16,7 +16,7 @@ describe AudioFile do
 
       expect(AudioFileUtils::Metadata).
         to receive(:tags).
-        with("fakepath").
+        with(file).
         and_return(tags)
 
       expect(AudioFileUtils::Move).
@@ -28,7 +28,7 @@ describe AudioFile do
 
     it "does not relocate if invalid artist tag" do
       tags = double(album: "album", artist: nil)
-      audio_file = subject.new(filepath)
+      audio_file = subject.new(file)
 
       expect(audio_file).
         to receive(:valid?).
@@ -36,7 +36,7 @@ describe AudioFile do
 
       expect(AudioFileUtils::Metadata).
         to receive(:tags).
-        with("fakepath").
+        with(file).
         and_return(tags)
 
       audio_file.relocate(base: "basepath")
@@ -44,7 +44,7 @@ describe AudioFile do
 
     it "does not relocate if invalid album tag" do
       tags = double(album: nil, artist: "artist")
-      audio_file = subject.new(filepath)
+      audio_file = subject.new(file)
 
       expect(audio_file).
         to receive(:valid?).
@@ -52,7 +52,7 @@ describe AudioFile do
 
       expect(AudioFileUtils::Metadata).
         to receive(:tags).
-        with("fakepath").
+        with(file).
         and_return(tags)
 
       expect(AudioFileUtils::Move).
@@ -66,7 +66,7 @@ describe AudioFile do
   context "#new_path" do
     it "returns new_path if relocated" do
       tags = double(album: "album", artist: "artist")
-      audio_file = subject.new(filepath)
+      audio_file = subject.new(file)
 
       expect(audio_file).
         to receive(:valid?).
@@ -86,7 +86,7 @@ describe AudioFile do
     end
 
     it "returns nil if not relocated" do
-      audio_file = subject.new(filepath)
+      audio_file = subject.new(file)
       expect(audio_file.new_path).to be_nil
     end
   end
@@ -95,28 +95,28 @@ describe AudioFile do
     it "calls AudioFileUtils::Metadata" do
       expect(AudioFileUtils::Validator).
         to receive(:valid?).
-        with(filepath).
+        with(file).
         and_return(true)
 
       expect(AudioFileUtils::Metadata).
         to receive(:tags).
-        with(filepath)
+        with(file)
 
-      subject.new(filepath).tags
+      subject.new(file).tags
     end
 
-    it "returns an empty OpenStruct if not valid" do
+    it "returns an empty MetadataStruct if not valid" do
       expect(AudioFileUtils::Validator).
         to receive(:valid?).
-        with(filepath).
+        with(file).
         and_return(false)
 
       expect(AudioFileUtils::Metadata).
         not_to receive(:tags).
-        with(filepath)
+        with(file)
 
-      tags = subject.new(filepath).tags
-      expect(tags).to be_a(OpenStruct)
+      tags = subject.new(file).tags
+      expect(tags).to be_a(AudioFileUtils::MetadataCore::MetadataStruct)
     end
   end
 
@@ -124,9 +124,9 @@ describe AudioFile do
     it "calls AudioFileUtils::Validator" do
       expect(AudioFileUtils::Validator).
         to receive(:valid?).
-        with(filepath)
+        with(file)
 
-      subject.new(filepath).valid?
+      subject.new(file).valid?
     end
   end
 
@@ -136,19 +136,19 @@ describe AudioFile do
 
       expect(AudioFileUtils::Validator).
         to receive(:valid?).
-        with(filepath).
+        with(file).
         and_return(true)
 
       expect(AudioFileUtils::Metadata).
         to receive(:tags).
-        with(filepath).
+        with(file).
         and_return(tags)
 
       expect(Catalog).
         to receive(:create).
         with(tags)
 
-      subject.new(filepath).add
+      subject.new(file).add
     end
   end
 end
