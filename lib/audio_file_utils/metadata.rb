@@ -1,4 +1,3 @@
-require 'audio_file_utils/metadata_core/filesystem_info'
 require 'audio_file_utils/metadata_core/metadata_struct'
 require 'audio_file_utils/metadata_core/read_tool'
 
