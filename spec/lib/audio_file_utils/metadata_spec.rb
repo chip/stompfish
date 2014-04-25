@@ -1,58 +1,34 @@
 require 'audio_file_utils/metadata'
 
 describe AudioFileUtils::Metadata do
-  subject { AudioFileUtils::Metadata }
+  subject { described_class }
 
-  it "returns a FileMetadata object" do
-    fileref = double("fileref")
+  context "#tags" do
+    let(:tags) { subject.new(filepath).tags }
+    let(:filepath) { "spec/fixtures/17 More Than A Mouthful.mp3" }
 
-    expect(TagLib::FileRef).
-      to receive(:open).
-      with("fake.txt").
-      and_yield(fileref)
+    it "returns a MetadataStruct for @file" do
+      expect(tags).to be_a(AudioFileUtils::MetadataCore::MetadataStruct)
+    end
 
-    expect(fileref).
-      to receive(:tag).
-      and_return(true)
+    it "contains FilesystemInformation" do
+      expect(tags.filename).to eq("spec/fixtures/17 More Than A Mouthful.mp3")
+      expect(tags.filesize).to eq(1856841)
+      expect(tags.format).to eq("mp3")
+    end
 
-    expect(fileref).
-      to receive(:audio_properties).
-      and_return(true)
+    it "contains AudioProperties" do
+      expect(tags.duration).to eq(46)
+      expect(tags.bit_rate).to eq(319)
+    end
 
-    expect(AudioFileUtils::MetadataCore::MetadataStruct).
-      to receive(:process!)
-
-    tags = subject.new("fake.txt").tags
-  end
-
-  it "uses Ffprobe as a backup if TagLib fails" do
-    fileref = double("fileref")
-    ffprobe = double("ffprobe")
-
-    expect(TagLib::FileRef).
-      to receive(:open).
-      with("fake.txt").
-      and_yield(fileref)
-
-    expect(fileref).
-      to receive(:tag).
-      and_return(false)
-
-    expect(fileref).
-      to receive(:audio_properties).
-      and_return(false)
-
-    expect(AudioFileUtils::MetadataCore::Ffprobe).
-      to receive(:new).
-      with("fake.txt").
-      and_return(ffprobe)
-
-    expect(ffprobe).to receive(:tags)
-    expect(ffprobe).to receive(:properties)
-
-    expect(AudioFileUtils::MetadataCore::MetadataStruct).
-      to receive(:process!)
-
-    subject.tags("fake.txt")
+    it "contains TagAttributes" do
+      expect(tags.album).to eq("Nu.wav Hallucinations")
+      expect(tags.artist).to eq("Nmesh")
+      expect(tags.date).to eq(2013)
+      expect(tags.genre).to eq("Vaporwave")
+      expect(tags.title).to eq("More Than A Mouthful")
+      expect(tags.track).to eq(17)
+    end
   end
 end

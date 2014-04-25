@@ -1,37 +1,34 @@
-require 'taglib'
-require 'audio_file_utils/metadata_core/ffprobe'
+require 'audio_file_utils/metadata_core/filesystem_info'
 require 'audio_file_utils/metadata_core/metadata_struct'
+require 'audio_file_utils/metadata_core/read_tool'
 
 module AudioFileUtils
   class Metadata
-    attr_reader :file
+    attr_reader :filepath
 
-    def initialize(file)
-      @file = file
+    def initialize(filepath)
+      @filepath = filepath
     end
 
     def tags
-      TagLib::FileRef.open(file) do |fileref|
-        tags = fileref.tag || ffprobe.tags
-        props = fileref.audio_properties || ffprobe.properties
-
-        core::MetadataStruct.process!(filename: file, tags: tags, props: props)
-      end
+      metadata_struct.new(*filesystem_info, *read_tool)
     end
 
-    def self.tags(file)
-      new(file).tags
+    def self.tags(filepath)
+      new(filepath).tags
     end
 
     private
-    def ffprobe
-      # TagLib has problems with some tags, but is about 6 times faster than Ffprobe
-      # Ffprobe serves as a suitable backup when TagLib fails to read tags
-      @_ffprobe ||= core::Ffprobe.new(file)
+    def filesystem_info
+      MetadataCore::FilesystemInfo.new(filepath).info
     end
 
-    def core
-      AudioFileUtils::MetadataCore
+    def metadata_struct
+      MetadataCore::MetadataStruct
+    end
+
+    def read_tool
+      MetadataCore::ReadTool.new(filepath).read
     end
   end
 end
