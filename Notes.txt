@@ -26,3 +26,11 @@ Metadata
 CatalogRecord
  -> a collection of objects in a relational database [ Artist, Album, Song, SongFile, Genre, ReleaseDate ]
  -> can create a collection of objects in a relational database from Metadata
+
+Metadata
+ - MetadataStruct
+   - FilesystemInformation
+   - AudioProperties
+   - AudioTags
+     - TagLib
+     - Ffprobe
