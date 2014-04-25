@@ -39,10 +39,6 @@ describe AudioFile do
         with("fakepath").
         and_return(tags)
 
-      expect(AudioFileUtils::Move).
-        not_to receive(:relocate).
-        with(base: "basepath", source: audio_file)
-      
       audio_file.relocate(base: "basepath")
     end
 
