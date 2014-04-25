@@ -6,10 +6,10 @@ require 'audio_file_utils/metadata_core/sanitize_ffprobe_output'
 module AudioFileUtils
   module MetadataCore
     class Ffprobe
-      attr_reader :file
+      attr_reader :filepath
 
-      def initialize(file)
-        @file = file
+      def initialize(filepath)
+        @filepath = filepath
       end
 
       def tags
@@ -38,7 +38,7 @@ module AudioFileUtils
       end
 
       def command
-        %W{ffprobe -show_format -print_format json} + %W{#{file}}
+        %W{ffprobe -show_format -print_format json} + %W{#{filepath}}
       end
     end
   end
