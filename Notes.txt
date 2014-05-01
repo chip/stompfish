@@ -1,36 +1,26 @@
-Sequence of events for adding new audio files to StompFish
+Lastfm Image Downloader
 
-1. Monitor watches a Directory
-2. (User)Directory adds a new AudioFile
-3. AudioFile moves to new Directory [ Metadata from AudioFile (*optional) ]
-4. CatalogRecord creates a new instance of itself with Metadata from AudioFile
+tags = AudioFile.new(file).tags
+image = Lastfm::ArtistImage.new(tags).download
+image = Lastfm::AlbumImage.new(tags).download
 
-Monitor 
- -> can 'watch' a Directory
- -> trigger an event when Directory changes
+Lastfm::ArtistImage
+ - build uri (specific to artist/album) -> artist.getinfo
+ - get uri
+ - image response (specific to artist/album) -> ["artist"]
+ - download image (specifc to artist/album) -> base_path of audio_file.filename
+ - convert to jpg
 
-Directory
- -> dirpath on the filesystem
- -> it can add new objects to itself, including AudioFiles
+Uri
+ - build
+ - get
 
-AudioFile
- -> a binary object that contains Metadata
- -> can relocate to a new Directory
+Download
+ - response
 
-Metadata
- -> filesystem information [ filename, filesize, file format ]
- -> audio properties [ duration, bit_rate ]
- -> audio tag attributes [ album, artist, genre, song title, track number, release date ]
- -> create it's internal state from an AudioFile
+Convert
 
-CatalogRecord
- -> a collection of objects in a relational database [ Artist, Album, Song, SongFile, Genre, ReleaseDate ]
- -> can create a collection of objects in a relational database from Metadata
-
-Metadata
- - MetadataStruct
-   - FilesystemInformation
-   - AudioProperties
-   - AudioTags
-     - TagLib
-     - Ffprobe
+ArtistImage
+ - response
+ - get_api
+ - basepath
