@@ -1,6 +1,6 @@
-require 'services/lastfm_utils/download'
+require 'services/lastfm/download'
 
-describe Services::LastfmUtils::Download do
+describe Services::Lastfm::Download do
   subject { described_class }
 
   let(:tags) { double(filename: "/my/tmpdir/input.file") }

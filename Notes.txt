@@ -11,14 +11,13 @@ Lastfm::ArtistImage
  - download image (specifc to artist/album) -> base_path of audio_file.filename
  - convert to jpg
 
-Uri
- - build
- - get
-
 Download
- - response
+ - url
+ - destination
 
 Convert
+ - source
+ - destination
 
 ArtistImage
  - response

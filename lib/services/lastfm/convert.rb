@@ -1,7 +1,7 @@
 require 'RMagick'
 
 module Services
-  module LastfmUtils
+  module Lastfm
     class Convert
       attr_reader :source_image
 

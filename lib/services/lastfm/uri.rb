@@ -3,7 +3,7 @@ require 'net/http'
 require 'uri'
 
 module Services
-  module LastfmUtils
+  module Lastfm
     class Uri
       attr_reader :signature
 

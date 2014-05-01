@@ -1,6 +1,6 @@
-require 'services/lastfm_utils/convert'
+require 'services/lastfm/convert'
 
-describe Services::LastfmUtils::Convert do
+describe Services::Lastfm::Convert do
   subject { described_class }
 
   let(:image) { "spec/fixtures/sample.png" }

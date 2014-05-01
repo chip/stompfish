@@ -1,6 +1,6 @@
-require 'services/lastfm_utils/uri'
+require 'services/lastfm/uri'
 
-describe Services::LastfmUtils::Uri do
+describe Services::Lastfm::Uri do
   subject { described_class }
 
   let(:uri) { URI("http://ws.audioscrobbler.com/2.0/?method=signature&api_key=123&format=json") }

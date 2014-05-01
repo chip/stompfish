@@ -1,7 +1,7 @@
 require 'open-uri'
 
 module Services
-  module LastfmUtils
+  module Lastfm
     class Download
       attr_reader :tags, :url
 
