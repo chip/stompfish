@@ -11,6 +11,7 @@ gem 'taglib-ruby'
 
 gem 'elasticsearch-rails'
 gem 'elasticsearch-model'
+gem 'rmagick'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0.beta'
