@@ -21,3 +21,4 @@
 # Ignore specific configuration files
 config/database.yml
 config/monitor_settings.yml
+config/lastfm.yml
