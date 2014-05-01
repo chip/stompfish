@@ -14,7 +14,7 @@ describe Services::LastfmUtils::Download do
     downloader = subject.new(url: url, tags: tags)
 
     expect(File).
-      to receive(:new).
+      to receive(:open).
       with("/my/tmpdir/image.png", "w").
       and_yield(file)
 

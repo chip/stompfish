@@ -14,7 +14,7 @@ module Services
       end
 
       def save
-        File.new(location, "w") do |f|
+        File.open(location, "w") do |f|
           f.write(url_as_file)
         end
       end
