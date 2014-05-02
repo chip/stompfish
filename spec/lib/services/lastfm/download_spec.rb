@@ -3,7 +3,6 @@ require 'services/lastfm/download'
 describe Services::Lastfm::Download do
   subject { described_class }
 
-  let(:tags) { double(filename: "/my/tmpdir/input.file") }
   let(:url) { "http://example.com/image.png" }
 
   it "downloads a source url to a destination" do
@@ -11,7 +10,7 @@ describe Services::Lastfm::Download do
     opened = double("open_uri")
     read = double("read_uri")
 
-    downloader = subject.new(url: url, tags: tags)
+    downloader = subject.new(url: url, destination: "/my/tmpdir")
 
     expect(File).
       to receive(:open).
@@ -35,7 +34,7 @@ describe Services::Lastfm::Download do
   end
 
   it "returns the location of the downloaded file" do
-    downloader = subject.new(url: url, tags: tags)
+    downloader = subject.new(url: url, destination: "/my/tmpdir")
 
     expect(downloader.location).
       to eq("/my/tmpdir/image.png")

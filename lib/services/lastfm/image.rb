@@ -27,7 +27,7 @@ module Services
       end
 
       def downloader
-        @_downloader ||= Download.new(tags: tags, url: download_url)
+        @_downloader ||= Download.new(destination: destination, url: download_url)
       end
 
       def download_url

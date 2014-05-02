@@ -10,7 +10,7 @@ describe Services::Lastfm::ArtistImage do
 
     response = {"artist"=>{"image"=>["#text"=>"one.jpg"]}}
 
-    tags = double(artist: "David Bowie", filename: "tmp/David Bowie/test.mp3")
+    tags = double(artist: "David Bowie", filename: "tmp/David Bowie/Aladdin Sane/test.mp3")
     audio_file = double(tags: tags)
 
     expect(Services::Lastfm::Uri).
@@ -24,7 +24,7 @@ describe Services::Lastfm::ArtistImage do
 
     expect(Services::Lastfm::Download).
       to receive(:new).
-      with(tags: tags, url: "one.jpg").
+      with(destination: "tmp/David Bowie", url: "one.jpg").
       and_return(download)
 
     expect(download).

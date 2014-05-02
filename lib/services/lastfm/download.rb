@@ -3,14 +3,14 @@ require 'open-uri'
 module Services
   module Lastfm
     class Download
-      attr_reader :tags, :url
+      attr_reader :destination, :url
 
-      def initialize(tags: tags, url: url)
-        @tags, @url = tags, url
+      def initialize(destination: destination, url: url)
+        @destination, @url = destination, url
       end
 
       def location
-        "#{download_directory}/#{download_filename}"
+        "#{destination}/#{download_filename}"
       end
 
       def save
@@ -20,10 +20,6 @@ module Services
       end
 
       private
-      def download_directory
-        File.dirname(tags.filename)
-      end
-
       def download_filename
         File.basename(url)
       end

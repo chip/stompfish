@@ -24,7 +24,7 @@ describe Services::Lastfm::AlbumImage do
 
     expect(Services::Lastfm::Download).
       to receive(:new).
-      with(tags: tags, url: "one.jpg").
+      with(destination: "tmp/David Bowie/Aladdin Sane", url: "one.jpg").
       and_return(download)
 
     expect(download).
