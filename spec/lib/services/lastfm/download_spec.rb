@@ -15,7 +15,7 @@ describe Services::Lastfm::Download do
 
     expect(File).
       to receive(:open).
-      with("/my/tmpdir/image.png", "w").
+      with("/my/tmpdir/image.png", "w:ASCII-8BIT").
       and_yield(file)
 
     expect(downloader).
