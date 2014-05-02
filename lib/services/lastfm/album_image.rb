@@ -5,7 +5,7 @@ module Services
     class AlbumImage < Image
       private
       def destination
-        File.dirname(audio_file.tags.filename)
+        File.dirname(tags.filename)
       end
 
       def escaped_album

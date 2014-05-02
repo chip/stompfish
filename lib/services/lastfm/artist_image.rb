@@ -5,7 +5,7 @@ module Services
     class ArtistImage < Image
       private
       def destination
-        File.split(File.dirname(audio_file.tags.filename)).first
+        File.split(File.dirname(tags.filename)).first
       end
 
       def uri
