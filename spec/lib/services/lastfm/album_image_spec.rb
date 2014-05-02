@@ -1,5 +1,4 @@
 require 'services/lastfm/album_image'
-require 'spec_helper'
 
 describe Services::Lastfm::AlbumImage do
   subject { described_class }
