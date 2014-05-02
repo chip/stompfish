@@ -3,6 +3,9 @@ require 'services/lastfm/artist_image'
 describe Services::Lastfm::ArtistImage do
   subject { described_class }
 
+  let(:tags) { double(artist: "David Bowie", filename: "tmp/David Bowie/Aladdin Sane/test.mp3") }
+  let(:audio_file) { double(tags: tags) }
+
   it "downloads an artist image from Lastfm for @artist" do
     converted = double("Services::Lastfm::Convert instance")
     download = double("Services::Lastfm::Download instance")
@@ -10,8 +13,10 @@ describe Services::Lastfm::ArtistImage do
 
     response = {"artist"=>{"image"=>["#text"=>"one.jpg"]}}
 
-    tags = double(artist: "David Bowie", filename: "tmp/David Bowie/Aladdin Sane/test.mp3")
-    audio_file = double(tags: tags)
+    expect(File).
+      to receive(:exists?).
+      with("tmp/David Bowie/folder.jpg").
+      and_return(false)
 
     expect(Services::Lastfm::Uri).
       to receive(:new).
@@ -49,5 +54,14 @@ describe Services::Lastfm::ArtistImage do
     downloaded = subject.new(audio_file).download
 
     expect(downloaded).to eq("tmp/David Bowie/folder.jpg")
+  end
+
+  it "does not download image if file with same name exists in path" do
+    expect(File).
+      to receive(:exists?).
+      with("tmp/David Bowie/folder.jpg").
+      and_return(true)
+
+    subject.new(audio_file).download
   end
 end

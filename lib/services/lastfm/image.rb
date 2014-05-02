@@ -13,6 +13,7 @@ module Services
       end
 
       def download
+        return if image_exists?
         downloader.save and converter.convert
         converter.new_path
       end
@@ -40,6 +41,10 @@ module Services
 
       def escape(query)
         query.gsub("\s","+")
+      end
+
+      def image_exists?
+        File.exists?(destination + "/" + "folder.jpg")
       end
 
       def lastfm_image_key
