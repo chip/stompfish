@@ -1,5 +1,5 @@
-module SongFileFormatters
-  class DurationFormatter
+module Formatters
+  class Duration
     HOURS = "%H:%M:%S"
     MINUTES = "%M:%S"
     ONE_HOUR = 3600

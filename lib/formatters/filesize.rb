@@ -1,5 +1,7 @@
-module SongFileFormatters
-  class FilesizeFormatter
+require 'action_view/helpers/number_helper'
+
+module Formatters
+  class Filesize
     include ActionView::Helpers::NumberHelper
 
     def initialize(filesize)

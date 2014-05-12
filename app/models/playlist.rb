@@ -11,7 +11,7 @@ class Playlist < ActiveRecord::Base
   end
 
   def runtime
-    SongFileFormatters::DurationFormatter.as_strftime(runtime_as_integer)
+    Formatters::Duration.as_strftime(runtime_as_integer)
   end
 
   private

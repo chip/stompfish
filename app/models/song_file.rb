@@ -7,10 +7,10 @@ class SongFile < ActiveRecord::Base
   validates_uniqueness_of :filename
 
   def duration_to_human
-    SongFileFormatters::DurationFormatter.as_strftime(duration)
+    Formatters::Duration.as_strftime(duration)
   end
 
   def filesize_to_human
-    SongFileFormatters::FilesizeFormatter.to_human_size(filesize)
+    Formatters::Filesize.to_human_size(filesize)
   end
 end

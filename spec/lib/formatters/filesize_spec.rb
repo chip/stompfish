@@ -1,11 +1,11 @@
-require 'spec_helper'
+require 'formatters/filesize'
 
-module SongFileFormatters
-  describe FilesizeFormatter do
+module Formatters
+  describe Filesize do
     context ".to_human_size" do
       it "formats a @filesize to be human readable" do
         filesize = 46779916
-        formatted = FilesizeFormatter.to_human_size(filesize)
+        formatted = Filesize.to_human_size(filesize)
         expect(formatted).to eq "44.6 MB"
       end
     end
@@ -14,13 +14,13 @@ module SongFileFormatters
       it "raises error if not a fixnum" do
         filesize = "foo"
         expect do 
-          FilesizeFormatter.to_human_size(filesize)
+          Filesize.to_human_size(filesize)
         end.to raise_error(FilesizeNotFixnum)
       end
 
       it "returns the filesize" do
         filesize = 1234
-        formatter = FilesizeFormatter.new(filesize)
+        formatter = Filesize.new(filesize)
         expect(formatter.filesize).to eq(1234)
       end
     end
