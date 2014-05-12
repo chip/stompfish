@@ -5,17 +5,4 @@ class Playlist < ActiveRecord::Base
 
   # validations
   validates_presence_of :title
-
-  def play_order
-    songs.order("position ASC")
-  end
-
-  def runtime
-    Formatters::Duration.as_strftime(runtime_as_integer)
-  end
-
-  private
-  def runtime_as_integer
-    songs.map(&:duration).inject(:+)
-  end
 end
