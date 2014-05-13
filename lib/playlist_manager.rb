@@ -11,13 +11,16 @@ class PlaylistManager
     collaborator.create(song: song, playlist: playlist, position: songs.size)
   end
 
-  def insert_track_at(song, index)
+  def delete(song)
+    song_array = songs.to_a
+    array_without_song = song_array - [song]
+    recreate_playlist(array_without_song)
+  end
+
+  def insert(song, index)
     song_array = songs.to_a
     song_array.insert(index, song)
-    songs.destroy_all
-    song_array.each_with_index do |song, index|
-      collaborator.create(song: song, playlist: playlist, position: index)
-    end
+    recreate_playlist(song_array)
   end
 
   def play_order
@@ -31,6 +34,13 @@ class PlaylistManager
   private
   def collaborator
     PlaylistCollaborator
+  end
+
+  def recreate_playlist(items)
+    songs.destroy_all
+    items.each_with_index do |song, index|
+      collaborator.create(song: song, playlist: playlist, position: index)
+    end
   end
 
   def runtime_as_integer
