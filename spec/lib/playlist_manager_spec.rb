@@ -28,16 +28,7 @@ describe PlaylistManager do
       with(song: song_two, playlist: playlist, position: 2)
 
     pm = described_class.new(playlist)
-    pm.insert(song_three, 1)
-  end
-
-  it "appends a playlist item" do
-    expect(PlaylistCollaborator).
-      to receive(:create).
-      with(song: song_three, playlist: playlist, position: 2)
-
-    pm = described_class.new(playlist)
-    pm.add(song_three)
+    pm.add(song_three, 1)
   end
 
   it "returns a playlist runtime" do

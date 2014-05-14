@@ -7,20 +7,16 @@ class PlaylistManager
     @playlist = playlist
   end
 
-  def add(song)
-    collaborator.create(song: song, playlist: playlist, position: songs.size)
+  def add(song, index)
+    song_array = songs.to_a
+    song_array.insert(index, song)
+    recreate_playlist(song_array)
   end
 
   def delete(song)
     song_array = songs.to_a
     array_without_song = song_array - [song]
     recreate_playlist(array_without_song)
-  end
-
-  def insert(song, index)
-    song_array = songs.to_a
-    song_array.insert(index, song)
-    recreate_playlist(song_array)
   end
 
   def play_order
