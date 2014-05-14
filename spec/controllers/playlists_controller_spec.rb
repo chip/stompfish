@@ -2,20 +2,35 @@ require 'spec_helper'
 
 describe PlaylistsController do
   let(:playlist) { Playlist.create(title: "Sample") }
+  let(:artist) { Artist.create(name: "Artist") }
+  let(:album) { Album.create(title: "Album", artist: artist) }
+  let(:song) { Song.create(title: "Song", artist: artist, album: album) }
 
   describe "GET #index" do
-    before { get :index }
-
     it "assigns Playlist.all to @playlists" do
+      get :index
       expect(assigns(:playlists)).to eq(Playlist.all)
+    end
+
+    it "renders @playlists as json" do
+      serialized = PlaylistSerializer.new(playlist).serializable_hash
+      get :index, format: :json
+      expect(response.body).to eq("{\"playlists\":[#{serialized.to_json}]}")
+    end
+
+    context "with valid search term" do
+      it "assigns Playlist.search to @playlists" do
+        expect(Playlist).to receive(:search).with("some")
+        get :index, query: "some"
+      end
     end
   end
 
   describe "GET #show" do
-    before { get :show, id: playlist }
-
-    it "assigns the requested playlist to @playlist" do
-      expect(assigns(:playlist)).to eq(playlist)
+    it "renders playlist as json" do
+      serialized = PlaylistSerializer.new(playlist).serializable_hash
+      get :show, id: playlist, format: :json
+      expect(response.body).to eq("{\"playlist\":#{serialized.to_json}}")
     end
   end
 
@@ -49,28 +64,37 @@ describe PlaylistsController do
     end
   end
 
-  describe "GET #edit" do
-    before { get :edit, id: playlist }
-
-    it "assigns the requested playlist to @playlist" do
-      expect(assigns(:playlist)).to eq(playlist)
-    end
-  end
-
   describe "PATCH #update" do
     let!(:playlist) { Playlist.create!(title: "Another Playlist") }
 
     context "with valid attributes" do
       before { patch :update, id: playlist, title: "Something Else" }
 
-      it "locates the correct playlist" do
-        expect(assigns(:playlist)).to eq(playlist)
-      end
-
       it "changes the playlist's attributes" do
         playlist.reload
         expect(playlist.title).to eq("Something Else")
       end
+    end
+  end
+
+  describe "DELETE #destroy" do
+  end
+
+  describe "POST #add" do
+    it "adds a new song to @playlist" do
+      post :add, id: playlist, song: song, position: 1
+      playlist.reload
+      expect(playlist.songs).to include(song)
+    end
+  end
+
+  describe "DELETE #delete_item" do
+    it "deletes an item from @playlist" do
+      post :add, id: playlist, song: song, position: 1
+      playlist.reload
+      delete :delete_item, id: playlist, song: song
+      playlist.reload
+      expect(playlist.songs).not_to include(song)
     end
   end
 end
