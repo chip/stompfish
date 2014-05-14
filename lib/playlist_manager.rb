@@ -7,9 +7,9 @@ class PlaylistManager
     @playlist = playlist
   end
 
-  def add(song, index)
+  def add(song: song, position: position)
     song_array = songs.to_a
-    song_array.insert(index, song)
+    song_array.insert(position, song)
     recreate_playlist(song_array)
   end
 

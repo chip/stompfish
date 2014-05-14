@@ -28,7 +28,7 @@ describe PlaylistManager do
       with(song: song_two, playlist: playlist, position: 2)
 
     pm = described_class.new(playlist)
-    pm.add(song_three, 1)
+    pm.add(song: song_three, position: 1)
   end
 
   it "returns a playlist runtime" do
