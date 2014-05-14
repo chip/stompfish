@@ -13,7 +13,7 @@ StompFish::Application.routes.draw do
 
   # Playlists
   resources :playlists
-  post "playlists/:id/add" => "playlists#add"
+  post "playlists/:id/:song" => "playlists#add"
   delete "playlists/:id/:song" => "playlists#delete_item"
 
   # The priority is based upon order of creation: first created -> highest priority.
