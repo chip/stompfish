@@ -13,6 +13,9 @@ namespace :elasticsearch do
     $stdout.puts "Indexing genres..."
     Genre.import
 
+    $stdout.puts "Indexing playlists..."
+    Playlist.import
+
     $stdout.puts "Indexing completed."
   end
 end
