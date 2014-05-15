@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe PlaylistsController do
   let(:playlist) { Playlist.create(title: "Sample") }
+  let(:serialized) { PlaylistSerializer.new(playlist).serializable_hash }
   let(:artist) { Artist.create(name: "Artist") }
   let(:album) { Album.create(title: "Album", artist: artist) }
   let(:song) { Song.create(title: "Song", artist: artist, album: album) }
@@ -13,9 +14,14 @@ describe PlaylistsController do
     end
 
     it "renders @playlists as json" do
-      serialized = PlaylistSerializer.new(playlist).serializable_hash
-      get :index, format: :json
+      serialized
+      get :index
       expect(response.body).to eq("{\"playlists\":[#{serialized.to_json}]}")
+    end
+
+    it "has a 200 status code" do
+      get :index
+      expect(response.code).to eq("200")
     end
 
     context "with valid search term" do
@@ -28,28 +34,42 @@ describe PlaylistsController do
 
   describe "GET #show" do
     it "renders playlist as json" do
-      serialized = PlaylistSerializer.new(playlist).serializable_hash
       get :show, id: playlist, format: :json
       expect(response.body).to eq("{\"playlist\":#{serialized.to_json}}")
     end
-  end
 
-  describe "GET #new" do
-    before { get :new }
+    context "playlist not found" do
+      it "has a 404 status" do
+        get :show, id: :foo, format: :json
+        expect(response.code).to eq("404")
+      end
 
-    it "assigns a new Playlist to @playlist" do
-      expect(assigns(:playlist)).to be_a_new(Playlist)
+      it "has a message" do
+        get :show, id: :foo, format: :json
+        expect(response.body).to eq("{\"message\":\"Resource Not Found\"}")
+      end
     end
   end
 
   describe "POST #create" do
     context "with valid attributes" do
-      let(:attributes) { { title: "New Playlist" } }
+      let(:attributes) { { title: "Sample" } }
 
       it "saves the playlist" do
         expect do
           post :create, attributes
         end.to change(Playlist, :count).by(1)
+      end
+
+      it "has a 201 status" do
+        post :create, attributes
+        expect(response.code).to eq("201")
+      end
+
+      it "renders playlist as json" do
+        post :create, attributes
+        created = PlaylistSerializer.new(Playlist.last)
+        expect(response.body).to eq(created.to_json)
       end
     end
 
@@ -60,6 +80,16 @@ describe PlaylistsController do
         expect do
           post :create, invalid
         end.not_to change(Playlist, :count)
+      end
+
+      it "has a 400 status" do
+        post :create, invalid
+        expect(response.code).to eq("400")
+      end
+
+      it "returns the error" do
+        post :create, invalid
+        expect(response.body).to eq("{\"title\":[\"can't be blank\"]}")
       end
     end
   end
@@ -74,6 +104,45 @@ describe PlaylistsController do
         playlist.reload
         expect(playlist.title).to eq("Something Else")
       end
+
+      it "has a 201 status" do
+        expect(response.code).to eq("201")
+      end
+
+      it "renders playlist as json" do
+        playlist.reload
+        updated = PlaylistSerializer.new(playlist)
+        expect(response.body).to eq(updated.to_json)
+      end
+    end
+
+    context "with invalid attributes" do
+      before { patch :update, id: playlist, title: nil }
+
+      it "does not change the playlist's attributes" do
+        playlist.reload
+        expect(playlist.title).not_to eq(nil)
+      end
+
+      it "has a 400 status" do
+        expect(response.code).to eq("400")
+      end
+
+      it "returns the error" do
+        expect(response.body).to eq("{\"title\":[\"can't be blank\"]}")
+      end
+    end
+
+    context "playlist not found" do
+      before { patch :update, id: :foo, title: nil }
+
+      it "has a 404 status" do
+        expect(response.code).to eq("404")
+      end
+
+      it "returns the error" do
+        expect(response.body).to eq("{\"message\":\"Resource Not Found\"}")
+      end
     end
   end
 
@@ -81,20 +150,91 @@ describe PlaylistsController do
   end
 
   describe "POST #add" do
-    it "adds a new song to @playlist" do
-      post :add, id: playlist, song: song, position: 1
-      playlist.reload
-      expect(playlist.songs).to include(song)
+    context "valid attributes" do
+      it "adds a new song to @playlist" do
+        post :add, id: playlist, song: song, position: 1
+        playlist.reload
+        expect(playlist.songs).to include(song)
+      end
+
+      it "has a 201 status" do
+        post :add, id: playlist, song: song, position: 1
+        expect(response.code).to eq("201")
+      end
+
+      it "returns the playlist" do
+        post :add, id: playlist, song: song, position: 1
+        updated = PlaylistSerializer.new(playlist)
+        expect(response.body).to eq(updated.to_json)
+      end
+    end
+
+    context "invalid attributes" do
+      before { post :add, id: playlist, song: song }
+
+      it "has a 400 status" do
+        expect(response.code).to eq("400")
+      end
+
+      it "returns the error" do
+        expect(response.body).to eq("{\"position\":\"A number is required.\"}")
+      end
+    end
+
+    context "playlist not found" do
+      before { post :add, id: :foo, song: song }
+
+      it "has a 404 status" do
+        expect(response.code).to eq("404")
+      end
+
+      it "returns the error" do
+        expect(response.body).to eq("{\"message\":\"Resource Not Found\"}")
+      end
     end
   end
 
   describe "DELETE #delete_item" do
-    it "deletes an item from @playlist" do
-      post :add, id: playlist, song: song, position: 1
-      playlist.reload
-      delete :delete_item, id: playlist, song: song
-      playlist.reload
-      expect(playlist.songs).not_to include(song)
+    context "success" do
+      it "deletes an item from @playlist" do
+        post :add, id: playlist, song: song
+        playlist.reload
+        delete :delete_item, id: playlist, song: song
+        playlist.reload
+        expect(playlist.songs).not_to include(song)
+      end
+
+      it "returns the playlist" do
+        post :add, id: playlist, song: song
+        playlist.reload
+        delete :delete_item, id: playlist, song: song
+        deleted = PlaylistSerializer.new(playlist)
+        expect(response.body).to eq(deleted.to_json)
+      end
+    end
+
+    context "song not found" do
+      it "has a 404 status" do
+        delete :delete_item, id: playlist, song: :foo
+        expect(response.code).to eq("404")
+      end
+
+      it "returns the error" do
+        delete :delete_item, id: playlist, song: :foo
+        expect(response.body).to eq("{\"song\":\"Resource not found.\"}")
+      end
+    end
+
+    context "playlist not found" do
+      before { delete :delete_item, id: :foo, song: :foo }
+
+      it "has a 404 status" do
+        expect(response.code).to eq("404")
+      end
+
+      it "returns the error" do
+        expect(response.body).to eq("{\"message\":\"Resource Not Found\"}")
+      end
     end
   end
 end

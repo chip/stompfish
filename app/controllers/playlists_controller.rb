@@ -10,27 +10,67 @@ class PlaylistsController < ApplicationController
   end
 
   def show
-    render json: playlist
-  end
-
-  def new
-    @playlist = Playlist.new
+    if @playlist = Playlist.find_by(id: params[:id])
+      render json: @playlist
+    else
+      render json: {message: "Resource Not Found"}, status: "404"
+    end
   end
 
   def create
-    @playlist = Playlist.new(playlist_params).save
+    @playlist = Playlist.new(playlist_params)
+
+    if @playlist.save
+      render json: @playlist, status: "201"
+    else
+      render json: @playlist.errors, status: "400"
+    end
   end
 
   def update
-    playlist.update(playlist_params)
+    @playlist = Playlist.find_by(id: params[:id])
+
+    if @playlist 
+      if @playlist.update(playlist_params)
+        render json: @playlist, status: "201"
+      else
+        render json: @playlist.errors, status: "400"
+      end
+    else
+      render json: {message: "Resource Not Found"}, status: "404"
+    end
   end
 
   def add
-    PlaylistManager.new(playlist).add(song: song, position: position)
+    @playlist = Playlist.find_by(id: params[:id])
+
+    if @playlist
+      pm = PlaylistManager.new(@playlist)
+
+      if pm.add(song: song, position: params[:position])
+        render json: @playlist, status: "201"
+      else
+        render json: pm.errors, status: "400"
+      end
+    else
+      render json: {message: "Resource Not Found"}, status: "404"
+    end
   end
 
   def delete_item
-    PlaylistManager.new(playlist).delete(song)
+    @playlist = Playlist.find_by(id: params[:id])
+
+    if @playlist
+      pm = PlaylistManager.new(@playlist)
+
+      if pm.delete(song: song)
+        render json: @playlist, status: "200"
+      else
+        render json: pm.errors, status: "404"
+      end
+    else
+      render json: {message: "Resource Not Found"}, status: "404"
+    end
   end
 
   private
@@ -42,11 +82,7 @@ class PlaylistsController < ApplicationController
     params.permit(:title, :song, :position)
   end
 
-  def position
-    params[:position].to_i
-  end
-
   def song
-    Song.find(params[:song])
+    Song.find_by(id: params[:song])
   end
 end
