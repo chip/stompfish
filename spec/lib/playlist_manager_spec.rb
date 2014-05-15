@@ -31,6 +31,18 @@ describe PlaylistManager do
     pm.add(song: song_three, position: 1)
   end
 
+  it "deletes an item from the playlist" do
+    expect(playlist.songs).
+      to receive(:destroy_all)
+
+    expect(PlaylistCollaborator).
+      to receive(:create).
+      with(song: song_two, playlist: playlist, position: 0)
+
+    pm = described_class.new(playlist)
+    pm.delete(song: song_one)
+  end
+
   it "returns a playlist runtime" do
     pm = described_class.new(playlist)
     expect(pm.runtime).to eq("07:48")
@@ -46,15 +58,21 @@ describe PlaylistManager do
     expect(pm.play_order).to eq([song_two, song_one])
   end
 
-  it "deletes an item from the playlist" do
-    expect(playlist.songs).
-      to receive(:destroy_all)
+  context "errors" do
+    context "missing position" do
+      it "adds error if position is missing" do
+        pm = described_class.new(playlist)
+        pm.add(song: song_three, position: nil)
+        expect(pm.errors).to eq({position: "A number is required."})
+      end
+    end
 
-    expect(PlaylistCollaborator).
-      to receive(:create).
-      with(song: song_two, playlist: playlist, position: 0)
-
-    pm = described_class.new(playlist)
-    pm.delete(song_one)
+    context "missing song" do
+      it "adds error if song does not exist" do
+        pm = described_class.new(playlist)
+        pm.add(song: nil, position: 1)
+        expect(pm.errors).to eq({song: "Resource not found."})
+      end
+    end
   end
 end
