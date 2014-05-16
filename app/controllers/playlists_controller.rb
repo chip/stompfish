@@ -1,4 +1,6 @@
 class PlaylistsController < ApplicationController
+  before_action :resource_not_found, except: [:index, :create]
+
   def index
     if params[:query]
       @playlists = Playlist.search(params[:query])
@@ -10,76 +12,48 @@ class PlaylistsController < ApplicationController
   end
 
   def show
-    if @playlist = Playlist.find_by(id: params[:id])
-      render json: @playlist
-    else
-      render json: {message: "Resource Not Found"}, status: "404"
-    end
+    render json: @playlist
   end
 
   def create
     @playlist = Playlist.new(playlist_params)
-
-    if @playlist.save
-      render json: @playlist, status: "201"
-    else
-      render json: @playlist.errors, status: "400"
-    end
+    action(@playlist, "201", @playlist.errors, "422") { @playlist.save }
   end
 
   def update
-    @playlist = Playlist.find_by(id: params[:id])
-
-    if @playlist 
-      if @playlist.update(playlist_params)
-        render json: @playlist, status: "201"
-      else
-        render json: @playlist.errors, status: "400"
-      end
-    else
-      render json: {message: "Resource Not Found"}, status: "404"
+    action(@playlist, "201", @playlist.errors, "422") do
+      @playlist.update(playlist_params)
     end
   end
 
   def add
-    @playlist = Playlist.find_by(id: params[:id])
-
-    if @playlist
-      pm = PlaylistManager.new(@playlist)
-
-      if pm.add(song: song, position: params[:position])
-        render json: @playlist, status: "201"
-      else
-        render json: pm.errors, status: "400"
-      end
-    else
-      render json: {message: "Resource Not Found"}, status: "404"
+    pm = PlaylistManager.new(@playlist)
+    action(@playlist, "201", pm.errors, "422") do
+      pm.add(song: song, position: params[:position])
     end
   end
 
   def delete_item
-    @playlist = Playlist.find_by(id: params[:id])
-
-    if @playlist
-      pm = PlaylistManager.new(@playlist)
-
-      if pm.delete(song: song)
-        render json: @playlist, status: "200"
-      else
-        render json: pm.errors, status: "404"
-      end
-    else
-      render json: {message: "Resource Not Found"}, status: "404"
-    end
+    pm = PlaylistManager.new(@playlist)
+    action(@playlist, "200", pm.errors, "404") { pm.delete(song: song) }
   end
 
   private
-  def playlist
-    Playlist.find(params[:id])
+  def action(json, success, errors, failure, &block)
+    if yield
+      render json: json, status: success
+    else
+      render json: errors, status: failure
+    end
   end
 
   def playlist_params
     params.permit(:title, :song, :position)
+  end
+
+  def resource_not_found
+    @playlist = Playlist.find_by(id: params[:id])
+    render json: {message: "Resource Not Found"}, status: "404" unless @playlist
   end
 
   def song

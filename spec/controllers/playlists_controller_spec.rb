@@ -82,9 +82,9 @@ describe PlaylistsController do
         end.not_to change(Playlist, :count)
       end
 
-      it "has a 400 status" do
+      it "has a 422 status" do
         post :create, invalid
-        expect(response.code).to eq("400")
+        expect(response.code).to eq("422")
       end
 
       it "returns the error" do
@@ -124,8 +124,8 @@ describe PlaylistsController do
         expect(playlist.title).not_to eq(nil)
       end
 
-      it "has a 400 status" do
-        expect(response.code).to eq("400")
+      it "has a 422 status" do
+        expect(response.code).to eq("422")
       end
 
       it "returns the error" do
@@ -172,8 +172,8 @@ describe PlaylistsController do
     context "invalid attributes" do
       before { post :add, id: playlist, song: song }
 
-      it "has a 400 status" do
-        expect(response.code).to eq("400")
+      it "has a 422 status" do
+        expect(response.code).to eq("422")
       end
 
       it "returns the error" do
@@ -197,7 +197,7 @@ describe PlaylistsController do
   describe "DELETE #delete_item" do
     context "success" do
       it "deletes an item from @playlist" do
-        post :add, id: playlist, song: song
+        post :add, id: playlist, song: song, position: 1
         playlist.reload
         delete :delete_item, id: playlist, song: song
         playlist.reload
@@ -205,7 +205,7 @@ describe PlaylistsController do
       end
 
       it "returns the playlist" do
-        post :add, id: playlist, song: song
+        post :add, id: playlist, song: song, position: 1
         playlist.reload
         delete :delete_item, id: playlist, song: song
         deleted = PlaylistSerializer.new(playlist)
