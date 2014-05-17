@@ -1,46 +1,31 @@
 require 'playlist_manager'
 
 describe PlaylistManager do
-  let(:playlist_collaborator) { Class.new }
-  let(:song_one) { double("SongOne", position: 2, duration: 123) }
-  let(:song_two) { double("SongTwo", position: 1, duration: 345) }
-  let(:song_three) { double("SongThree") }
-  let(:songs) { [song_one, song_two] }
-
+  let(:song_one) { double("SongOne", id: 1, duration: 123) }
+  let(:song_two) { double("SongTwo", id: 2, duration: 345) }
   let(:playlist) { double(songs: songs) }
+    let(:songs) { [song_one, song_two] }
 
-  before { stub_const("PlaylistCollaborator", playlist_collaborator) }
+  context "update playlist.songs" do
+    let(:songs) { [1, 2] }
 
-  it "inserts a playlist item at the correct position" do
-    expect(playlist.songs).
-      to receive(:destroy_all)
+    it "inserts a playlist item at the correct position" do
+      expect(playlist).to receive(:songs_will_change!)
+      expect(playlist).to receive(:save)
 
-    expect(PlaylistCollaborator).
-      to receive(:create).
-      with(song: song_one, playlist: playlist, position: 0)
+      pm = described_class.new(playlist)
+      pm.add(song: 3, position: "1")
+      expect(playlist.songs).to eq([1, 3, 2])
+    end
 
-    expect(PlaylistCollaborator).
-      to receive(:create).
-      with(song: song_three, playlist: playlist, position: 1)
+    it "deletes an item from the playlist" do
+      expect(playlist).to receive(:songs_will_change!)
+      expect(playlist).to receive(:save)
 
-    expect(PlaylistCollaborator).
-      to receive(:create).
-      with(song: song_two, playlist: playlist, position: 2)
-
-    pm = described_class.new(playlist)
-    pm.add(song: song_three, position: 1)
-  end
-
-  it "deletes an item from the playlist" do
-    expect(playlist.songs).
-      to receive(:destroy_all)
-
-    expect(PlaylistCollaborator).
-      to receive(:create).
-      with(song: song_two, playlist: playlist, position: 0)
-
-    pm = described_class.new(playlist)
-    pm.delete(song: song_one)
+      pm = described_class.new(playlist)
+      pm.delete(song: song_one)
+      expect(playlist.songs).not_to include(song_one)
+    end
   end
 
   it "returns a playlist runtime" do
@@ -48,30 +33,26 @@ describe PlaylistManager do
     expect(pm.runtime).to eq("07:48")
   end
 
-  it "returns the play order" do
-    pm = described_class.new(playlist)
-
-    expect(playlist).
-      to receive(:playlist_collaborators).
-      and_return(songs)
-
-    expect(pm.play_order).to eq([song_two, song_one])
-  end
-
   context "errors" do
     context "missing position" do
       it "adds error if position is missing" do
         pm = described_class.new(playlist)
-        pm.add(song: song_three, position: nil)
-        expect(pm.errors).to eq({position: "A number is required."})
+        pm.add(song: 3, position: nil)
+        expect(pm.errors).to eq({position: "can't be blank"})
+      end
+
+      it "adds error if position is blank" do
+        pm = described_class.new(playlist)
+        pm.add(song: 3, position: "")
+        expect(pm.errors).to eq({position: "can't be blank"})
       end
     end
 
     context "missing song" do
       it "adds error if song does not exist" do
         pm = described_class.new(playlist)
-        pm.add(song: nil, position: 1)
-        expect(pm.errors).to eq({song: "Resource not found."})
+        pm.add(song: nil, position: "1")
+        expect(pm.errors).to eq({song: "Resource Not Found."})
       end
     end
   end

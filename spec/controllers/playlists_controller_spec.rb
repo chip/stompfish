@@ -154,7 +154,7 @@ describe PlaylistsController do
       it "adds a new song to @playlist" do
         post :add, id: playlist, song: song, position: 1
         playlist.reload
-        expect(playlist.songs).to include(song)
+        expect(playlist.songs).to include(song.id)
       end
 
       it "has a 201 status" do
@@ -164,20 +164,21 @@ describe PlaylistsController do
 
       it "returns the playlist" do
         post :add, id: playlist, song: song, position: 1
+        playlist.reload
         updated = PlaylistSerializer.new(playlist)
         expect(response.body).to eq(updated.to_json)
       end
     end
 
     context "invalid attributes" do
-      before { post :add, id: playlist, song: song }
+      before { post :add, id: playlist, song: song, position: "" }
 
       it "has a 422 status" do
         expect(response.code).to eq("422")
       end
 
       it "returns the error" do
-        expect(response.body).to eq("{\"position\":\"A number is required.\"}")
+        expect(response.body).to eq("{\"position\":\"can't be blank\"}")
       end
     end
 
@@ -198,7 +199,6 @@ describe PlaylistsController do
     context "success" do
       it "deletes an item from @playlist" do
         post :add, id: playlist, song: song, position: 1
-        playlist.reload
         delete :delete_item, id: playlist, song: song
         playlist.reload
         expect(playlist.songs).not_to include(song)
@@ -206,8 +206,8 @@ describe PlaylistsController do
 
       it "returns the playlist" do
         post :add, id: playlist, song: song, position: 1
-        playlist.reload
         delete :delete_item, id: playlist, song: song
+        playlist.reload
         deleted = PlaylistSerializer.new(playlist)
         expect(response.body).to eq(deleted.to_json)
       end
@@ -221,7 +221,7 @@ describe PlaylistsController do
 
       it "returns the error" do
         delete :delete_item, id: playlist, song: :foo
-        expect(response.body).to eq("{\"song\":\"Resource not found.\"}")
+        expect(response.body).to eq("{\"song\":\"Resource Not Found.\"}")
       end
     end
 

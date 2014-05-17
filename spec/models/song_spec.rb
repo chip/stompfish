@@ -7,7 +7,6 @@ describe Song do
     it { should belong_to(:album) }
     it { should belong_to(:artist) }
     it { should have_one(:song_file).dependent(:destroy) }
-    it { should have_many(:playlists).through(:playlist_collaborators) }
   end
 
   context "validations" do
