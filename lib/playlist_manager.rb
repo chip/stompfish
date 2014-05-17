@@ -10,7 +10,7 @@ class PlaylistManager
 
   def add(song: song, position: position)
     update_song_ids(song: song, position: position) do
-      song_ids.insert(position.to_i, song.id)
+      song_ids.insert(position.to_i, song.id).compact!
     end
   end
 

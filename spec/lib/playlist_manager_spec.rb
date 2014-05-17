@@ -8,15 +8,24 @@ describe PlaylistManager do
 
   context "update playlist.songs" do
     let(:playlist) { double(song_ids: [1,2]) }
+    let(:song_three) { double(id: 3) }
 
     it "inserts a playlist item at the correct position" do
-      song_three = double(id: 3)
       expect(playlist).to receive(:song_ids_will_change!)
       expect(playlist).to receive(:save)
 
       pm = described_class.new(playlist)
       pm.add(song: song_three, position: "1")
       expect(playlist.song_ids).to eq([1, 3, 2])
+    end
+
+    it "removes nils during insert" do
+      expect(playlist).to receive(:song_ids_will_change!)
+      expect(playlist).to receive(:save)
+
+      pm = described_class.new(playlist)
+      pm.add(song: song_three, position: "5")
+      expect(playlist.song_ids).to eq([1, 2, 3])
     end
 
     it "deletes an item from the playlist" do
