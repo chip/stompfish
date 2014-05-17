@@ -30,7 +30,7 @@ class PlaylistsController < ApplicationController
   def add
     pm = PlaylistManager.new(@playlist)
     render_response(@playlist, "201", pm.errors, "422") do
-      pm.add(song: song.id, position: params[:position])
+      pm.add(song: song, position: params[:position])
     end
   end
 

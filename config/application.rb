@@ -27,6 +27,7 @@ module StompFish
     config.autoload_paths += ["#{config.root}/lib",
                               "#{config.root}/app/models/song_file_formatters)",
                               "#{config.root}/app/models/song_scopes",
-                              "#{config.root}/app/serializers"]
+                              "#{config.root}/app/serializers",
+                              "#{config.root}/app/validators"]
   end
 end

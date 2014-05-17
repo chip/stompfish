@@ -10,7 +10,7 @@ class PlaylistManager
 
   def add(song: song, position: position)
     update_song_ids(song: song, position: position) do
-      song_ids.insert(position.to_i, song)
+      song_ids.insert(position.to_i, song.id)
     end
   end
 
@@ -28,11 +28,11 @@ class PlaylistManager
   end
 
   def song_ids
-    playlist.song_ids
+    @_song_ids ||= playlist.song_ids
   end
 
   def songs
-    playlist.songs
+    @_songs ||= playlist.songs
   end
 
   def update_song_ids(song: song, position: position, &block)

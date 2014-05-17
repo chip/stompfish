@@ -152,18 +152,18 @@ describe PlaylistsController do
   describe "POST #add" do
     context "valid attributes" do
       it "adds a new song to @playlist" do
-        post :add, id: playlist, song: song, position: 1
+        post :add, id: playlist, song: song, position: 0
         playlist.reload
         expect(playlist.song_ids).to include(song.id)
       end
 
       it "has a 201 status" do
-        post :add, id: playlist, song: song, position: 1
+        post :add, id: playlist, song: song, position: 0
         expect(response.code).to eq("201")
       end
 
       it "returns the playlist" do
-        post :add, id: playlist, song: song, position: 1
+        post :add, id: playlist, song: song, position: 0
         playlist.reload
         updated = PlaylistSerializer.new(playlist)
         expect(response.body).to eq(updated.to_json)
@@ -198,14 +198,14 @@ describe PlaylistsController do
   describe "DELETE #delete_item" do
     context "success" do
       it "deletes an item from @playlist" do
-        post :add, id: playlist, song: song, position: 1
+        post :add, id: playlist, song: song, position: 0
         delete :delete_item, id: playlist, song: song
         playlist.reload
         expect(playlist.song_ids).not_to include(song.id)
       end
 
       it "returns the playlist" do
-        post :add, id: playlist, song: song, position: 1
+        post :add, id: playlist, song: song, position: 0
         delete :delete_item, id: playlist, song: song
         playlist.reload
         deleted = PlaylistSerializer.new(playlist)
