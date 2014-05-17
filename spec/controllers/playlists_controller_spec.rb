@@ -154,7 +154,7 @@ describe PlaylistsController do
       it "adds a new song to @playlist" do
         post :add, id: playlist, song: song, position: 1
         playlist.reload
-        expect(playlist.songs).to include(song.id)
+        expect(playlist.song_ids).to include(song.id)
       end
 
       it "has a 201 status" do
@@ -201,7 +201,7 @@ describe PlaylistsController do
         post :add, id: playlist, song: song, position: 1
         delete :delete_item, id: playlist, song: song
         playlist.reload
-        expect(playlist.songs).not_to include(song)
+        expect(playlist.song_ids).not_to include(song.id)
       end
 
       it "returns the playlist" do

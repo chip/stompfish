@@ -4,27 +4,28 @@ describe PlaylistManager do
   let(:song_one) { double("SongOne", id: 1, duration: 123) }
   let(:song_two) { double("SongTwo", id: 2, duration: 345) }
   let(:playlist) { double(songs: songs) }
-    let(:songs) { [song_one, song_two] }
+  let(:songs) { [song_one, song_two] }
 
   context "update playlist.songs" do
-    let(:songs) { [1, 2] }
+    let(:song_ids) { [1, 2] }
+    let(:playlist) { double(song_ids: song_ids) }
 
     it "inserts a playlist item at the correct position" do
-      expect(playlist).to receive(:songs_will_change!)
+      expect(playlist).to receive(:song_ids_will_change!)
       expect(playlist).to receive(:save)
 
       pm = described_class.new(playlist)
       pm.add(song: 3, position: "1")
-      expect(playlist.songs).to eq([1, 3, 2])
+      expect(playlist.song_ids).to eq([1, 3, 2])
     end
 
     it "deletes an item from the playlist" do
-      expect(playlist).to receive(:songs_will_change!)
+      expect(playlist).to receive(:song_ids_will_change!)
       expect(playlist).to receive(:save)
 
       pm = described_class.new(playlist)
       pm.delete(song: song_one)
-      expect(playlist.songs).not_to include(song_one)
+      expect(playlist.song_ids).not_to include(1)
     end
   end
 
