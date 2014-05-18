@@ -36,7 +36,7 @@ describe PlaylistsController do
         expect(response.code).to eq("404")
       end
 
-      it "has a playlist" do
+      it "has a message" do
         get :show, id: :foo
         expect(response.body).to eq("{\"message\":\"Resource Not Found.\"}")
       end
