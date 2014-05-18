@@ -1,0 +1,13 @@
+settings: &settings
+  host_path: "localhost:3000"
+
+development:
+  <<: *settings
+
+test:
+  <<: *settings
+  host_path: "foo.com"
+
+production:
+  <<: *settings
+  host_path: "www.stompfish.com"
