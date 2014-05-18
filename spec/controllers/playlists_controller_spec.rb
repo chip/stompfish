@@ -5,11 +5,6 @@ describe PlaylistsController do
   let(:serialized) { PlaylistSerializer.new(playlist).serializable_hash }
 
   describe "GET #index" do
-    it "assigns Playlist.all to @playlists" do
-      get :index
-      expect(assigns(:playlists)).to eq(Playlist.all)
-    end
-
     it "renders @playlists as json" do
       serialized
       get :index
@@ -31,18 +26,18 @@ describe PlaylistsController do
 
   describe "GET #show" do
     it "renders playlist as json" do
-      get :show, id: playlist, format: :json
+      get :show, id: playlist
       expect(response.body).to eq("{\"playlist\":#{serialized.to_json}}")
     end
 
     context "playlist not found" do
       it "has a 404 status" do
-        get :show, id: :foo, format: :json
+        get :show, id: :foo
         expect(response.code).to eq("404")
       end
 
       it "has a playlist" do
-        get :show, id: :foo, format: :json
+        get :show, id: :foo
         expect(response.body).to eq("{\"message\":\"Resource Not Found.\"}")
       end
     end
