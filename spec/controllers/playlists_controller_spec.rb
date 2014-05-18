@@ -144,5 +144,36 @@ describe PlaylistsController do
   end
 
   describe "DELETE #destroy" do
+    let!(:playlist) { Playlist.create(title: "Sample Playlist") }
+    
+    context "success" do
+      it "returns a 200" do
+        delete :destroy, id: playlist
+        expect(response.code).to eq("200")
+      end
+
+      it "has a success message" do
+        delete :destroy, id: playlist
+        expect(response.body).to eq("{\"message\":\"Playlist destroyed!\"}")
+      end
+
+      it "destroys playlist" do
+        expect do
+          delete :destroy, id: playlist
+        end.to change(Playlist, :count).by(-1)
+      end
+    end
+
+    context "playlist not found" do
+      before { delete :destroy, id: :foo }
+
+      it "has a 404 status" do
+        expect(response.code).to eq("404")
+      end
+
+      it "returns the error" do
+        expect(response.body).to eq("{\"message\":\"Resource Not Found.\"}")
+      end
+    end
   end
 end

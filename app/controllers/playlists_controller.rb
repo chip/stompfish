@@ -1,5 +1,5 @@
 class PlaylistsController < ApplicationController
-  before_action only: [:show, :update] { playlist_not_found(params[:id]) }
+  before_action only: [:destroy, :show, :update] { playlist_not_found(params[:id]) }
 
   def index
     if params[:query]
@@ -28,6 +28,10 @@ class PlaylistsController < ApplicationController
   end
 
   def destroy
+    success = {message: "Playlist destroyed!"}
+    render_response(success, "200", @playlist.errors, "422") do
+      @playlist.destroy
+    end
   end
 
   private
