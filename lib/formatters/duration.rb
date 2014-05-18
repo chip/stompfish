@@ -11,6 +11,7 @@ module Formatters
     end
 
     def as_strftime
+      raise DurationError, "duration must be a number" unless valid_duration?
       if duration >= ONE_HOUR
         format_time(HOURS)
       else
@@ -26,5 +27,11 @@ module Formatters
     def format_time(strf)
       Time.at(duration).gmtime.strftime(strf)
     end
+
+    def valid_duration?
+      duration and !duration.to_s.empty? and duration.kind_of?(Numeric)
+    end
   end
+
+  DurationError = Class.new(StandardError)
 end
