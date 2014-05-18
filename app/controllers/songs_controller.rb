@@ -1,15 +1,12 @@
 class SongsController < ApplicationController
   def index
-    if params[:query]
-      @songs = Song.search(params[:query])
-    else
-      @songs = Song.all
-    end
-
-    render json: @songs
+    show_search_results(Song)
   end
 
   def show
-    @song = Song.find(params[:id])
+    @song = Song.find_by(id: params[:id])
+    render_response(@song, "200", not_found, "404") do
+      @song
+    end
   end
 end

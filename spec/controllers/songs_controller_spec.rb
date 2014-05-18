@@ -1,21 +1,15 @@
 require 'spec_helper'
 
 describe SongsController do
-  before do
-    artist = Artist.create!(name: "Some Artist")
-    album = Album.create!(title: "Some Album", artist: artist)
-    @song = Song.create!(title: "Some Song", artist: artist, album: album)
-  end
+  let(:artist) { Artist.create(name: "Some Artist") }
+  let(:album) { Album.create(title: "Some Album", artist: artist) }
+  let(:song) { Song.create(title: "Some Song", artist: artist, album: album) }
+  let!(:serialized) { SongSerializer.new(song).serializable_hash }
 
   describe "GET #index" do
     before { get :index }
 
-    it "assigns Song.all to @song" do
-      expect(assigns(:songs)).to eq(Song.all)
-    end
-
     it "renders @songs as json" do
-      serialized = SongSerializer.new(@song).serializable_hash
       get :index, format: :json
       expect(response.body).to eq("{\"songs\":[#{serialized.to_json}]}")
     end
@@ -29,10 +23,30 @@ describe SongsController do
   end
 
   describe "GET #show" do
-    before { get :show, id: @song }
+    before { get :show, id: song }
 
     it "assigns the requested song to @song" do
-      expect(assigns(:song)).to eq(@song)
+      expect(assigns(:song)).to eq(song)
+    end
+
+    it "has a 200 http status" do
+      expect(response.code).to eq("200")
+    end
+
+    it "renders @song as json" do
+      expect(response.body).to eq("{\"song\":#{serialized.to_json}}")
+    end
+
+    context "song not found" do
+      it "has a 404 status" do
+        get :show, id: :foo
+        expect(response.code).to eq("404")
+      end
+
+      it "has a message" do
+        get :show, id: :foo
+        expect(response.body).to eq("{\"message\":\"Resource Not Found.\"}")
+      end
     end
   end
 end
