@@ -1,14 +1,12 @@
 class ArtistsController < ApplicationController
   def index
-    if params[:query]
-      @artists = Artist.search(params[:query])
-    else
-      @artists = Artist.all
-    end
-    render json: @artists
+    show_search_results(Artist)
   end
 
   def show
-    @artist = Artist.find(params[:id])
+    @artist = Artist.find_by(id: params[:id])
+    render_response(@artist, "200", not_found, "404") do
+      @artist
+    end
   end
 end
