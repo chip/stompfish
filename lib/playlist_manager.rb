@@ -19,6 +19,7 @@ class PlaylistManager
   end
 
   def runtime
+    return "00:00" if songs.empty?
     Formatters::Duration.as_strftime(runtime_as_integer)
   end
 

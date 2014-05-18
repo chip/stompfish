@@ -38,9 +38,17 @@ describe PlaylistManager do
     end
   end
 
-  it "returns a playlist runtime" do
-    pm = described_class.new(playlist)
-    expect(pm.runtime).to eq("07:48")
+  context "#runtime" do
+    it "returns 00:00 if no songs" do
+      playlist = double(songs: [])
+      pm = PlaylistManager.new(playlist)
+      expect(pm.runtime).to eq("00:00")
+    end
+
+    it "returns a playlist runtime" do
+      pm = described_class.new(playlist)
+      expect(pm.runtime).to eq("07:48")
+    end
   end
 
   context "errors" do
