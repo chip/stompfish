@@ -12,9 +12,11 @@ StompFish::Application.routes.draw do
   get "songs" => "songs#index"
 
   # Playlists
-  resources :playlists
-  post "playlists/:id/:song" => "playlists#add"
-  delete "playlists/:id/:song" => "playlists#delete_item"
+  resources :playlists, except: [:new, :edit]
+
+  # Playlist Songs
+  post "playlists/:playlist_id/songs/:id" => "playlist_songs#create"
+  delete "playlists/:playlist_id/songs/:id" => "playlist_songs#destroy"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

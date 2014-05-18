@@ -1,5 +1,5 @@
 class PlaylistsController < ApplicationController
-  before_action :playlist_not_found, except: [:index, :create]
+  before_action only: [:show, :update] { playlist_not_found(params[:id]) }
 
   def index
     if params[:query]
@@ -27,31 +27,11 @@ class PlaylistsController < ApplicationController
     end
   end
 
-  def add
-    pm = PlaylistManager.new(@playlist)
-    render_response(@playlist, "201", pm.errors, "422") do
-      pm.add(song: song, position: params[:position])
-    end
-  end
-
-  def delete_item
-    pm = PlaylistManager.new(@playlist)
-    render_response(@playlist, "200", pm.errors, "404") do
-      pm.delete(song: song)
-    end
+  def destroy
   end
 
   private
   def playlist_params
-    params.permit(:title, :song, :position)
-  end
-
-  def playlist_not_found
-    @playlist = Playlist.find_by(id: params[:id])
-    render json: {message: "Resource Not Found"}, status: "404" unless @playlist
-  end
-
-  def song
-    Song.find_by(id: params[:song])
+    params.permit(:title)
   end
 end
