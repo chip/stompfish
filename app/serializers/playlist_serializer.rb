@@ -3,11 +3,15 @@ class PlaylistSerializer < ActiveModel::Serializer
   attributes :id, :title, :songs
 
   def songs
-    object.songs.map { |song| url_for_resource(song) }
+    object.songs.map { |song| response_for_song(song) }
   end
 
   private
-  def url_for_resource(resource)
+  def response_for_song(song)
+    {id: song.id, url: url_for_song(song)}
+  end
+
+  def url_for_song(resource)
     url_for(host: ApplicationSettings["host_path"], controller: "songs", action: "show", id: resource)
   end
 end

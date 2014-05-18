@@ -9,6 +9,6 @@ describe PlaylistSerializer do
 
     serializer = PlaylistSerializer.new(playlist)
     expect(serializer.to_json).
-      to eq("{\"playlist\":{\"id\":#{playlist.id},\"title\":\"Sample Playlist\",\"songs\":[\"http://foo.com/songs/#{song.id}\"]}}")
+      to eq("{\"playlist\":{\"id\":#{playlist.id},\"title\":\"Sample Playlist\",\"songs\":[{\"id\":#{song.id},\"url\":\"http://foo.com/songs/#{song.id}\"}]}}")
   end
 end
