@@ -11,6 +11,10 @@ describe Playlist do
     end
   end
 
+  it "has a runtime" do
+    expect(Playlist.new.runtime).to eq("00:00")
+  end
+
   it "has songs" do
     artist = Artist.create(name: "Artist")
     album = Album.create(title: "Album", artist: artist)
