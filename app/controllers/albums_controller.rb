@@ -1,15 +1,12 @@
 class AlbumsController < ApplicationController
   def index
-    if params[:query]
-      @albums = Album.search(params[:query])
-    else
-      @albums = Album.all
-    end
-
-    render json: @albums
+    show_search_results(Album)
   end
 
   def show
-    @album = Album.find(params[:id])
+    @album = Album.find_by(id: params[:id])
+    render_response(@album, "200", not_found, "404") do
+      @album
+    end
   end
 end
