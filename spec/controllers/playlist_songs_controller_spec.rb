@@ -50,7 +50,7 @@ describe PlaylistSongsController do
       end
 
       it "returns the error" do
-        expect(response.body).to eq("{\"message\":\"Resource Not Found\"}")
+        expect(response.body).to eq("{\"message\":\"Resource Not Found.\"}")
       end
     end
   end
@@ -93,7 +93,7 @@ describe PlaylistSongsController do
       end
 
       it "returns the error" do
-        expect(response.body).to eq("{\"message\":\"Resource Not Found\"}")
+        expect(response.body).to eq("{\"message\":\"Resource Not Found.\"}")
       end
     end
   end

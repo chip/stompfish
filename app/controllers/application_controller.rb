@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
 
   def playlist_not_found(id)
     @playlist = Playlist.find_by(id: id)
-    render json: {message: "Resource Not Found"}, status: "404" unless @playlist
+    render json: {message: "Resource Not Found."}, status: "404" unless @playlist
   end
 
   def render_response(json, success, errors, failure, &block)

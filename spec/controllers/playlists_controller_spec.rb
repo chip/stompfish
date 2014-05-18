@@ -43,7 +43,7 @@ describe PlaylistsController do
 
       it "has a playlist" do
         get :show, id: :foo, format: :json
-        expect(response.body).to eq("{\"message\":\"Resource Not Found\"}")
+        expect(response.body).to eq("{\"message\":\"Resource Not Found.\"}")
       end
     end
   end
@@ -138,7 +138,7 @@ describe PlaylistsController do
       end
 
       it "returns the error" do
-        expect(response.body).to eq("{\"message\":\"Resource Not Found\"}")
+        expect(response.body).to eq("{\"message\":\"Resource Not Found.\"}")
       end
     end
   end

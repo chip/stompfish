@@ -18,6 +18,8 @@ StompFish::Application.routes.draw do
   post "playlists/:playlist_id/songs/:id" => "playlist_songs#create"
   delete "playlists/:playlist_id/songs/:id" => "playlist_songs#destroy"
 
+  match "*path", to: "errors#routing", via: :all
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
