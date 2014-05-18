@@ -8,6 +8,10 @@ describe PlaylistSongsController do
   let(:playlist) { Playlist.create(title: "Sample") }
   let(:attributes) { { playlist_id: playlist, id: song, position: 0 } }
 
+  before do
+    SongFile.create(filename: "SongFile", fileable_id: song.id, fileable_type: "Song", duration: 234)
+  end
+
   describe "POST #add" do
     context "valid attributes" do
       before { post :create, attributes }

@@ -1,6 +1,6 @@
 class PlaylistSerializer < ActiveModel::Serializer
   # attributes
-  attributes :id, :title, :songs
+  attributes :id, :title, :runtime, :songs
 
   def songs
     object.songs.map { |song| response_for_song(song) }
