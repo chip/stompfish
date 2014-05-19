@@ -4,9 +4,6 @@ class ArtistsController < ApplicationController
   end
 
   def show
-    @artist = Artist.find_by(id: params[:id])
-    render_response(@artist, "200", not_found, "404") do
-      @artist
-    end
+    render_find(Artist)
   end
 end

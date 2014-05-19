@@ -4,9 +4,6 @@ class AlbumsController < ApplicationController
   end
 
   def show
-    @album = Album.find_by(id: params[:id])
-    render_response(@album, "200", not_found, "404") do
-      @album
-    end
+    render_find(Album)
   end
 end

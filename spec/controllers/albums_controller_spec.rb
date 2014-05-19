@@ -23,10 +23,6 @@ describe AlbumsController do
   describe "GET #show" do
     before { get :show, id: album }
 
-    it "assigns the requested album to @album" do
-      expect(assigns(:album)).to eq(album)
-    end
-
     it "has a 200 http status" do
       expect(response.code).to eq("200")
     end

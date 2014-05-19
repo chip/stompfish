@@ -25,10 +25,6 @@ describe SongsController do
   describe "GET #show" do
     before { get :show, id: song }
 
-    it "assigns the requested song to @song" do
-      expect(assigns(:song)).to eq(song)
-    end
-
     it "has a 200 http status" do
       expect(response.code).to eq("200")
     end

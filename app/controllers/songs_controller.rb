@@ -4,9 +4,6 @@ class SongsController < ApplicationController
   end
 
   def show
-    @song = Song.find_by(id: params[:id])
-    render_response(@song, "200", not_found, "404") do
-      @song
-    end
+    render_find(Song)
   end
 end

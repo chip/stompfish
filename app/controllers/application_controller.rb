@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  helper_method :render_find
   helper_method :render_response
   helper_method :playlist_not_found
   helper_method :show_search_results
@@ -9,17 +10,29 @@ class ApplicationController < ActionController::API
   end
 
   def show_search_results(model)
-    if params[:query]
-      results = model.search(params[:query])
-    else
-      results = model.all
-    end
+    query = params[:query]
+    results = query ? model.search(query) : model.all
     render json: results
   end
 
-  def render_response(json, success, errors, failure, &block)
-    if yield
-      render json: json, status: success
+  def render_find(model)
+    record = find_record(model)
+    handle_response(result: record, action: true)
+  end
+
+  def render_response(result, success, errors, failure, &block)
+    action = yield
+    handle_response(action: action, result: result, success: success, failure: failure, errors: errors)
+  end
+
+  private
+  def find_record(model)
+    model.find_by(id: params[:id])
+  end
+
+  def handle_response(action: action, result: result, success: "200", failure: "404", errors: not_found)
+    if action and result
+      render json: result, status: success
     else
       render json: errors, status: failure
     end

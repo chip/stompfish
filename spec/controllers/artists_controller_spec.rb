@@ -27,10 +27,6 @@ describe ArtistsController do
   describe "GET #show" do
     before { get :show, id: artist }
 
-    it "assigns the requested artist to @artist" do
-      expect(assigns(:artist)).to eq(artist)
-    end
-
     it "has a 200 http status" do
       expect(response.code).to eq("200")
     end
