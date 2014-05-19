@@ -11,20 +11,20 @@ class PlaylistsController < ApplicationController
 
   def create
     playlist = Playlist.new(playlist_params)
-    render_response(playlist, "201", playlist.errors, "422") do
+    render_response(playlist, playlist.errors) do
       playlist.save
     end
   end
 
   def update
-    render_response(@playlist, "201", @playlist.errors, "422") do
+    render_response(@playlist, @playlist.errors) do
       @playlist.update(playlist_params)
     end
   end
 
   def destroy
     message = {message: "Playlist destroyed!"}
-    render_response(message, "200", @playlist.errors, "422") do
+    render_response(message, @playlist.errors, success: "200") do
       @playlist.destroy
     end
   end

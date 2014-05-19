@@ -3,14 +3,14 @@ class PlaylistSongsController < ApplicationController
 
   def create
     pm = PlaylistManager.new(@playlist)
-    render_response(@playlist, "201", pm.errors, "422") do
+    render_response(@playlist, pm.errors) do
       pm.add(song: song, position: params[:position])
     end
   end
 
   def destroy
     pm = PlaylistManager.new(@playlist)
-    render_response(@playlist, "200", pm.errors, "404") do
+    render_response(@playlist, pm.errors, success: "200", failure: "404") do
       pm.delete(song: song)
     end
   end
