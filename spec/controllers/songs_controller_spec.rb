@@ -4,6 +4,9 @@ describe SongsController do
   let(:artist) { Artist.create(name: "Some Artist") }
   let(:album) { Album.create(title: "Some Album", artist: artist) }
   let(:song) { Song.create(title: "Some Song", artist: artist, album: album) }
+  let!(:song_file) do
+    SongFile.create(fileable_id: song.id, fileable_type: "Song", filename: "filename")
+  end
   let!(:serialized) { SongSerializer.new(song).serializable_hash }
 
   describe "GET #index" do
