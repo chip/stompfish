@@ -1,7 +1,7 @@
 require 'formatters/duration'
 
 class PlaylistManager
-  attr_reader :errors, :playlist
+  attr_reader :errors, :playlist, :position
 
   def initialize(playlist)
     @playlist = playlist
@@ -9,13 +9,15 @@ class PlaylistManager
   end
 
   def add(song: song, position: position)
-    update_song_ids(song: song, position: position) do
+    @position = position
+    update_song_ids(song: song) do
       song_ids.insert(position.to_i, song.id).compact!
     end
   end
 
   def delete(song: song)
-    update_song_ids(song: song, position: :ignore) { song_ids.delete(song.id) }
+    @position = :ignore
+    update_song_ids(song: song) { song_ids.delete(song.id) }
   end
 
   def runtime
@@ -36,17 +38,16 @@ class PlaylistManager
     @_songs ||= playlist.songs
   end
 
-  def update_song_ids(song: song, position: position, &block)
-    validate_params(song: song, position: position)
+  def update_song_ids(song: song, &block)
+    validate_params(song: song)
     return if errors.any?
     playlist.song_ids_will_change!
     yield if block_given?
     playlist.save
   end
 
-  def validate_params(song: song, position: position)
+  def validate_params(song: song)
     song.nil? and errors[:song] = "Resource Not Found."
-    position.nil? or position.empty? and
-      errors[:position] = "can't be blank"
+    position.nil? or position.to_s.empty? and errors[:position] = "can't be blank"
   end
 end
