@@ -35,4 +35,8 @@ class Song < ActiveRecord::Base
   scope :duration_between, ->(low, high) do
     SongScopes::DurationScope.new(high: high, low: low).between
   end
+
+  def playlists
+    Playlist.where("? = any (song_ids)", id)
+  end
 end

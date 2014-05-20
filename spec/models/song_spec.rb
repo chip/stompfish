@@ -40,8 +40,8 @@ describe Song do
   end
 
   context "scopes" do
-    let!(:song) { Song.create!(title: "Foo", artist_id: 1, album_id: 1) }
-    let!(:song_file) { SongFile.create!(fileable_id: song.id, filename: "Foo",
+    let!(:song) { Song.create(title: "Foo", artist_id: 1, album_id: 1) }
+    let!(:song_file) { SongFile.create(fileable_id: song.id, filename: "Foo",
                                         fileable_type: "Song", duration: 123) }
 
     context "#duration_less_than" do
@@ -63,6 +63,15 @@ describe Song do
         songs = Song.duration_between("2:02", "2:04")
         expect(songs).to eq([song])
       end
+    end
+  end
+
+  context "#playlists" do
+    let!(:song) { Song.create(title: "Foo", artist_id: 1, album_id: 1) }
+
+    it "returns all playlists to which a song belongs" do
+      playlist = Playlist.create(title: "Playlist", song_ids: [song.id])
+      expect(song.playlists).to eq([playlist])
     end
   end
 end
