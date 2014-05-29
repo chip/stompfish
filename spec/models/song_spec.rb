@@ -35,7 +35,7 @@ describe Song do
   context "delegated methods from Album" do
     it { expect(song).to respond_to(:album_image) }
     it { expect(song).to respond_to(:album_title) }
-    it { expect(song).to respond_to(:date) }
+    it { expect(song).to respond_to(:release_date) }
     it { expect(song).to respond_to(:genre) }
   end
 
@@ -72,6 +72,23 @@ describe Song do
     it "returns all playlists to which a song belongs" do
       playlist = Playlist.create(title: "Playlist", song_ids: [song.id])
       expect(song.playlists).to eq([playlist])
+    end
+  end
+
+  context "#as_indexed_json" do
+    it "adds associations to Elasticsearch index" do
+      artist = Artist.create name: "Artist"
+      release_date = ReleaseDate.create year: 1975
+      genre = Genre.create name: "Genre"
+      album = Album.create title: "Album", artist: artist, genre: genre, release_date: release_date
+      song = Song.create title: "Song", artist: artist, album: album
+
+      expect(song.as_indexed_json).
+        to eq({"title"=>"Song",
+               "artist"=>{"name"=>"Artist"},
+               "album"=>{"title"=>"Album"},
+               "genre"=>{"name"=>"Genre"},
+               "release_date"=>{"year"=>1975}})
     end
   end
 end

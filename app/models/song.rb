@@ -18,7 +18,7 @@ class Song < ActiveRecord::Base
     :format, :mtime, :duration_to_human, :filesize_to_human,
     to: :song_file
 
-  delegate :date, :genre, to: :album
+  delegate :release_date, :genre, to: :album
   delegate :name, to: :artist, prefix: true
   delegate :position, to: :playlists
   delegate :title, :image, to: :album, prefix: true
@@ -38,5 +38,17 @@ class Song < ActiveRecord::Base
 
   def playlists
     Playlist.where("? = any (song_ids)", id)
+  end
+
+  # override Elasticsearch::Model#as_indexed_json to search associations
+  def as_indexed_json(options={})
+    self.as_json(
+      only: :title,
+      include: {
+        artist: { only: :name },
+        album: { only: :title },
+        genre: { only: :name },
+        release_date: { only: :year }
+      })
   end
 end
