@@ -1,5 +1,6 @@
 class Playlist < ActiveRecord::Base
   include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
 
   # validations
   validates_presence_of :title

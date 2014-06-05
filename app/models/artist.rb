@@ -2,6 +2,7 @@ require 'elasticsearch/model'
 
 class Artist < ActiveRecord::Base
   include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
 
   # associations
   has_many :albums, dependent: :destroy
