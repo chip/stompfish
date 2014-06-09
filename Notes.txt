@@ -2,3 +2,10 @@ Spike: investigate delegated methods on models to see what can be removed.
 Spike: investigate controllers/actions to see what can be removed
 
 Search for all songs that are already on playlists or not on playlists.
+
+PlaylistSong
+# knows all playlists to which it belongs
+# knows all songs on playlists
+# returns true if belongs to a playlist
+# returns false if does not belong to a playlist
+# is searchable by ElasticSearch
