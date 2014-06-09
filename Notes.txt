@@ -1,25 +1,4 @@
-Lastfm Image Downloader
+Spike: investigate delegated methods on models to see what can be removed.
+Spike: investigate controllers/actions to see what can be removed
 
-tags = AudioFile.new(file).tags
-image = Lastfm::ArtistImage.new(tags).download
-image = Lastfm::AlbumImage.new(tags).download
-
-Lastfm::ArtistImage
- - build uri (specific to artist/album) -> artist.getinfo
- - get uri
- - image response (specific to artist/album) -> ["artist"]
- - download image (specifc to artist/album) -> base_path of audio_file.filename
- - convert to jpg
-
-Download
- - url
- - destination
-
-Convert
- - source
- - destination
-
-ArtistImage
- - response
- - get_api
- - basepath
+Search for all songs that are already on playlists or not on playlists.
