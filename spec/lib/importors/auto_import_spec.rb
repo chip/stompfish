@@ -86,7 +86,7 @@ describe Importors::AutoImport do
 
       expect(ImportLog).
         to receive(:create!).
-        with(stacktrace: "Exception", filepath: "file.txt")
+        with(stacktrace: "Exception", filename: "file.txt")
 
       subject.new(watch_dir: "here", import_dir: "there").start
     end

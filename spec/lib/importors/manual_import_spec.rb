@@ -86,7 +86,7 @@ describe Importors::ManualImport do
 
       expect(ImportLog).
         to receive(:create!).
-        with(stacktrace: "Exception", filepath: "foobar.txt")
+        with(stacktrace: "Exception", filename: "foobar.txt")
 
       subject.new(directory).scan
     end

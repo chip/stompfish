@@ -10,7 +10,7 @@ module Importors
       begin
         yield if block_given?
       rescue Exception => error
-        ImportLog.create!(stacktrace: "#{error}", filepath: filename)
+        ImportLog.create!(stacktrace: "#{error}", filename: filename)
       end
     end
 

@@ -40,7 +40,7 @@ describe Importors::ImportError do
 
       expect(ImportLog).
         to receive(:create!).
-        with(stacktrace: "foo", filepath: file)
+        with(stacktrace: "foo", filename: file)
 
       subject.capture(filename: file) { FakeClass.read("foo") }
     end
