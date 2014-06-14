@@ -17,11 +17,14 @@ describe SongsController do
       expect(response.body).to eq("{\"songs\":[#{serialized.to_json}]}")
     end
 
-    context "with valid search term" do
-      it "assigns Song.search to @songs" do
-        expect(Song).to receive(:search).with("some")
-        get :index, query: "some"
-      end
+    it "renders all songs if no query" do
+      expect(Song).to receive(:all)
+      get :index, format: :json
+    end
+
+    it "does search if query" do
+      expect(SongSearch).to receive(:search).with("search")
+      get :index, format: :json, query: "search"
     end
   end
 

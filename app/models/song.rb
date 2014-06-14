@@ -1,9 +1,4 @@
-require 'elasticsearch/model'
-
 class Song < ActiveRecord::Base
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
-
   # associations
   belongs_to :album
   belongs_to :artist
@@ -37,19 +32,12 @@ class Song < ActiveRecord::Base
     SongScopes::DurationScope.new(high: high, low: low).between
   end
 
-  def playlists
-    Playlist.where("? = any (song_ids)", id)
+  # Solr
+  searchable do
+    text :title, :artist_name, :album_title, :genre, :release_date
   end
 
-  # override Elasticsearch::Model#as_indexed_json to search associations
-  def as_indexed_json(options={})
-    self.as_json(
-      only: :title,
-      include: {
-        artist: { only: :name },
-        album: { only: :title },
-        genre: { only: :name },
-        release_date: { only: :year }
-      })
+  def playlists
+    Playlist.where("? = any (song_ids)", id)
   end
 end

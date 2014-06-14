@@ -13,6 +13,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
+/log/*.lck
 /tmp
 
 # Ignore all vim tmp files
@@ -22,3 +23,7 @@
 config/database.yml
 config/monitor_settings.yml
 config/lastfm.yml
+config/sunspot.yml
+
+# Solr
+solr/*

@@ -1,6 +1,6 @@
 class AlbumsController < ApplicationController
   def index
-    show_search_results(Album)
+    render json: Album.all
   end
 
   def show

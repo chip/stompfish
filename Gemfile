@@ -9,8 +9,9 @@ gem 'active_model_serializers'
 gem 'listen'
 gem 'taglib-ruby'
 
-gem 'elasticsearch-rails'
-gem 'elasticsearch-model'
+gem 'sunspot_rails'
+gem 'sunspot_solr'
+gem 'progress_bar'
 gem 'rmagick'
 
 group :development, :test do

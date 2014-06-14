@@ -4,12 +4,6 @@ class ApplicationController < ActionController::API
     render json: not_found, status: "404" unless @playlist
   end
 
-  def show_search_results(model)
-    query = params[:query]
-    results = query ? model.search(query) : model.all
-    render json: results
-  end
-
   def render_find(model)
     record = model.find_by(id: params[:id])
     handle_response(result: record, action: true)

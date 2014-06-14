@@ -1,7 +1,4 @@
 class Playlist < ActiveRecord::Base
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
-
   # validations
   validates_presence_of :title
   validates :song_ids, only_integer_values: true

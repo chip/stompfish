@@ -11,13 +11,6 @@ describe AlbumsController do
       serialized = AlbumSerializer.new(album).serializable_hash
       expect(response.body).to eq("{\"albums\":[#{serialized.to_json}]}")
     end
-
-    context "with search term" do
-      it "assigns Album.search.results to @albums" do
-        expect(Album).to receive(:search).with("foo")
-        get :index, query: "foo"
-      end
-    end
   end
 
   describe "GET #show" do

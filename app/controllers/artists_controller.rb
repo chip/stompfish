@@ -1,6 +1,6 @@
 class ArtistsController < ApplicationController
   def index
-    show_search_results(Artist)
+    render json: Artist.all
   end
 
   def show
