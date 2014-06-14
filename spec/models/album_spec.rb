@@ -26,8 +26,8 @@ describe Album do
 
   context ".artists_and_titles" do
     it "returns an array matching Artist Name :: Album Title in alphabetical order" do
-      artist = Artist.create!(name: "David Bowie")
-      Album.create!(title: "Low", artist: artist)
+      artist = Artist.create(name: "David Bowie")
+      Album.create(title: "Low", artist: artist)
 
       expect(Album.artists_and_titles).to eq(["David Bowie :: Low"])
     end
@@ -35,13 +35,14 @@ describe Album do
 
   context "#songs_by_track" do
     it "sorts songs by track" do
-      album = Album.create!(title: "Low", artist_id: 1)
+      artist = Artist.create(name: "Artist")
+      album = Album.create(title: "Low", artist: artist)
 
       song_one = Song.
-        create!(title: "Warszawa", album: album, artist_id: 1, track: 8)
+        create(title: "Warszawa", album: album, artist: artist, track: 8)
 
       song_two = Song.
-        create!(title: "Sound and Vision", album: album, artist_id: 1, track: 4)
+        create(title: "Sound and Vision", album: album, artist: artist, track: 4)
 
       expect(album.songs_by_track.first).to eq(song_two)
       expect(album.songs_by_track.last).to eq(song_one)

@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Song do
+  let(:artist) { Artist.create(name: "Aritst") }
+  let(:album) { Album.create(title: "Album", artist: artist) }
   let(:song) { Song.new }
 
   context "relationships" do
@@ -13,6 +15,10 @@ describe Song do
     it { should validate_presence_of(:title) }
     it { should validate_presence_of(:artist_id) }
     it { should validate_presence_of(:album_id) }
+  end
+
+  context "album scope" do
+    before { Song.create(title: "Song", artist: artist, album: album) }
     it { should validate_uniqueness_of(:title).scoped_to([:album_id, :track])}
   end
 
@@ -40,7 +46,7 @@ describe Song do
   end
 
   context "scopes" do
-    let!(:song) { Song.create(title: "Foo", artist_id: 1, album_id: 1) }
+    let!(:song) { Song.create(title: "Foo", artist: artist, album: album) }
     let!(:song_file) { SongFile.create(fileable_id: song.id, filename: "Foo",
                                         fileable_type: "Song", duration: 123) }
 
@@ -67,28 +73,11 @@ describe Song do
   end
 
   context "#playlists" do
-    let!(:song) { Song.create(title: "Foo", artist_id: 1, album_id: 1) }
+    let!(:song) { Song.create(title: "Foo", artist: artist, album: album) }
 
     it "returns all playlists to which a song belongs" do
       playlist = Playlist.create(title: "Playlist", song_ids: [song.id])
       expect(song.playlists).to eq([playlist])
-    end
-  end
-
-  context "#as_indexed_json" do
-    it "adds associations to Elasticsearch index" do
-      artist = Artist.create name: "Artist"
-      release_date = ReleaseDate.create year: 1975
-      genre = Genre.create name: "Genre"
-      album = Album.create title: "Album", artist: artist, genre: genre, release_date: release_date
-      song = Song.create title: "Song", artist: artist, album: album
-
-      expect(song.as_indexed_json).
-        to eq({"title"=>"Song",
-               "artist"=>{"name"=>"Artist"},
-               "album"=>{"title"=>"Album"},
-               "genre"=>{"name"=>"Genre"},
-               "release_date"=>{"year"=>1975}})
     end
   end
 end

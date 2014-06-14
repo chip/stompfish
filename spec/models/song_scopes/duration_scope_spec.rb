@@ -2,9 +2,11 @@ require 'spec_helper'
 
 module SongScopes
   describe DurationScope do
-    let!(:song) { Song.create!(title: "Foo", artist_id: 1, album_id: 1) }
+    let(:artist) { Artist.create(name: "Some Artist") }
+    let(:album) { Album.create(title: "Some Album", artist: artist) }
+    let!(:song) { Song.create!(title: "Foo", artist: artist, album: album) }
     let!(:song_file) { SongFile.create!(filename: "foo", duration: 123,
-                                       fileable_id: song.id, fileable_type: "Song") }
+                                        fileable_id: song.id, fileable_type: "Song") }
 
     context "#less_than" do
       it "has song files with durations less than x" do

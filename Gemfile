@@ -11,6 +11,7 @@ gem 'taglib-ruby'
 
 gem 'sunspot_rails'
 gem 'sunspot_solr'
+gem 'progress_bar'
 gem 'rmagick'
 
 group :development, :test do

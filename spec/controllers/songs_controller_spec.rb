@@ -16,6 +16,16 @@ describe SongsController do
       get :index, format: :json
       expect(response.body).to eq("{\"songs\":[#{serialized.to_json}]}")
     end
+
+    it "renders all songs if no query" do
+      expect(Song).to receive(:all)
+      get :index, format: :json
+    end
+
+    it "does search if query" do
+      expect(SongSearch).to receive(:search).with("search")
+      get :index, format: :json, query: "search"
+    end
   end
 
   describe "GET #show" do
