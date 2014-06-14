@@ -1,4 +1,5 @@
 class PlaylistsController < ApplicationController
+  include ActionController::MimeResponds
   before_action only: [:destroy, :show, :update] { playlist_not_found(params[:id]) }
 
   def index
@@ -6,7 +7,10 @@ class PlaylistsController < ApplicationController
   end
 
   def show
-    render json: @playlist
+    respond_to do |format|
+      format.html { render json: @playlist }
+      format.m3u { render text: @playlist.m3u }
+    end
   end
 
   def create
