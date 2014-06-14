@@ -2,7 +2,7 @@ class PlaylistsController < ApplicationController
   before_action only: [:destroy, :show, :update] { playlist_not_found(params[:id]) }
 
   def index
-    show_search_results(Playlist)
+    render json: Playlist.all
   end
 
   def show

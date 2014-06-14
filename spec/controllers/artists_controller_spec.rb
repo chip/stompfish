@@ -15,13 +15,6 @@ describe ArtistsController do
     it "has a 200 http status" do
       expect(response.code).to eq("200")
     end
-
-    context "with valid search term" do
-      it "assigns Artist.search to @artists" do
-        expect(Artist).to receive(:search).with("some")
-        get :index, query: "some"
-      end
-    end
   end
 
   describe "GET #show" do

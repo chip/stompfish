@@ -15,13 +15,6 @@ describe PlaylistsController do
       get :index
       expect(response.code).to eq("200")
     end
-
-    context "with valid search term" do
-      it "assigns Playlist.search to @playlists" do
-        expect(Playlist).to receive(:search).with("some")
-        get :index, query: "some"
-      end
-    end
   end
 
   describe "GET #show" do
