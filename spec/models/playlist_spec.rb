@@ -25,4 +25,12 @@ describe Playlist do
     playlist.save
     expect(playlist.songs).to eq([song])
   end
+
+  it "has an m3u format" do
+    m3u = double
+    playlist = Playlist.new
+    allow(PlaylistFormat::M3u).to receive(:new).with(playlist.songs) { m3u }
+    expect(m3u).to receive(:to_playlist)
+    playlist.m3u
+  end
 end

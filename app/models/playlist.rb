@@ -10,4 +10,8 @@ class Playlist < ActiveRecord::Base
   def songs
     song_ids.map { |id| Song.find(id) }
   end
+
+  def m3u
+    PlaylistFormat::M3u.new(songs).to_playlist
+  end
 end
