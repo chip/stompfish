@@ -16,6 +16,7 @@ StompFish::Application.routes.draw do
 
   # Playlist Songs
   post "playlists/:playlist_id/songs/:id" => "playlist_songs#create"
+  put "playlists/:playlist_id/songs" => "playlist_songs#update"
   delete "playlists/:playlist_id/songs/:id" => "playlist_songs#destroy"
 
   match "*path", to: "errors#routing", via: :all

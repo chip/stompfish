@@ -4,12 +4,14 @@ describe PlaylistSongsController do
   let(:artist) { Artist.create(name: "Artist") }
   let(:album) { Album.create(title: "Album", artist: artist) }
   let(:song) { Song.create(title: "Song", artist: artist, album: album) }
+  let(:song_two) { Song.create(title: "New Song", artist: artist, album: album) }
 
   let(:playlist) { Playlist.create(title: "Sample") }
   let(:attributes) { { playlist_id: playlist, id: song, position: 0 } }
 
   before do
     SongFile.create(filename: "SongFile", fileable_id: song.id, fileable_type: "Song", duration: 234)
+    SongFile.create(filename: "SongNewFile", fileable_id: song_two.id, fileable_type: "Song", duration: 234)
   end
 
   describe "POST #add" do
@@ -21,6 +23,13 @@ describe PlaylistSongsController do
         expect(playlist.song_ids).to include(song.id)
       end
 
+      it "adds multiple songs to @playlist" do
+        attrs = { playlist_id: playlist, songs: [song.id, song_two.id] }
+        put :update, attrs
+        playlist.reload
+        expect(playlist.song_ids).to include(song.id, song_two.id)
+      end
+
       it "has a 201 status" do
         expect(response.code).to eq("201")
       end
@@ -29,32 +38,6 @@ describe PlaylistSongsController do
         playlist.reload
         updated = PlaylistSerializer.new(playlist)
         expect(response.body).to eq(updated.to_json)
-      end
-    end
-
-    context "invalid attributes" do
-      let(:invalid) { { playlist_id: playlist, id: song, position: nil } }
-      before { post :create, invalid }
-
-      it "has a 422 status" do
-        expect(response.code).to eq("422")
-      end
-
-      it "returns the error" do
-        expect(response.body).to eq("{\"position\":\"can't be blank\"}")
-      end
-    end
-
-    context "playlist not found" do
-      let(:invalid) { { playlist_id: "", id: song, position: 0 } }
-      before { post :create, invalid }
-
-      it "has a 404 status" do
-        expect(response.code).to eq("404")
-      end
-
-      it "returns the error" do
-        expect(response.body).to eq("{\"message\":\"Resource Not Found.\"}")
       end
     end
   end
@@ -74,30 +57,6 @@ describe PlaylistSongsController do
         playlist.reload
         deleted = PlaylistSerializer.new(playlist)
         expect(response.body).to eq(deleted.to_json)
-      end
-    end
-
-    context "song not found" do
-      it "has a 404 status" do
-        delete :destroy, playlist_id: playlist, id: :foo
-        expect(response.code).to eq("404")
-      end
-
-      it "returns the error" do
-        delete :destroy, playlist_id: playlist, id: :foo
-        expect(response.body).to eq("{\"song\":\"Resource Not Found.\"}")
-      end
-    end
-
-    context "playlist not found" do
-      before { delete :destroy, playlist_id: :foo, id: :foo }
-
-      it "has a 404 status" do
-        expect(response.code).to eq("404")
-      end
-
-      it "returns the error" do
-        expect(response.body).to eq("{\"message\":\"Resource Not Found.\"}")
       end
     end
   end

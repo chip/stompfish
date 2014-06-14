@@ -9,7 +9,7 @@ class ApplicationController < ActionController::API
     handle_response(result: record, action: true)
   end
 
-  def render_response(result, errors, success: "201", failure: "422", &block)
+  def render_response(result, errors: errors, success: "201", failure: "422", &block)
     action = yield
     handle_response(action: action, result: result, success: success, failure: failure, errors: errors)
   end

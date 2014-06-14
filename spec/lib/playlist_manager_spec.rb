@@ -16,7 +16,7 @@ describe PlaylistManager do
         expect(playlist).to receive(:save)
 
         pm = described_class.new(playlist)
-        pm.add(song: song_three, position: "1")
+        pm.add(song_three, position: "1")
         expect(playlist.song_ids).to eq([1, 3, 2])
       end
 
@@ -25,7 +25,7 @@ describe PlaylistManager do
         expect(playlist).to receive(:save)
 
         pm = described_class.new(playlist)
-        pm.add(song: song_three, position: "5")
+        pm.add(song_three, position: "5")
         expect(playlist.song_ids).to eq([1, 2, 3])
       end
 
@@ -34,8 +34,19 @@ describe PlaylistManager do
         expect(playlist).to receive(:save)
 
         pm = described_class.new(playlist)
-        pm.add(song: song_three, position: 1)
+        pm.add(song_three, position: 1)
         expect(playlist.song_ids).to eq([1, 3, 2])
+      end
+
+      it "adds multiple songs" do
+        song_three = double(id: 3)
+        song_four = double(id: 4)
+        expect(playlist).to receive(:song_ids_will_change!)
+        expect(playlist).to receive(:save)
+
+        pm = described_class.new(playlist)
+        pm.add([song_three, song_four])
+        expect(playlist.song_ids).to eq([1, 2, 3, 4])
       end
     end
 
@@ -45,7 +56,7 @@ describe PlaylistManager do
         expect(playlist).to receive(:save)
 
         pm = described_class.new(playlist)
-        pm.delete(song: song_one)
+        pm.delete(song_one)
         expect(playlist.song_ids).not_to include(1)
       end
     end
@@ -61,30 +72,6 @@ describe PlaylistManager do
     it "returns a playlist runtime" do
       pm = described_class.new(playlist)
       expect(pm.runtime).to eq("07:48")
-    end
-  end
-
-  context "errors" do
-    context "missing position" do
-      it "adds error if position is missing" do
-        pm = described_class.new(playlist)
-        pm.add(song: 3, position: nil)
-        expect(pm.errors).to eq({position: "can't be blank"})
-      end
-
-      it "adds error if position is blank" do
-        pm = described_class.new(playlist)
-        pm.add(song: 3, position: "")
-        expect(pm.errors).to eq({position: "can't be blank"})
-      end
-    end
-
-    context "missing song" do
-      it "adds error if song does not exist" do
-        pm = described_class.new(playlist)
-        pm.add(song: nil, position: "1")
-        expect(pm.errors).to eq({song: "Resource Not Found."})
-      end
     end
   end
 end
