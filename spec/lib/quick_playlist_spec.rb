@@ -27,6 +27,8 @@ describe QuickPlaylist do
 
     expect(playlist_manager).to receive(:add).with(sorted)
 
-      subject.new("Some Search").save
+    qp = subject.new("Some Search").save
+    
+    expect(qp).to eq(playlist)
   end
 end

@@ -13,6 +13,7 @@ StompFish::Application.routes.draw do
 
   # Playlists
   resources :playlists, except: [:new, :edit]
+  post "playlists/quick" => "playlists#quick"
 
   # Playlist Songs
   post "playlists/:playlist_id/songs/:id" => "playlist_songs#create"

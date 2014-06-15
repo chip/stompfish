@@ -20,6 +20,15 @@ class PlaylistsController < ApplicationController
     end
   end
 
+  def quick
+    if params[:query]
+      playlist = QuickPlaylist.save(params[:query])
+      redirect_to playlist
+    else
+      render json: { query: "can't be blank" } , status: 422
+    end
+  end
+
   def update
     render_response(@playlist, errors: @playlist.errors) do
       @playlist.update(playlist_params)

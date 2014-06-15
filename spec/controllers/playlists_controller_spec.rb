@@ -133,7 +133,7 @@ describe PlaylistsController do
 
   describe "DELETE #destroy" do
     let!(:playlist) { Playlist.create(title: "Sample Playlist") }
-    
+
     context "success" do
       it "returns a 200" do
         delete :destroy, id: playlist
@@ -161,6 +161,33 @@ describe PlaylistsController do
 
       it "returns the error" do
         expect(response.body).to eq("{\"message\":\"Resource Not Found.\"}")
+      end
+    end
+  end
+
+  describe "#POST quick" do
+    it "creates a QuickPlaylist and then redirects to its #show view" do
+      playlist = Playlist.new
+
+      expect(QuickPlaylist).
+        to receive(:save).
+        with("Some Search").
+        and_return(playlist)
+
+      post :quick, query: "Some Search"
+
+      expect(response).to redirect_to(playlist)
+    end
+
+    context "missing search" do
+      it "has a 422 status" do
+        post :quick
+        expect(response.code).to eq("422")
+      end
+
+      it "returns the error" do
+        post :quick
+        expect(response.body).to eq("{\"query\":\"can't be blank\"}")
       end
     end
   end

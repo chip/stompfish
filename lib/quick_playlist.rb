@@ -10,6 +10,7 @@ class QuickPlaylist
 
   def save
     playlist_manager.add(search_results)
+    playlist
   end
 
   def self.save(search)
@@ -18,14 +19,14 @@ class QuickPlaylist
 
   private
   def playlist
-    Playlist.create(title: search)
+    @playlist ||= Playlist.create(title: search)
   end
 
   def playlist_manager
-    PlaylistManager.new(playlist)
+    @playlist_manager ||= PlaylistManager.new(playlist)
   end
 
   def search_results
-    SongSearch.search(search).sort_by(&:track)
+    @search_results ||= SongSearch.search(search).sort_by(&:track)
   end
 end
