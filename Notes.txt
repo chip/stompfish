@@ -9,3 +9,6 @@ PlaylistSong
 # returns true if belongs to a playlist
 # returns false if does not belong to a playlist
 # is searchable by ElasticSearch
+
+# Smart Playlist
+- tag (genre, style, mood, by person(same artist, producer, etc), date, song key, bpm/tempo, time signature, record label, duration, instrument, region)
